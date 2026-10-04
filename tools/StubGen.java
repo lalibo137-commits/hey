@@ -22,7 +22,7 @@ public class StubGen {
 
     static final class Cls {
         String name;
-        boolean iface, annotation, isEnum;
+        boolean iface, annotation, isEnum, runtime;
         final Map<String, Member> members = new LinkedHashMap<>();
         String typeParams = "";
         String superDecl;
@@ -121,21 +121,21 @@ public class StubGen {
             if (external(cn.superName)) cls(cn.superName);
             for (String i : cn.interfaces) if (external(i)) cls(i).iface = true;
             sig(cn.signature);
-            annotations(cn.visibleAnnotations);
-            annotations(cn.invisibleAnnotations);
+            annotations(cn.visibleAnnotations, true);
+            annotations(cn.invisibleAnnotations, false);
             for (FieldNode f : cn.fields) {
                 desc(f.desc);
                 sig(f.signature);
-                annotations(f.visibleAnnotations);
-                annotations(f.invisibleAnnotations);
+                annotations(f.visibleAnnotations, true);
+                annotations(f.invisibleAnnotations, false);
             }
             for (MethodNode mn : cn.methods) {
                 desc(mn.desc);
                 sig(mn.signature);
-                annotations(mn.visibleAnnotations);
-                annotations(mn.invisibleAnnotations);
-                if (mn.invisibleParameterAnnotations != null) for (List<AnnotationNode> l : mn.invisibleParameterAnnotations) annotations(l);
-                if (mn.visibleParameterAnnotations != null) for (List<AnnotationNode> l : mn.visibleParameterAnnotations) annotations(l);
+                annotations(mn.visibleAnnotations, true);
+                annotations(mn.invisibleAnnotations, false);
+                if (mn.invisibleParameterAnnotations != null) for (List<AnnotationNode> l : mn.invisibleParameterAnnotations) annotations(l, false);
+                if (mn.visibleParameterAnnotations != null) for (List<AnnotationNode> l : mn.visibleParameterAnnotations) annotations(l, true);
                 if (mn.localVariables != null) for (LocalVariableNode lv : mn.localVariables) { desc(lv.desc); sig(lv.signature); }
                 if (mn.tryCatchBlocks != null) for (TryCatchBlockNode t : mn.tryCatchBlocks) if (external(t.type)) cls(t.type);
                 for (AbstractInsnNode in : mn.instructions) {
@@ -185,13 +185,15 @@ public class StubGen {
         }
     }
 
-    static void annotations(List<AnnotationNode> list) {
+    static void annotations(List<AnnotationNode> list, boolean visible) {
         if (list == null) return;
         for (AnnotationNode a : list) {
             Type t = Type.getType(a.desc);
             if (!external(t.getInternalName())) continue;
             Cls c = cls(t.getInternalName());
             c.annotation = true;
+            // Keep the original retention: Forge reads @SubscribeEvent and friends by reflection at runtime.
+            c.runtime |= visible;
             if (a.values != null) {
                 for (int i = 0; i < a.values.size(); i += 2) {
                     String name = (String) a.values.get(i);
@@ -293,6 +295,7 @@ public class StubGen {
 
     static void write(StringBuilder sb, Cls c, String ind, boolean nested) {
         String kind = c.annotation ? "@interface" : c.isEnum ? "enum" : c.iface ? "interface" : "class";
+        if (c.annotation && c.runtime) sb.append(ind).append("@java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy.RUNTIME)\n");
         sb.append(ind).append("public ").append(nested && !c.iface && !c.annotation && !c.isEnum ? "static " : "").append(kind).append(' ').append(simple(c.name)).append(c.typeParams);
         if (c.superDecl != null && !c.isEnum && !c.iface && !c.annotation) sb.append(" extends ").append(c.superDecl);
         List<String> ifs = new ArrayList<>(c.ifaces);
