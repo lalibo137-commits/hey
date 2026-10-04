@@ -370,7 +370,18 @@ public final class Medieval {
       word("anything", "aught");
    }
 
-   private static Pattern combined;
+   // Built once in the static initializer: the client and the integrated server both call speak().
+   private static final Pattern COMBINED;
+
+   static {
+      RULES.sort((a, b) -> ((String)b[0]).length() - ((String)a[0]).length());
+      StringBuilder alt = new StringBuilder();
+      for (Object[] rule : RULES) {
+         alt.append(alt.length() == 0 ? "" : "|").append('(').append(Pattern.quote((String)rule[0])).append(')');
+      }
+
+      COMBINED = Pattern.compile("(?<![\\w'])(?:" + alt + ")(?![\\w'])", Pattern.CASE_INSENSITIVE);
+   }
 
    private static void phrase(String from, String to) {
       RULES.add(new Object[]{from, to});
@@ -415,17 +426,7 @@ public final class Medieval {
       braces.appendTail(masked);
       out = masked.toString();
 
-      if (combined == null) {
-         RULES.sort((a, b) -> ((String)b[0]).length() - ((String)a[0]).length());
-         StringBuilder alt = new StringBuilder();
-         for (Object[] rule : RULES) {
-            alt.append(alt.length() == 0 ? "" : "|").append('(').append(Pattern.quote((String)rule[0])).append(')');
-         }
-
-         combined = Pattern.compile("(?<![\\w'])(?:" + alt + ")(?![\\w'])", Pattern.CASE_INSENSITIVE);
-      }
-
-      Matcher m = combined.matcher(out);
+      Matcher m = COMBINED.matcher(out);
       StringBuilder sb = new StringBuilder();
       while (m.find()) {
          String to = m.group();

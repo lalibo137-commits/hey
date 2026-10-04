@@ -6,13 +6,17 @@ set -euo pipefail
 VERSION=1.2.0
 ORIG=$(realpath "$1"); ROOT=$(cd "$(dirname "$0")/.." && pwd); W=$(mktemp -d)
 M=https://repo1.maven.org/maven2/org/ow2/asm
-for a in asm asm-tree; do curl -sSfo "$W/$a.jar" "$M/$a/9.7.1/$a-9.7.1.jar"; done
+CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/drunkard-build"; mkdir -p "$CACHE"
+for a in asm asm-tree; do
+  [ -s "$CACHE/$a.jar" ] || curl -sSf --retry 5 --retry-delay 3 --retry-all-errors -o "$CACHE/$a.jar" "$M/$a/9.7.1/$a-9.7.1.jar"
+  cp "$CACHE/$a.jar" "$W/$a.jar"
+done
 CP="$W/asm.jar:$W/asm-tree.jar"
 javac -cp "$CP" -d "$W/tools" "$ROOT"/tools/*.java
 java -cp "$W/tools:$CP" StubGen "$ORIG" "$W/stubs" "$ROOT/tools/overrides.txt"
 javac -nowarn -d "$W/stubbin" $(find "$W/stubs" -name '*.java')
 mkdir -p "$W/jar" && (cd "$W/jar" && unzip -q "$ORIG")
-javac -nowarn --release 17 -proc:none -cp "$W/stubbin:$W/jar" -d "$W/out" $(find "$ROOT/src" -name '*.java')
+javac -g -nowarn --release 17 -proc:none -cp "$W/stubbin:$W/jar" -d "$W/out" $(find "$ROOT/src" -name '*.java')
 java -cp "$W/tools:$CP" Patcher "$W/jar" "$W/out"
 java -cp "$W/tools:$CP" NameCheck "$W/jar" "$W/out"
 # Replace every recompiled class together with all of its old inner classes.
