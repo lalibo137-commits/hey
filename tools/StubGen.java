@@ -16,7 +16,7 @@ import java.util.zip.*;
 public class StubGen {
     static final class Member {
         String name, desc;
-        boolean isStatic, isField;
+        boolean isStatic, isField, isAbstract;
         int access = Opcodes.ACC_PUBLIC;
     }
 
@@ -151,6 +151,14 @@ public class StubGen {
                         desc(a.desc);
                     } else if (in instanceof InvokeDynamicInsnNode indy) {
                         desc(indy.desc);
+                        if (indy.bsm.getName().equals("metafactory") && indy.bsmArgs.length > 0 && indy.bsmArgs[0] instanceof Type sam) {
+                            String itf = Type.getMethodType(indy.desc).getReturnType().getInternalName();
+                            if (external(itf)) {
+                                member(itf, indy.name, sam.getDescriptor(), false, false, true);
+                                Member am = cls(itf).members.get(indy.name + sam.getDescriptor());
+                                if (am != null) am.isAbstract = true;
+                            }
+                        }
                         for (Object o : indy.bsmArgs) {
                             if (o instanceof Handle h) member(h.getOwner(), h.getName(), h.getDesc(), h.getTag() == Opcodes.H_INVOKESTATIC, h.getTag() <= 4, h.isInterface());
                             else if (o instanceof Type t) type(t);
@@ -343,6 +351,10 @@ public class StubGen {
             Integer modAccess = m.isStatic ? null : modDeclAccess.get(m.name + m.desc);
             String vis = c.iface ? "" : (modAccess != null && (modAccess & Opcodes.ACC_PROTECTED) != 0 ? "protected " : "public ");
             String body = dflt(mt.getReturnType());
+            if (c.iface && m.isAbstract) {
+                sb.append(in).append(java(mt.getReturnType())).append(' ').append(m.name).append('(').append(params).append(");\n");
+                continue;
+            }
             sb.append(in).append(vis).append(c.iface && !m.isStatic ? "default " : "").append(m.isStatic ? "static " : "")
                     .append(java(mt.getReturnType())).append(' ').append(m.name).append('(').append(params).append(") { ")
                     .append(body.isEmpty() ? "" : "return " + body + "; ").append("}\n");
@@ -351,10 +363,43 @@ public class StubGen {
             sb.append(in).append("protected ").append(simple(c.name)).append("() {").append(superCall(c)).append("}\n");
         }
         for (String e : c.extra) sb.append(in).append(e).append('\n');
+        if (!c.iface && !c.annotation) {
+            for (Member am : abstractsOf(c, new HashSet<>())) {
+                if (c.members.containsKey(am.name + am.desc) && !skipMember.contains(c.name + "." + am.name + am.desc)) continue;
+                Type mt = Type.getMethodType(am.desc);
+                StringBuilder params = new StringBuilder();
+                Type[] a = mt.getArgumentTypes();
+                for (int i = 0; i < a.length; i++) params.append(i > 0 ? ", " : "").append(java(a[i])).append(" a").append(i);
+                String body = dflt(mt.getReturnType());
+                sb.append(in).append("public ").append(java(mt.getReturnType())).append(' ').append(am.name).append('(').append(params).append(") { ")
+                        .append(body.isEmpty() ? "" : "return " + body + "; ").append("}\n");
+            }
+        }
         for (Cls inner : classes.values()) {
             if (inner.name.startsWith(c.name + "$") && !inner.name.substring(c.name.length() + 1).contains("$")) write(sb, inner, in, true);
         }
         sb.append(ind).append("}\n");
+    }
+
+    static List<Member> abstractsOf(Cls c, Set<String> seen) {
+        List<Member> out = new ArrayList<>();
+        List<String> sup = new ArrayList<>(c.ifaces);
+        for (String d : sup) {
+            String n = (d.contains("<") ? d.substring(0, d.indexOf('<')) : d).strip();
+            Cls ic = null;
+            for (Cls k : classes.values()) if (k.name.replace('/', '.').replace('$', '.').equals(n)) ic = k;
+            if (ic == null || !seen.add(ic.name)) continue;
+            for (Member m : ic.members.values()) if (m.isAbstract) out.add(m);
+            if (ic.superDecl != null) {
+                Cls tmp = new Cls();
+                tmp.ifaces.add(ic.superDecl);
+                out.addAll(abstractsOf(tmp, seen));
+            }
+            Cls tmp2 = new Cls();
+            tmp2.ifaces.addAll(ic.ifaces);
+            out.addAll(abstractsOf(tmp2, seen));
+        }
+        return out;
     }
 
     static boolean jdkHas(Cls c, Member m) {

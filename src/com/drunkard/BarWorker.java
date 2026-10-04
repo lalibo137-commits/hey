@@ -113,6 +113,9 @@ public class BarWorker extends PathfinderMob {
    private BlockPos myHome;
    @Nullable
    private BlockPos arrivedAt;
+   @Nullable
+   private BlockPos restockShelf;
+   private int restockTicks;
 
    public BarWorker(EntityType<? extends BarWorker> type, Level level) {
       super(type, level);
@@ -167,13 +170,19 @@ public class BarWorker extends PathfinderMob {
    }
 
    public void say(String line) {
+      line = Medieval.speak(this.skin(), line);
       this.f_19804_.m_135381_(SPEECH, line);
       this.speechTicks = 50 + line.length() * 2;
    }
 
    public void hire(BlockPos register, int look) {
       this.register = register;
-      this.f_19804_.m_135381_(SKIN, look & 65535 | 1048576);
+      this.f_19804_.m_135381_(SKIN, look & 65535 | 1048576 | look & Medieval.SKIN_BIT);
+   }
+
+   public void setMedieval(boolean medieval) {
+      int skin = this.skin() & ~Medieval.SKIN_BIT;
+      this.f_19804_.m_135381_(SKIN, medieval ? skin | Medieval.SKIN_BIT : skin);
    }
 
    public void quit() {
@@ -212,6 +221,7 @@ public class BarWorker extends PathfinderMob {
       this.customer = null;
       this.glassFrom = null;
       this.pourFrom = null;
+      this.restockShelf = null;
       this.step = BarWorker.Step.IDLE;
       this.register = null;
       this.goingHome = true;
@@ -839,7 +849,16 @@ public class BarWorker extends PathfinderMob {
    }
 
    private void idle(ServerLevel server, CashRegisterEntity r) {
-      if (this.stepTicks % 10 == 0 && this.takeOrder(server, r)) {
+      if (this.restockShelf != null) {
+         if (this.m_21205_().m_41619_() && this.stepTicks % 10 == 0 && !this.noOneWaiting(server, r)) {
+            // Customers first: only carry glasses over when nobody is waiting.
+            this.finishRestock(r);
+         } else {
+            this.restock(r);
+         }
+      } else if (this.stepTicks % 40 == 20 && this.noOneWaiting(server, r) && this.startRestock(r)) {
+         this.idleSpot = null;
+      } else if (this.stepTicks % 10 == 0 && this.takeOrder(server, r)) {
          this.idleSpot = null;
       } else {
          if (this.stepTicks % 600 == 300) {
@@ -886,6 +905,130 @@ public class BarWorker extends PathfinderMob {
             }
          }
       }
+   }
+
+   private boolean noOneWaiting(ServerLevel server, CashRegisterEntity r) {
+      return r.waitingCustomers(server).isEmpty();
+   }
+
+   // Glassware handed back to the register gets carried over to the glass shelves.
+   private boolean startRestock(CashRegisterEntity r) {
+      for (ItemStack s : r.dishes) {
+         if (!s.m_41619_() && GlassShelfEntity.glassware(s) && this.shelfWithRoom(s) != null) {
+            this.restockShelf = this.shelfWithRoom(s);
+            this.restockTicks = 0;
+            return true;
+         }
+      }
+
+      return false;
+   }
+
+   @Nullable
+   private BlockPos shelfWithRoom(ItemStack glass) {
+      BlockPos best = null;
+      double bestDistance = Double.MAX_VALUE;
+
+      for (BlockPos p : this.shelves) {
+         if (this.m_9236_().m_7702_(p) instanceof GlassShelfEntity shelf && room(shelf, glass) > 0 && this.besideBlock(p) != null) {
+            double d = p.m_123331_(this.m_20183_());
+            if (d < bestDistance) {
+               best = p;
+               bestDistance = d;
+            }
+         }
+      }
+
+      return best;
+   }
+
+   private static int room(GlassShelfEntity shelf, ItemStack glass) {
+      int room = 0;
+
+      for (ItemStack g : shelf.glasses) {
+         if (g.m_41619_()) {
+            room += glass.m_41741_();
+         } else if (ItemStack.m_150942_(g, glass)) {
+            room += g.m_41741_() - g.m_41613_();
+         }
+      }
+
+      return room;
+   }
+
+   private void restock(CashRegisterEntity r) {
+      if (++this.restockTicks <= 500 && this.m_9236_().m_7702_(this.restockShelf) instanceof GlassShelfEntity shelf) {
+         ItemStack held = this.m_21205_();
+         if (held.m_41619_()) {
+            BlockPos home = this.homeSpot();
+            if (home != null && !this.goTo(home, 1.0)) {
+               if (this.reroutes > 4) {
+                  this.finishRestock(r);
+               }
+            } else {
+               this.m_21563_().m_24964_(Vec3.m_82512_(r.m_58899_()));
+               ItemStack take = ItemStack.f_41583_;
+
+               for (ItemStack s : r.dishes) {
+                  int room = GlassShelfEntity.glassware(s) ? room(shelf, s) : 0;
+                  if (!s.m_41619_() && room > 0) {
+                     take = s.m_41620_(Math.min(16, room));
+                     r.m_6596_();
+                     break;
+                  }
+               }
+
+               if (take.m_41619_()) {
+                  this.finishRestock(r);
+               } else {
+                  this.m_6674_(InteractionHand.MAIN_HAND);
+                  this.m_21008_(InteractionHand.MAIN_HAND, take);
+                  this.routeGoal = null;
+               }
+            }
+         } else {
+            BlockPos spot = this.besideBlock(this.restockShelf);
+            if (spot == null) {
+               this.finishRestock(r);
+            } else if (!this.goTo(spot, 1.0)) {
+               if (this.reroutes > 4) {
+                  this.finishRestock(r);
+               }
+            } else {
+               this.m_21563_().m_24964_(Vec3.m_82512_(this.restockShelf));
+               if (this.restockTicks % 6 == 0) {
+                  this.m_6674_(InteractionHand.MAIN_HAND);
+                  shelf.insert(held, -1);
+                  if (held.m_41619_()) {
+                     this.m_21008_(InteractionHand.MAIN_HAND, ItemStack.f_41583_);
+                     this.finishRestock(r);
+                  } else {
+                     BlockPos other = this.shelfWithRoom(held);
+                     if (other == null) {
+                        this.finishRestock(r);
+                     } else {
+                        this.restockShelf = other;
+                        this.routeGoal = null;
+                     }
+                  }
+               }
+            }
+         }
+      } else {
+         this.finishRestock(r);
+      }
+   }
+
+   private void finishRestock(CashRegisterEntity r) {
+      if (!this.m_21205_().m_41619_()) {
+         r.returnDish(this.m_21205_());
+         this.m_21008_(InteractionHand.MAIN_HAND, ItemStack.f_41583_);
+      }
+
+      this.restockShelf = null;
+      this.restockTicks = 0;
+      this.routeGoal = null;
+      this.idleWait = Math.max(this.idleWait, 40);
    }
 
    @Nullable

@@ -19,6 +19,11 @@ public class RefDiff {
                     s.add("method " + (m.access & 0x7) + " " + m.name + m.desc);
                     for (AbstractInsnNode in : m.instructions) {
                         if (in instanceof MethodInsnNode mi && !mi.owner.startsWith("java/")) s.add("  call " + mi.getOpcode() + " " + mi.owner + "." + mi.name + mi.desc);
+                        if (in instanceof InvokeDynamicInsnNode di) {
+                            StringBuilder b = new StringBuilder("  indy " + di.name + di.desc);
+                            for (Object o : di.bsmArgs) if (o instanceof Handle h) b.append(" ").append(h.getOwner().startsWith("com/drunkard") && h.getName().startsWith("lambda$") ? "lambda" : h.getOwner() + "." + h.getName() + h.getDesc()); else if (o instanceof Type t) b.append(" ").append(t.getDescriptor());
+                            s.add(b.toString());
+                        }
                         if (in instanceof FieldInsnNode fi && !fi.owner.startsWith("java/")) s.add("  fld " + fi.getOpcode() + " " + fi.owner + "." + fi.name + fi.desc);
                     }
                 }

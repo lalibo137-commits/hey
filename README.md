@@ -1,13 +1,21 @@
-# Drunkard 1.6.1 patch
+# Drunkard 1.2.0 patch
 
-`dist/drunkard-forge-1.20.1-1.6.1.jar` is a drop-in replacement for `drunkard-forge-1.20.1-1.6.0.jar` (Forge 1.20.1).
+`dist/drunkard-forge-1.20.1-1.2.0.jar` replaces `drunkard-forge-1.20.1-1.6.0.jar` (Forge 1.20.1). As requested, the version number is now 1.2.0. That is lower than 1.6.x, so any update checker will see it as older.
 
-## Changes
-- **Bartenders no longer stand in the same block.** Each one reserves the spot it's standing on or walking to, so coworkers pick a different spot at taps, shelves, customers and the worker home spot. They also path around each other and get nudged apart if they ever touch.
-- **More natural bartender walking.** They cut corners on open floor instead of following the block grid, turn gradually, slow down while turning, ease in and out of a stop, look where they're going and each walk at a slightly different pace.
-- **Door / seat linking no longer blocks placing blocks.** Clicking something that isn't a door (or seat) now passes through normally, so you can place the door and then click it. Iron doors are now rejected (customers can't open them) instead of linked anyway.
-- **Wort no longer needs glass bottles.** The brewing kettle outputs wort without bottles. A fermentation barrel doesn't hand back an empty bottle for wort, so you can't get free bottles. JEI is updated to match.
+## 1.2.0
+- **Barkeeps restock glasses.** When no one is waiting, a barkeep takes mugs and other glassware returned to the register and carries them to a glass shelf with space. A new customer interrupts the trip.
+- **Registers keep their pub when broken.** The dropped register item carries the pub profile: upgrades, reputation, regulars, stock list, capacity, customer style and the day's ledger. Its tooltip shows what is saved. Place it anywhere to reopen that pub; only the door and seats need setting again. Cash in the till and dishes still drop as items, so nothing is duplicated.
+- **Safes stay with their own pub.** A safe remembers which register it belongs to, so a second pub nearby can't take it over. Upgrades always belonged to the register and a safe only shows its register's upgrades; they now survive breaking the register. Breaking a safe now also keeps its supplier deal (before, only the money and owner were kept).
+- **Customer style: Modern / Medieval.** There's a new button on the register's Pub tab. It can only be changed while the store is closed and empty.
+  - *Modern* is the existing customers.
+  - *Medieval* dresses the Steves and Alexes in period clothes: tunics, leather jerkins over linen shirts, buttoned doublets, laced kirtles and bodices, aprons, cloaks, hoods and coifs, hose and leather boots. Barkeeps wear a linen shirt with rolled sleeves and a brown apron, and robbers wear dark hooded cloaks. Customers and barkeeps speak like medieval folk ("Good morrow!", "Wassail!", "Prithee", "thou art", coins instead of dollars), including in the conversation screen. See `medieval-preview.png`.
+
+## 1.6.1 (still included)
+- Barkeeps don't stand in the same block, and they walk more naturally.
+- Door and seat linking no longer stops you placing blocks.
+- Wort no longer needs glass bottles.
 
 ## Layout
-- `src/` – the decompiled sources of the classes that changed, with the edits applied (`original-src/` is the untouched decompile, for diffing).
-- `tools/` – rebuild toolchain: `tools/build.sh <original 1.6.0 jar>` makes compile-only stubs for the Minecraft/Forge classes the mod uses, recompiles `src/`, applies small bytecode patches (JEI display, one game test), and repacks the jar.
+- `src/` holds the decompiled sources of every changed class, with the edits applied. `original-src/` holds the untouched decompiles for diffing.
+- `resources/` holds the data files that override the jar's (loot tables).
+- `tools/build.sh <original 1.6.0 jar>` rebuilds `dist/`. It makes compile-only stubs for the Minecraft/Forge classes the mod uses, recompiles `src/`, applies small bytecode patches (JEI display, one game test), checks every obfuscated name, overlays `resources/` and repacks the jar.

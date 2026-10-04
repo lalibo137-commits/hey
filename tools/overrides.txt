@@ -9,7 +9,7 @@ class net/minecraft/world/level/BlockGetter interface
 class net/minecraft/world/level/LevelReader interface extends net.minecraft.world.level.BlockGetter
 class net/minecraft/world/level/LevelAccessor interface extends net.minecraft.world.level.LevelReader
 class net/minecraft/world/level/Level implements net.minecraft.world.level.LevelAccessor
-class net/minecraft/server/level/ServerLevel extends net.minecraft.world.level.Level
+class net/minecraft/server/level/ServerLevel extends net.minecraft.world.level.Level implements net.minecraft.world.level.WorldGenLevel
 class net/minecraft/core/Vec3i
 class net/minecraft/core/BlockPos extends net.minecraft.core.Vec3i
 class net/minecraft/core/BlockPos$MutableBlockPos extends net.minecraft.core.BlockPos
@@ -49,7 +49,6 @@ class net/minecraft/world/entity/ai/control/LookControl implements net.minecraft
 class net/minecraft/world/entity/ai/goal/Goal
 class net/minecraft/world/entity/ai/goal/FloatGoal extends net.minecraft.world.entity.ai.goal.Goal
 class net/minecraft/world/entity/ai/navigation/PathNavigation
-class net/minecraft/network/chat/Component interface
 class net/minecraft/network/chat/MutableComponent implements net.minecraft.network.chat.Component
 class net/minecraft/core/particles/ParticleOptions interface
 class net/minecraft/core/particles/ParticleType<T extends net.minecraft.core.particles.ParticleOptions>
@@ -109,6 +108,52 @@ member net/minecraft/world/level/block/HorizontalDirectionalBlock.f_54117_Lnet/m
 class net/minecraft/world/level/block/entity/BlockEntityType<T extends net.minecraft.world.level.block.entity.BlockEntity>
 class net/minecraft/nbt/Tag interface
 class net/minecraft/nbt/CompoundTag implements net.minecraft.nbt.Tag
-class net/minecraft/nbt/ListTag implements net.minecraft.nbt.Tag
+class net/minecraft/nbt/ListTag extends java.util.AbstractList<net.minecraft.nbt.Tag> implements net.minecraft.nbt.Tag
+extra public net.minecraft.nbt.Tag get(int i) { return null; }
+extra public int size() { return 0; }
+class net/minecraft/nbt/LongTag implements net.minecraft.nbt.Tag
+class net/minecraft/nbt/IntTag implements net.minecraft.nbt.Tag
+class net/minecraft/nbt/StringTag implements net.minecraft.nbt.Tag
 member net/minecraft/core/NonNullList.m_122780_(ILjava/lang/Object;)Lnet/minecraft/core/NonNullList; = public static <E> NonNullList<E> m_122780_(int n, E e) { return null; }
 member net/minecraft/core/NonNullList.m_122779_()Lnet/minecraft/core/NonNullList; = public static <E> NonNullList<E> m_122779_() { return null; }
+class net/minecraft/client/gui/screens/Screen
+class net/minecraft/client/gui/screens/inventory/AbstractContainerScreen<T extends net.minecraft.world.inventory.AbstractContainerMenu> extends net.minecraft.client.gui.screens.Screen
+member net/minecraft/client/gui/screens/inventory/AbstractContainerScreen.f_97732_Lnet/minecraft/world/inventory/AbstractContainerMenu; = public T f_97732_;
+class net/minecraft/client/gui/components/Button$OnPress interface
+class net/minecraft/world/inventory/MenuConstructor interface
+class net/minecraft/world/MenuProvider interface extends net.minecraft.world.inventory.MenuConstructor
+skip net/minecraft/world/MenuProvider.m_7208_(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/entity/player/Player;)Lnet/minecraft/world/inventory/AbstractContainerMenu;
+class net/minecraft/world/inventory/ContainerData interface
+class net/minecraft/world/inventory/SimpleContainerData implements net.minecraft.world.inventory.ContainerData
+class net/minecraft/world/level/block/state/StateDefinition$Builder<O, S>
+class net/minecraft/world/level/block/entity/BlockEntityTicker<T extends net.minecraft.world.level.block.entity.BlockEntity> interface
+class net/minecraft/world/entity/ai/navigation/GroundPathNavigation extends net.minecraft.world.entity.ai.navigation.PathNavigation
+class net/minecraft/world/level/block/JukeboxBlock extends net.minecraft.world.level.block.Block
+class net/minecraft/core/particles/ItemParticleOption implements net.minecraft.core.particles.ParticleOptions
+class net/minecraft/core/particles/BlockParticleOption implements net.minecraft.core.particles.ParticleOptions
+class net/minecraft/core/Position interface
+class net/minecraft/world/phys/Vec3 implements net.minecraft.core.Position
+class net/minecraft/world/level/ServerLevelAccessor interface extends net.minecraft.world.level.LevelAccessor
+class net/minecraft/world/level/WorldGenLevel interface extends net.minecraft.world.level.ServerLevelAccessor
+member net/minecraft/world/level/Level.m_6907_()Ljava/util/List; = public java.util.List<? extends net.minecraft.world.entity.player.Player> m_6907_() { return null; }
+member net/minecraft/server/level/ServerLevel.m_6907_()Ljava/util/List; = public java.util.List<net.minecraft.server.level.ServerPlayer> m_6907_() { return null; }
+member net/minecraftforge/network/NetworkHooks.openScreen(Lnet/minecraft/server/level/ServerPlayer;Lnet/minecraft/world/MenuProvider;Ljava/util/function/Consumer;)V = public static void openScreen(net.minecraft.server.level.ServerPlayer a, net.minecraft.world.MenuProvider b, java.util.function.Consumer<net.minecraft.network.FriendlyByteBuf> c) { }
+skip net/minecraft/server/level/ServerLevel.m_6443_(Ljava/lang/Class;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;)Ljava/util/List;
+skip net/minecraft/client/multiplayer/ClientLevel.m_6443_(Ljava/lang/Class;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;)Ljava/util/List;
+class net/minecraft/client/multiplayer/ClientLevel extends net.minecraft.world.level.Level
+class net/minecraft/client/gui/components/events/GuiEventListener interface
+class net/minecraft/client/gui/components/Renderable interface
+class net/minecraft/client/gui/components/AbstractWidget implements net.minecraft.client.gui.components.events.GuiEventListener;net.minecraft.client.gui.components.Renderable
+class net/minecraft/client/gui/components/AbstractButton extends net.minecraft.client.gui.components.AbstractWidget
+class net/minecraft/client/gui/components/Button extends net.minecraft.client.gui.components.AbstractButton
+member net/minecraft/client/gui/screens/inventory/AbstractContainerScreen.m_142416_(Lnet/minecraft/client/gui/components/events/GuiEventListener;)Lnet/minecraft/client/gui/components/events/GuiEventListener; = public <T extends net.minecraft.client.gui.components.events.GuiEventListener> T m_142416_(T a) { return null; }
+class net/minecraft/core/Holder interface
+class net/minecraft/core/Holder$Reference implements net.minecraft.core.Holder
+class net/minecraft/network/chat/FormattedText interface
+class net/minecraft/network/chat/Component interface extends net.minecraft.network.chat.FormattedText
+member net/minecraft/world/level/block/BaseEntityBlock.m_152132_(Lnet/minecraft/world/level/block/entity/BlockEntityType;Lnet/minecraft/world/level/block/entity/BlockEntityType;Lnet/minecraft/world/level/block/entity/BlockEntityTicker;)Lnet/minecraft/world/level/block/entity/BlockEntityTicker; = public static <E extends net.minecraft.world.level.block.entity.BlockEntity, A extends net.minecraft.world.level.block.entity.BlockEntity> net.minecraft.world.level.block.entity.BlockEntityTicker<A> m_152132_(net.minecraft.world.level.block.entity.BlockEntityType<A> a, net.minecraft.world.level.block.entity.BlockEntityType<E> b, net.minecraft.world.level.block.entity.BlockEntityTicker<? super E> c) { return null; }
+class net/minecraft/world/SimpleMenuProvider implements net.minecraft.world.MenuProvider
+class net/minecraft/client/resources/sounds/SoundInstance interface
+class net/minecraft/client/resources/sounds/AbstractSoundInstance implements net.minecraft.client.resources.sounds.SoundInstance
+class net/minecraft/client/resources/sounds/SimpleSoundInstance extends net.minecraft.client.resources.sounds.AbstractSoundInstance
+member net/minecraft/world/level/block/entity/BlockEntityTicker.m_155252_(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/entity/BlockEntity;)V = void m_155252_(net.minecraft.world.level.Level a, net.minecraft.core.BlockPos b, net.minecraft.world.level.block.state.BlockState c, T d);

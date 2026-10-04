@@ -1,0 +1,42 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "drunkard:safe",
+          "functions": [
+            {
+              "function": "minecraft:copy_nbt",
+              "source": "block_entity",
+              "ops": [
+                {
+                  "source": "Balance",
+                  "target": "BlockEntityTag.Balance",
+                  "op": "replace"
+                },
+                {
+                  "source": "Owner",
+                  "target": "BlockEntityTag.Owner",
+                  "op": "replace"
+                },
+                {
+                  "source": "Supplier",
+                  "target": "BlockEntityTag.Supplier",
+                  "op": "replace"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ]
+}
