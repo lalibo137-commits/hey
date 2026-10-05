@@ -1469,6 +1469,15 @@ public class BarWorker extends PathfinderMob {
 
    private boolean arrive(BlockPos cell, double speed) {
       boolean there = this.goTo(cell, speed);
+      if (!there && this.stepTicks % 100 == 99) {
+         Vec3 t = Vec3.atBottomCenterOf(cell);
+         double dx = t.x - this.getX();
+         double dz = t.z - this.getZ();
+         PubDebug.log(this, "still walking to " + cell.toShortString() + " during " + this.step + " after " + this.stepTicks + " ticks: "
+            + String.format(java.util.Locale.ROOT, "%.2f blocks away, height off by %.2f, at %.2f %.2f %.2f", Math.sqrt(dx * dx + dz * dz), t.y - this.getY(), this.getX(), this.getY(), this.getZ())
+            + ", route " + this.route.size() + " cells, reroutes " + this.reroutes + ", target on floor map " + this.floor.contains(cell) + ", behind bar " + this.area.contains(cell));
+      }
+
       if (!there && (this.reroutes > 4 || this.stepTicks > 400)) {
          CashRegisterEntity r = this.register();
          if (r != null) {
