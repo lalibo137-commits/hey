@@ -60,7 +60,7 @@ public class ForgeExtras {
             if (p.length == 3) srgObf.put(p[1], new String[]{oc, p[0]});
           } }
         // 1.20.1 field types as class ids: srg -> id desc
-        Map<String, String> ids120 = new HashMap<>();
+        Map<String, String> ids120 = new HashMap<>(), mids120 = new HashMap<>();
         { Map<String, String> fd120 = new HashMap<>();
           for (String l : Files.readAllLines(map.resolve("int120.tiny"))) { String[] p = l.split("\t"); if (p[0].equals("FIELD")) fd120.put(p[1] + "." + p[3], p[2]); }
           Map<String, String> o2c = new HashMap<>(); String oc = null;
@@ -72,6 +72,7 @@ public class ForgeExtras {
             if (line.startsWith("\t\t")) continue;
             String[] p = line.substring(1).split(" ");
             if (p.length == 3) { String fd = fd120.get(oc + "." + p[0]); if (fd != null) ids120.put(p[1], idDesc(fd, o2c)); }
+            else mids120.put(p[2], idDesc(p[1], o2c));
           } }
         Set<String> want = new HashSet<>(Arrays.asList(a[2].split(",")));
         Map<String, ClassNode> forge = new HashMap<>();
@@ -116,8 +117,8 @@ public class ForgeExtras {
                 if (field) {
                     String[] o = srgObf.get(name);
                     String fd = o == null ? null : fdesc.get(o[0] + "." + o[1]);
-                    d = fd == null ? null : toMoj(fd, obfToCls, cmap);
-                    if (d == null && fd != null) {
+                    d = null;
+                    if (fd != null) {
                         // class not in the Mojang class map: accept the 1.20.1 type if both versions use the same class id
                         String id121 = idDesc(fd, obfToCls);
                         String id120 = ids120.get(name);
@@ -125,7 +126,13 @@ public class ForgeExtras {
                         else System.err.println("field type unverifiable " + owner + " " + moj + " " + desc + " " + id120 + " vs " + id121);
                     }
                     if (d != null && !d.equals(desc)) System.err.println("field type changed " + owner + " " + moj + " " + desc + " -> " + d);
-                } else d = toMoj(t[1], obfToCls, cmap);
+                } else {
+                    // Method descriptor: the Forge call site's own descriptor (real Mojang class names), accepted only if
+                    // the member's parameter/return class ids are identical in 1.20.1 and 1.21.1 (no class map involved).
+                    String id120 = mids120.get(name), id121 = idDesc(t[1], obfToCls);
+                    if (id120 != null && id120.equals(id121)) d = desc;
+                    else { System.err.println("METHOD TYPE CHANGED " + owner + " " + moj + " forge " + desc + " ids " + id120 + " -> " + id121); continue; }
+                }
                 if (d == null) { System.err.println("unmapped class in desc " + name + " " + moj + " " + t[1]); continue; }
                 boolean isStatic = field ? in.getOpcode() == Opcodes.GETSTATIC || in.getOpcode() == Opcodes.PUTSTATIC : t[2].equals("1");
                 out.add(owner + "\t" + moj + "\t" + d + "\t" + (isStatic ? 1 : 0) + "\t" + (field ? 1 : 0));

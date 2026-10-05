@@ -30,3 +30,8 @@ net/minecraft/network/chat/MutableComponent	withStyle	([Lnet/minecraft/ChatForma
 net/minecraft/world/entity/Entity	getVehicleAttachmentPoint	(Lnet/minecraft/world/entity/Entity;)Lnet/minecraft/world/phys/Vec3;	0	0
 net/minecraft/server/level/ServerLevel	getBlockStates	(Lnet/minecraft/world/phys/AABB;)Ljava/util/stream/Stream;	0	0
 net/minecraft/world/level/GameType	CREATIVE	Lnet/minecraft/world/level/GameType;	1	1
+net/minecraft/world/entity/ai/attributes/Attributes	MAX_HEALTH	Lnet/minecraft/core/Holder;	1	1
+net/minecraft/world/entity/ai/attributes/Attributes	MOVEMENT_SPEED	Lnet/minecraft/core/Holder;	1	1
+net/minecraft/world/entity/ai/attributes/Attributes	FOLLOW_RANGE	Lnet/minecraft/core/Holder;	1	1
+net/minecraft/world/entity/ai/attributes/AttributeSupplier$Builder	add	(Lnet/minecraft/core/Holder;D)Lnet/minecraft/world/entity/ai/attributes/AttributeSupplier$Builder;	0	0
+net/minecraft/world/entity/Mob	finalizeSpawn	(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/world/DifficultyInstance;Lnet/minecraft/world/entity/MobSpawnType;Lnet/minecraft/world/entity/SpawnGroupData;)Lnet/minecraft/world/entity/SpawnGroupData;	0	0

@@ -109,7 +109,6 @@ net/minecraft/client/gui/screens/inventory/AbstractContainerScreen	mouseClicked	
 net/minecraft/client/gui/screens/inventory/AbstractContainerScreen	playerInventoryTitle	Lnet/minecraft/network/chat/Component;	0	1
 net/minecraft/client/gui/screens/inventory/AbstractContainerScreen	removeWidget	(Lnet/minecraft/client/gui/components/events/GuiEventListener;)V	0	0
 net/minecraft/client/gui/screens/inventory/AbstractContainerScreen	render	(Lnet/minecraft/client/gui/GuiGraphics;IIF)V	0	0
-net/minecraft/client/gui/screens/inventory/AbstractContainerScreen	renderBackground	(Lnet/minecraft/client/gui/GuiGraphics;IIF)V	0	0
 net/minecraft/client/gui/screens/inventory/AbstractContainerScreen	renderTooltip	(Lnet/minecraft/client/gui/GuiGraphics;II)V	0	0
 net/minecraft/client/gui/screens/inventory/AbstractContainerScreen	title	Lnet/minecraft/network/chat/Component;	0	1
 net/minecraft/client/gui/screens/inventory/AbstractContainerScreen	topPos	I	0	1
@@ -128,7 +127,6 @@ net/minecraft/client/model/PlayerModel	leftSleeve	Lnet/minecraft/client/model/ge
 net/minecraft/client/model/PlayerModel	rightArm	Lnet/minecraft/client/model/geom/ModelPart;	0	1
 net/minecraft/client/model/PlayerModel	rightArmPose	Lnet/minecraft/client/model/HumanoidModel$ArmPose;	0	1
 net/minecraft/client/model/PlayerModel	rightSleeve	Lnet/minecraft/client/model/geom/ModelPart;	0	1
-net/minecraft/client/model/PlayerModel	setupAnim	(Lnet/minecraft/world/entity/Entity;FFFFF)V	0	0
 net/minecraft/client/model/PlayerModel	translateToHand	(Lnet/minecraft/world/entity/HumanoidArm;Lcom/mojang/blaze3d/vertex/PoseStack;)V	0	0
 net/minecraft/client/model/geom/ModelLayers	PLAYER	Lnet/minecraft/client/model/geom/ModelLayerLocation;	1	1
 net/minecraft/client/model/geom/ModelLayers	PLAYER_SLIM	Lnet/minecraft/client/model/geom/ModelLayerLocation;	1	1
@@ -205,7 +203,6 @@ net/minecraft/client/renderer/ItemInHandRenderer	renderItem	(Lnet/minecraft/worl
 net/minecraft/client/renderer/LevelRenderer	getLightColor	(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/core/BlockPos;)I	1	0
 net/minecraft/client/renderer/MultiBufferSource	getBuffer	(Lnet/minecraft/client/renderer/RenderType;)Lcom/mojang/blaze3d/vertex/VertexConsumer;	0	0
 net/minecraft/client/renderer/MultiBufferSource$BufferSource	endBatch	()V	0	0
-net/minecraft/client/renderer/PostChain	addPass	(Ljava/lang/String;Lcom/mojang/blaze3d/pipeline/RenderTarget;Lcom/mojang/blaze3d/pipeline/RenderTarget;Z)Lnet/minecraft/client/renderer/PostPass;	0	0
 net/minecraft/client/renderer/PostChain	close	()V	0	0
 net/minecraft/client/renderer/PostChain	getTempTarget	(Ljava/lang/String;)Lcom/mojang/blaze3d/pipeline/RenderTarget;	0	0
 net/minecraft/client/renderer/PostChain	process	(F)V	0	0
@@ -228,7 +225,6 @@ net/minecraft/client/renderer/entity/MobRenderer	getFont	()Lnet/minecraft/client
 net/minecraft/client/renderer/entity/MobRenderer	getModel	()Lnet/minecraft/client/model/EntityModel;	0	0
 net/minecraft/client/renderer/entity/MobRenderer	getRenderOffset	(Lnet/minecraft/world/entity/Entity;F)Lnet/minecraft/world/phys/Vec3;	0	0
 net/minecraft/client/renderer/entity/MobRenderer	model	Lnet/minecraft/client/model/EntityModel;	0	1
-net/minecraft/client/renderer/entity/MobRenderer	render	(Lnet/minecraft/world/entity/Entity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V	0	0
 net/minecraft/client/renderer/entity/layers/ItemInHandLayer	getParentModel	()Lnet/minecraft/client/model/EntityModel;	0	0
 net/minecraft/client/renderer/entity/layers/ItemInHandLayer	renderArmWithItem	(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemDisplayContext;Lnet/minecraft/world/entity/HumanoidArm;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V	0	0
 net/minecraft/client/renderer/entity/layers/PlayerItemInHandLayer	getParentModel	()Lnet/minecraft/client/model/EntityModel;	0	0
@@ -236,8 +232,8 @@ net/minecraft/client/renderer/entity/layers/PlayerItemInHandLayer	renderArmWithI
 net/minecraft/client/renderer/entity/layers/RenderLayer	getParentModel	()Lnet/minecraft/client/model/EntityModel;	0	0
 net/minecraft/client/renderer/entity/player/PlayerRenderer	addLayer	(Lnet/minecraft/client/renderer/entity/layers/RenderLayer;)Z	0	0
 net/minecraft/client/renderer/entity/player/PlayerRenderer	getModel	()Lnet/minecraft/client/model/EntityModel;	0	0
-net/minecraft/client/renderer/entity/player/PlayerRenderer	renderLeftHand	(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/Entity;)V	0	0
-net/minecraft/client/renderer/entity/player/PlayerRenderer	renderRightHand	(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/Entity;)V	0	0
+net/minecraft/client/renderer/entity/player/PlayerRenderer	renderLeftHand	(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/player/AbstractClientPlayer;)V	0	0
+net/minecraft/client/renderer/entity/player/PlayerRenderer	renderRightHand	(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/player/AbstractClientPlayer;)V	0	0
 net/minecraft/client/renderer/texture/AbstractTexture	bind	()V	0	0
 net/minecraft/client/renderer/texture/AbstractTexture	getId	()I	0	0
 net/minecraft/client/renderer/texture/OverlayTexture	NO_OVERLAY	I	1	1
@@ -261,8 +257,8 @@ net/minecraft/core/BlockPos	below	(I)Lnet/minecraft/core/BlockPos;	0	0
 net/minecraft/core/BlockPos	betweenClosed	(Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/BlockPos;)Ljava/lang/Iterable;	1	0
 net/minecraft/core/BlockPos	containing	(DDD)Lnet/minecraft/core/BlockPos;	1	0
 net/minecraft/core/BlockPos	containing	(Lnet/minecraft/core/Position;)Lnet/minecraft/core/BlockPos;	1	0
-net/minecraft/core/BlockPos	distManhattan	(Lnet/minecraft/core/BlockPos;)I	0	0
-net/minecraft/core/BlockPos	distSqr	(Lnet/minecraft/core/BlockPos;)D	0	0
+net/minecraft/core/BlockPos	distManhattan	(Lnet/minecraft/core/Vec3i;)I	0	0
+net/minecraft/core/BlockPos	distSqr	(Lnet/minecraft/core/Vec3i;)D	0	0
 net/minecraft/core/BlockPos	east	()Lnet/minecraft/core/BlockPos;	0	0
 net/minecraft/core/BlockPos	east	(I)Lnet/minecraft/core/BlockPos;	0	0
 net/minecraft/core/BlockPos	getX	()I	0	0
@@ -292,7 +288,7 @@ net/minecraft/core/Direction	getClockWise	()Lnet/minecraft/core/Direction;	0	0
 net/minecraft/core/Direction	getCounterClockWise	()Lnet/minecraft/core/Direction;	0	0
 net/minecraft/core/Direction	getName	()Ljava/lang/String;	0	0
 net/minecraft/core/Direction	getNearest	(FFF)Lnet/minecraft/core/Direction;	1	0
-net/minecraft/core/Direction	getNormal	()Lnet/minecraft/core/BlockPos;	0	0
+net/minecraft/core/Direction	getNormal	()Lnet/minecraft/core/Vec3i;	0	0
 net/minecraft/core/Direction	getOpposite	()Lnet/minecraft/core/Direction;	0	0
 net/minecraft/core/Direction	getStepX	()I	0	0
 net/minecraft/core/Direction	getStepZ	()I	0	0
@@ -390,6 +386,8 @@ net/minecraft/network/chat/Component	literal	(Ljava/lang/String;)Lnet/minecraft/
 net/minecraft/network/chat/Component	translatable	(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;	1	0
 net/minecraft/network/chat/Component	translatable	(Ljava/lang/String;[Ljava/lang/Object;)Lnet/minecraft/network/chat/MutableComponent;	1	0
 net/minecraft/network/chat/MutableComponent	append	(Lnet/minecraft/network/chat/Component;)Lnet/minecraft/network/chat/MutableComponent;	0	0
+net/minecraft/network/chat/MutableComponent	withStyle	(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;	0	0
+net/minecraft/network/chat/MutableComponent	withStyle	([Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;	0	0
 net/minecraft/network/protocol/game/ClientboundBlockEntityDataPacket	create	(Lnet/minecraft/world/level/block/entity/BlockEntity;)Lnet/minecraft/network/protocol/game/ClientboundBlockEntityDataPacket;	1	0
 net/minecraft/network/syncher/EntityDataSerializers	BOOLEAN	Lnet/minecraft/network/syncher/EntityDataSerializer;	1	1
 net/minecraft/network/syncher/EntityDataSerializers	FLOAT	Lnet/minecraft/network/syncher/EntityDataSerializer;	1	1
@@ -435,7 +433,6 @@ net/minecraft/server/level/ServerPlayer	connection	Lnet/minecraft/server/network
 net/minecraft/server/level/ServerPlayer	displayClientMessage	(Lnet/minecraft/network/chat/Component;Z)V	0	0
 net/minecraft/server/level/ServerPlayer	distanceToSqr	(DDD)D	0	0
 net/minecraft/server/level/ServerPlayer	fallDistance	F	0	1
-net/minecraft/server/level/ServerPlayer	getAttribute	(Lnet/minecraft/core/Holder;)Lnet/minecraft/world/entity/ai/attributes/AttributeInstance;	0	0
 net/minecraft/server/level/ServerPlayer	getDeltaMovement	()Lnet/minecraft/world/phys/Vec3;	0	0
 net/minecraft/server/level/ServerPlayer	getId	()I	0	0
 net/minecraft/server/level/ServerPlayer	getX	()D	0	0
@@ -443,7 +440,6 @@ net/minecraft/server/level/ServerPlayer	getXRot	()F	0	0
 net/minecraft/server/level/ServerPlayer	getY	()D	0	0
 net/minecraft/server/level/ServerPlayer	getYRot	()F	0	0
 net/minecraft/server/level/ServerPlayer	getZ	()D	0	0
-net/minecraft/server/level/ServerPlayer	hasEffect	(Lnet/minecraft/core/Holder;)Z	0	0
 net/minecraft/server/level/ServerPlayer	hurtMarked	Z	0	1
 net/minecraft/server/level/ServerPlayer	isAlive	()Z	0	0
 net/minecraft/server/level/ServerPlayer	isPassenger	()Z	0	0
@@ -453,7 +449,6 @@ net/minecraft/server/level/ServerPlayer	level	()Lnet/minecraft/world/level/Level
 net/minecraft/server/level/ServerPlayer	onGround	()Z	0	0
 net/minecraft/server/level/ServerPlayer	position	()Lnet/minecraft/world/phys/Vec3;	0	0
 net/minecraft/server/level/ServerPlayer	refreshDimensions	()V	0	0
-net/minecraft/server/level/ServerPlayer	removeEffect	(Lnet/minecraft/core/Holder;)Z	0	0
 net/minecraft/server/level/ServerPlayer	resetAttackStrengthTicker	()V	0	0
 net/minecraft/server/level/ServerPlayer	serverLevel	()Lnet/minecraft/server/level/ServerLevel;	0	0
 net/minecraft/server/level/ServerPlayer	setDeltaMovement	(Lnet/minecraft/world/phys/Vec3;)V	0	0
@@ -569,17 +564,6 @@ net/minecraft/world/effect/MobEffectInstance	getAmplifier	()I	0	0
 net/minecraft/world/effect/MobEffectInstance	getDuration	()I	0	0
 net/minecraft/world/effect/MobEffectInstance	isVisible	()Z	0	0
 net/minecraft/world/effect/MobEffectInstance	showIcon	()Z	0	0
-net/minecraft/world/effect/MobEffects	BLINDNESS	Lnet/minecraft/core/Holder;	1	1
-net/minecraft/world/effect/MobEffects	CONFUSION	Lnet/minecraft/core/Holder;	1	1
-net/minecraft/world/effect/MobEffects	DAMAGE_RESISTANCE	Lnet/minecraft/core/Holder;	1	1
-net/minecraft/world/effect/MobEffects	DIG_SLOWDOWN	Lnet/minecraft/core/Holder;	1	1
-net/minecraft/world/effect/MobEffects	DIG_SPEED	Lnet/minecraft/core/Holder;	1	1
-net/minecraft/world/effect/MobEffects	LUCK	Lnet/minecraft/core/Holder;	1	1
-net/minecraft/world/effect/MobEffects	MOVEMENT_SLOWDOWN	Lnet/minecraft/core/Holder;	1	1
-net/minecraft/world/effect/MobEffects	MOVEMENT_SPEED	Lnet/minecraft/core/Holder;	1	1
-net/minecraft/world/effect/MobEffects	REGENERATION	Lnet/minecraft/core/Holder;	1	1
-net/minecraft/world/effect/MobEffects	SATURATION	Lnet/minecraft/core/Holder;	1	1
-net/minecraft/world/effect/MobEffects	WEAKNESS	Lnet/minecraft/core/Holder;	1	1
 net/minecraft/world/entity/Entity	blockPosition	()Lnet/minecraft/core/BlockPos;	0	0
 net/minecraft/world/entity/Entity	discard	()V	0	0
 net/minecraft/world/entity/Entity	getEyePosition	()Lnet/minecraft/world/phys/Vec3;	0	0
@@ -651,7 +635,6 @@ net/minecraft/world/entity/PathfinderMob	distanceToSqr	(DDD)D	0	0
 net/minecraft/world/entity/PathfinderMob	distanceToSqr	(Lnet/minecraft/world/entity/Entity;)D	0	0
 net/minecraft/world/entity/PathfinderMob	distanceToSqr	(Lnet/minecraft/world/phys/Vec3;)D	0	0
 net/minecraft/world/entity/PathfinderMob	entityData	Lnet/minecraft/network/syncher/SynchedEntityData;	0	1
-net/minecraft/world/entity/PathfinderMob	finalizeSpawn	(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/world/DifficultyInstance;Lnet/minecraft/world/entity/MobSpawnType;Lnet/minecraft/world/entity/SpawnGroupData;)Lnet/minecraft/world/entity/SpawnGroupData;	0	0
 net/minecraft/world/entity/PathfinderMob	getBbHeight	()F	0	0
 net/minecraft/world/entity/PathfinderMob	getBoundingBox	()Lnet/minecraft/world/phys/AABB;	0	0
 net/minecraft/world/entity/PathfinderMob	getDeltaMovement	()Lnet/minecraft/world/phys/Vec3;	0	0
@@ -709,15 +692,8 @@ net/minecraft/world/entity/Pose	SLEEPING	Lnet/minecraft/world/entity/Pose;	1	1
 net/minecraft/world/entity/Pose	STANDING	Lnet/minecraft/world/entity/Pose;	1	1
 net/minecraft/world/entity/SlotAccess	set	(Lnet/minecraft/world/item/ItemStack;)Z	0	0
 net/minecraft/world/entity/ai/attributes/AttributeInstance	addTransientModifier	(Lnet/minecraft/world/entity/ai/attributes/AttributeModifier;)V	0	0
-net/minecraft/world/entity/ai/attributes/AttributeInstance	getModifier	(Lnet/minecraft/resources/ResourceLocation;)Lnet/minecraft/world/entity/ai/attributes/AttributeModifier;	0	0
 net/minecraft/world/entity/ai/attributes/AttributeInstance	getValue	()D	0	0
-net/minecraft/world/entity/ai/attributes/AttributeInstance	removeModifier	(Lnet/minecraft/resources/ResourceLocation;)Z	0	0
-net/minecraft/world/entity/ai/attributes/AttributeSupplier$Builder	add	(Lnet/minecraft/core/Holder;D)Lnet/minecraft/world/entity/ai/attributes/AttributeSupplier$Builder;	0	0
 net/minecraft/world/entity/ai/attributes/AttributeSupplier$Builder	build	()Lnet/minecraft/world/entity/ai/attributes/AttributeSupplier;	0	0
-net/minecraft/world/entity/ai/attributes/Attributes	ATTACK_DAMAGE	Lnet/minecraft/core/Holder;	1	1
-net/minecraft/world/entity/ai/attributes/Attributes	FOLLOW_RANGE	Lnet/minecraft/core/Holder;	1	1
-net/minecraft/world/entity/ai/attributes/Attributes	MAX_HEALTH	Lnet/minecraft/core/Holder;	1	1
-net/minecraft/world/entity/ai/attributes/Attributes	MOVEMENT_SPEED	Lnet/minecraft/core/Holder;	1	1
 net/minecraft/world/entity/ai/control/JumpControl	jump	()V	0	0
 net/minecraft/world/entity/ai/control/LookControl	setLookAt	(DDD)V	0	0
 net/minecraft/world/entity/ai/control/LookControl	setLookAt	(DDDFF)V	0	0
@@ -782,7 +758,6 @@ net/minecraft/world/entity/player/Player	getXRot	()F	0	0
 net/minecraft/world/entity/player/Player	getY	()D	0	0
 net/minecraft/world/entity/player/Player	getYRot	()F	0	0
 net/minecraft/world/entity/player/Player	getZ	()D	0	0
-net/minecraft/world/entity/player/Player	hasEffect	(Lnet/minecraft/core/Holder;)Z	0	0
 net/minecraft/world/entity/player/Player	hasLineOfSight	(Lnet/minecraft/world/entity/Entity;)Z	0	0
 net/minecraft/world/entity/player/Player	hasPermissions	(I)Z	0	0
 net/minecraft/world/entity/player/Player	isAlive	()Z	0	0
@@ -914,7 +889,6 @@ net/minecraft/world/item/TooltipFlag$Default	ADVANCED	Lnet/minecraft/world/item/
 net/minecraft/world/item/TooltipFlag$Default	NORMAL	Lnet/minecraft/world/item/TooltipFlag$Default;	1	1
 net/minecraft/world/item/UseAnim	DRINK	Lnet/minecraft/world/item/UseAnim;	1	1
 net/minecraft/world/item/UseAnim	NONE	Lnet/minecraft/world/item/UseAnim;	1	1
-net/minecraft/world/item/alchemy/Potions	WATER	Lnet/minecraft/core/Holder;	1	1
 net/minecraft/world/item/context/BlockPlaceContext	getClickedFace	()Lnet/minecraft/core/Direction;	0	0
 net/minecraft/world/item/context/BlockPlaceContext	getClickedPos	()Lnet/minecraft/core/BlockPos;	0	0
 net/minecraft/world/item/context/BlockPlaceContext	getHorizontalDirection	()Lnet/minecraft/core/Direction;	0	0
@@ -973,7 +947,6 @@ net/minecraft/world/level/block/BaseEntityBlock	createTickerHelper	(Lnet/minecra
 net/minecraft/world/level/block/BaseEntityBlock	defaultBlockState	()Lnet/minecraft/world/level/block/state/BlockState;	0	0
 net/minecraft/world/level/block/BaseEntityBlock	getDestroyProgress	(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)F	0	0
 net/minecraft/world/level/block/BaseEntityBlock	onRemove	(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Z)V	0	0
-net/minecraft/world/level/block/BaseEntityBlock	playerWillDestroy	(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/entity/player/Player;)Lnet/minecraft/world/level/block/state/BlockState;	0	0
 net/minecraft/world/level/block/BaseEntityBlock	popResource	(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/item/ItemStack;)V	1	0
 net/minecraft/world/level/block/BaseEntityBlock	registerDefaultState	(Lnet/minecraft/world/level/block/state/BlockState;)V	0	0
 net/minecraft/world/level/block/BaseEntityBlock	setPlacedBy	(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;)V	0	0
@@ -993,7 +966,6 @@ net/minecraft/world/level/block/Block	registerDefaultState	(Lnet/minecraft/world
 net/minecraft/world/level/block/Block	setPlacedBy	(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;)V	0	0
 net/minecraft/world/level/block/Block	stateDefinition	Lnet/minecraft/world/level/block/state/StateDefinition;	0	1
 net/minecraft/world/level/block/Block	updateFromNeighbourShapes	(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/block/state/BlockState;	1	0
-net/minecraft/world/level/block/Block	use	(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/phys/BlockHitResult;)Lnet/minecraft/world/InteractionResult;	0	0
 net/minecraft/world/level/block/Blocks	ACACIA_LEAVES	Lnet/minecraft/world/level/block/Block;	1	1
 net/minecraft/world/level/block/Blocks	AIR	Lnet/minecraft/world/level/block/Block;	1	1
 net/minecraft/world/level/block/Blocks	BARREL	Lnet/minecraft/world/level/block/Block;	1	1
@@ -1051,7 +1023,6 @@ net/minecraft/world/level/block/CropBlock	defaultBlockState	()Lnet/minecraft/wor
 net/minecraft/world/level/block/CropBlock	getAge	(Lnet/minecraft/world/level/block/state/BlockState;)I	0	0
 net/minecraft/world/level/block/CropBlock	getStateForAge	(I)Lnet/minecraft/world/level/block/state/BlockState;	0	0
 net/minecraft/world/level/block/CropBlock	isMaxAge	(Lnet/minecraft/world/level/block/state/BlockState;)Z	0	0
-net/minecraft/world/level/block/CropBlock	isValidBonemealTarget	(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)Z	0	0
 net/minecraft/world/level/block/CropBlock	performBonemeal	(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/util/RandomSource;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)V	0	0
 net/minecraft/world/level/block/CropBlock	popResource	(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/item/ItemStack;)V	1	0
 net/minecraft/world/level/block/CropBlock	randomTick	(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;)V	0	0
@@ -1156,9 +1127,9 @@ net/minecraft/world/phys/EntityHitResult	getEntity	()Lnet/minecraft/world/entity
 net/minecraft/world/phys/Vec3	ZERO	Lnet/minecraft/world/phys/Vec3;	1	1
 net/minecraft/world/phys/Vec3	add	(DDD)Lnet/minecraft/world/phys/Vec3;	0	0
 net/minecraft/world/phys/Vec3	add	(Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;	0	0
-net/minecraft/world/phys/Vec3	atBottomCenterOf	(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/phys/Vec3;	1	0
-net/minecraft/world/phys/Vec3	atCenterOf	(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/phys/Vec3;	1	0
-net/minecraft/world/phys/Vec3	atLowerCornerOf	(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/phys/Vec3;	1	0
+net/minecraft/world/phys/Vec3	atBottomCenterOf	(Lnet/minecraft/core/Vec3i;)Lnet/minecraft/world/phys/Vec3;	1	0
+net/minecraft/world/phys/Vec3	atCenterOf	(Lnet/minecraft/core/Vec3i;)Lnet/minecraft/world/phys/Vec3;	1	0
+net/minecraft/world/phys/Vec3	atLowerCornerOf	(Lnet/minecraft/core/Vec3i;)Lnet/minecraft/world/phys/Vec3;	1	0
 net/minecraft/world/phys/Vec3	distanceTo	(Lnet/minecraft/world/phys/Vec3;)D	0	0
 net/minecraft/world/phys/Vec3	distanceToSqr	(Lnet/minecraft/world/phys/Vec3;)D	0	0
 net/minecraft/world/phys/Vec3	dot	(Lnet/minecraft/world/phys/Vec3;)D	0	0
@@ -1181,15 +1152,12 @@ net/minecraft/world/phys/shapes/VoxelShape	max	(Lnet/minecraft/core/Direction$Ax
 net/minecraft/world/phys/shapes/VoxelShape	min	(Lnet/minecraft/core/Direction$Axis;)D	0	0
 net/minecraft/world/phys/shapes/VoxelShape	toAabbs	()Ljava/util/List;	0	0
 net/minecraftforge/common/util/FakePlayer	getActiveEffects	()Ljava/util/Collection;	0	0
-net/minecraftforge/common/util/FakePlayer	getAttribute	(Lnet/minecraft/core/Holder;)Lnet/minecraft/world/entity/ai/attributes/AttributeInstance;	0	0
 net/minecraftforge/common/util/FakePlayer	getDirection	()Lnet/minecraft/core/Direction;	0	0
-net/minecraftforge/common/util/FakePlayer	getEffect	(Lnet/minecraft/core/Holder;)Lnet/minecraft/world/effect/MobEffectInstance;	0	0
 net/minecraftforge/common/util/FakePlayer	getInventory	()Lnet/minecraft/world/entity/player/Inventory;	0	0
 net/minecraftforge/common/util/FakePlayer	getItemInHand	(Lnet/minecraft/world/InteractionHand;)Lnet/minecraft/world/item/ItemStack;	0	0
 net/minecraftforge/common/util/FakePlayer	getMainHandItem	()Lnet/minecraft/world/item/ItemStack;	0	0
 net/minecraftforge/common/util/FakePlayer	getPose	()Lnet/minecraft/world/entity/Pose;	0	0
 net/minecraftforge/common/util/FakePlayer	getVehicle	()Lnet/minecraft/world/entity/Entity;	0	0
-net/minecraftforge/common/util/FakePlayer	hasEffect	(Lnet/minecraft/core/Holder;)Z	0	0
 net/minecraftforge/common/util/FakePlayer	removeAllEffects	()Z	0	0
 net/minecraftforge/common/util/FakePlayer	setInvulnerable	(Z)V	0	0
 net/minecraftforge/common/util/FakePlayer	setItemInHand	(Lnet/minecraft/world/InteractionHand;Lnet/minecraft/world/item/ItemStack;)V	0	0

@@ -386,3 +386,7 @@ extra void render(T be, float partial, com.mojang.blaze3d.vertex.PoseStack pose,
 class net/neoforged/neoforge/event/entity/player/PlayerInteractEvent$RightClickBlock extends net.neoforged.neoforge.event.entity.player.PlayerInteractEvent
 extra public RightClickBlock(net.minecraft.world.entity.player.Player p, net.minecraft.world.InteractionHand h, net.minecraft.core.BlockPos pos, net.minecraft.world.phys.BlockHitResult hit) { }
 member net/minecraft/server/level/ServerLevel.getBlockStates(Lnet/minecraft/world/phys/AABB;)Ljava/util/stream/Stream; = public java.util.stream.Stream<net.minecraft.world.level.block.state.BlockState> getBlockStates(net.minecraft.world.phys.AABB a) { return null; }
+# JEI 19 recipe category: generic methods so recompiled categories get their bridges (same descriptors the original jar's bridges have)
+class mezz/jei/api/recipe/category/IRecipeCategory<T> interface
+extra void setRecipe(mezz.jei.api.gui.builder.IRecipeLayoutBuilder b, T recipe, mezz.jei.api.recipe.IFocusGroup focuses);
+extra default void draw(T recipe, mezz.jei.api.gui.ingredient.IRecipeSlotsView slots, net.minecraft.client.gui.GuiGraphics g, double mouseX, double mouseY) { }

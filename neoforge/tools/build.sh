@@ -24,6 +24,8 @@ javac -g -nowarn --release 21 -proc:none -encoding UTF-8 -cp "$W/stubbin:$W/jar"
 java -cp "$W/tools:$CP" NeoPatcher "$W/jar" "$W/patched"
 java -cp "$W/tools:$CP" BcVerify "$W/out"
 java -cp "$W/tools:$CP" BcVerify "$W/patched"
+# A recompiled NeoForge class must keep every method (incl. generic bridges), field and supertype the original had.
+java -cp "$W/tools:$CP" MethodDiff "$W/jar" "$W/out"
 java -cp "$W/tools:$CP" ItfCheck "$ORIG" "$REPO/dist/drunkard-forge-1.20.1-1.2.0.jar" "$W/out"
 # Replace every recompiled class together with all of its old inner classes.
 (cd "$ROOT/src" && find . -name '*.java') | while read -r f; do
