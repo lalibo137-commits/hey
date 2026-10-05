@@ -146,7 +146,14 @@ public class PatronRenderer extends MobRenderer<BarPatron, PatronRenderer.Model>
       }
    }
 
+   private static boolean loggedLabel;
+
    private void label(Component text, PoseStack pose, MultiBufferSource buffers, int light, float y, float scale, int color, boolean background, float dx) {
+      if (!loggedLabel) {
+         loggedLabel = true;
+         com.mojang.logging.LogUtils.getLogger().info("[Drunkard pub] client: drawing customer labels (first one: \"" + text.getString() + "\")");
+      }
+
       pose.pushPose();
       pose.translate(0.0F, y, 0.0F);
       faceCamera(pose);

@@ -853,6 +853,10 @@ public final class BarTalk {
       }
 
       Conversation(BarTalk.Script script, BarPatron[] cast, BarTalk.Mood mood, @Nullable Player listener, List<BarPatron> crowd) {
+         if (cast.length > 0 && cast[0] != null) {
+            PubDebug.log(cast[0], "starts a conversation with " + (cast.length - 1) + " other(s)" + (listener != null ? " and the player" : ""));
+         }
+
          this.script = script;
          this.cast = cast;
          this.mood = mood;

@@ -45,6 +45,11 @@ public class WorkerRenderer extends MobRenderer<BarWorker, PlayerModel<BarWorker
       ((PlayerModel)this.model).rightArmPose = worker.getMainHandItem().isEmpty() ? ArmPose.EMPTY : ArmPose.ITEM;
       super.render(worker, yaw, partial, pose, buffers, light);
       if (!worker.speech().isEmpty() && !(this.entityRenderDispatcher.distanceToSqr(worker) > 1024.0)) {
+         if (!loggedSpeech) {
+            loggedSpeech = true;
+            com.mojang.logging.LogUtils.getLogger().info("[Drunkard pub] client: drawing barkeep speech (first: \"" + worker.speech() + "\")");
+         }
+
          pose.pushPose();
          pose.translate(0.0F, worker.getBbHeight() + 0.55F, 0.0F);
          faceCamera(pose);
@@ -66,6 +71,8 @@ public class WorkerRenderer extends MobRenderer<BarWorker, PlayerModel<BarWorker
    }
 
    // 1.20.5+ camera orientation is the 1.20.1 one turned 180 degrees about Y; undo that so labels and icons face the player as before.
+   private static boolean loggedSpeech;
+
    private void faceCamera(PoseStack pose) {
       pose.mulPose(this.entityRenderDispatcher.cameraOrientation());
       pose.mulPose(Axis.YP.rotationDegrees(180.0F));

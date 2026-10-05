@@ -171,6 +171,7 @@ public class BarWorker extends PathfinderMob {
 
    public void say(String line) {
       line = Medieval.speak(this.skin(), line);
+      PubDebug.log(this, "says \"" + line + "\"");
       this.entityData.set(SPEECH, line);
       this.speechTicks = 50 + line.length() * 2;
    }
@@ -214,6 +215,7 @@ public class BarWorker extends PathfinderMob {
          }
       }
 
+      PubDebug.log(this, "going home");
       if (line != null) {
          this.say(line);
       }
@@ -265,6 +267,7 @@ public class BarWorker extends PathfinderMob {
       } else {
          CashRegisterEntity r = this.register();
          if (r == null) {
+            PubDebug.log(this, "has no register (" + (this.register == null ? "not hired" : "register at " + this.register.toShortString() + " missing or unloaded") + "), leaving");
             if (this.quitTicks == 0) {
                this.quitTicks = 100;
             }
@@ -313,6 +316,7 @@ public class BarWorker extends PathfinderMob {
       }
 
       this.mapArea(r);
+      PubDebug.log(this, "scanned bar: taps " + this.taps.size() + ", racks " + this.racks.size() + ", glass shelves " + this.shelves.size() + ", floor cells " + this.floor.size() + ", behind-bar cells " + this.area.size() + ", home " + (this.areaHome == null ? "none" : this.areaHome.toShortString()));
    }
 
    private void mapArea(CashRegisterEntity r) {
@@ -621,6 +625,7 @@ public class BarWorker extends PathfinderMob {
             this.stillTicks = 0;
             this.plan(goal);
             if (++this.reroutes > 4) {
+               PubDebug.log(this, "stuck walking to " + goal.toShortString() + " during " + this.step + " (route " + this.route.size() + " cells)");
                return false;
             }
          }
@@ -821,6 +826,10 @@ public class BarWorker extends PathfinderMob {
                this.route.addFirst(start);
             }
          }
+      }
+
+      if (this.route.isEmpty() && !goal.equals(this.blockPosition())) {
+         PubDebug.log(this, "no route to " + goal.toShortString() + " (start " + (start == null ? "off the floor map" : start.toShortString()) + ", goal on floor map: " + this.floor.contains(goal) + ", floor cells " + this.floor.size() + ")");
       }
    }
 
@@ -1218,6 +1227,24 @@ public class BarWorker extends PathfinderMob {
          }
       }
 
+      if (!order.isEmpty()) {
+         List<String> skipped = new ArrayList<>();
+         for (BarPatron p : order) {
+            if (r.beingServed.contains(p.getUUID())) {
+               continue;
+            }
+
+            BarProducts.Product product = p.product();
+            boolean beer = product.kind() == BarProducts.Kind.BEER;
+            boolean shot = product.kind() == BarProducts.Kind.SPIRIT && p.wantsShot();
+            skipped.add(product.id() + (beer || shot ? (cost.get(p) == Double.MAX_VALUE ? " (no spot to serve from)" : "") : " (not a pint or shot: player serves it)"));
+         }
+
+         if (!skipped.isEmpty()) {
+            PubDebug.log(this, "not serving " + skipped.size() + " waiting order(s): " + String.join(", ", skipped));
+         }
+      }
+
       return false;
    }
 
@@ -1465,6 +1492,10 @@ public class BarWorker extends PathfinderMob {
    }
 
    private void next(BarWorker.Step s) {
+      if (s != this.step) {
+         PubDebug.log(this, "job " + this.step + " -> " + s + (this.customer != null ? " (serving a customer)" : "") + (this.pourFrom != null ? " pour from " + this.pourFrom.toShortString() : "") + (this.glassFrom != null ? " glass from " + this.glassFrom.toShortString() : ""));
+      }
+
       this.step = s;
       this.stepTicks = 0;
       this.handTicks = 0;
@@ -1473,6 +1504,12 @@ public class BarWorker extends PathfinderMob {
    }
 
    private void drop(CashRegisterEntity r) {
+      if (this.step != BarWorker.Step.IDLE) {
+         BarPatron t = this.target();
+         PubDebug.log(this, "stops " + this.step + " after " + this.stepTicks + " ticks: "
+            + (t == null ? "customer gone, served or no longer waiting" : (this.reroutes > 4 ? "could not walk there" : (this.stepTicks > 400 ? "took too long" : "finished or source/glass missing"))));
+      }
+
       this.idleSpot = null;
       this.idleWait = 60 + this.random.nextInt(160);
       if (!this.getMainHandItem().isEmpty()) {
@@ -1491,6 +1528,7 @@ public class BarWorker extends PathfinderMob {
    }
 
    private void complain(String line) {
+      PubDebug.log(this, "problem: " + line);
       if (this.complainCooldown == 0) {
          this.say(line);
          this.complainCooldown = 1200;

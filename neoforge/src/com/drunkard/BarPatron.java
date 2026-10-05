@@ -372,6 +372,10 @@ public class BarPatron extends PathfinderMob {
    }
 
    void setState(BarPatron.State state) {
+      if (state != this.state()) {
+         PubDebug.log(this, "state " + this.state() + " -> " + state + (this.product() != null ? " (order " + this.product().id() + ")" : ""));
+      }
+
       this.entityData.set(STATE, state.ordinal());
       this.walkTicks = 0;
    }
@@ -382,6 +386,7 @@ public class BarPatron extends PathfinderMob {
 
    public void say(String line) {
       line = Medieval.speak(this.skin(), line);
+      PubDebug.log(this, "says \"" + line + "\"");
       this.entityData.set(SPEECH, line);
       this.speechTicks = 50 + line.length() * 2;
    }
@@ -3213,6 +3218,7 @@ public class BarPatron extends PathfinderMob {
    }
 
    public void startDialogue(Player bartender) {
+      PubDebug.log(this, "opens a conversation with " + bartender.getName().getString());
       this.dialogueWith = bartender.getUUID();
       if (this.talk != null) {
          this.endTalk();

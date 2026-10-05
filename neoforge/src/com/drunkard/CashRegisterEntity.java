@@ -210,6 +210,35 @@ public class CashRegisterEntity extends SyncedEntity implements MenuProvider {
       return this.open && this.door != null && !this.stock.isEmpty() && this.level != null && this.doorSides() != null;
    }
 
+   // Periodic one-line status for the log, including why the pub is not taking customers.
+   void debugStatus(ServerLevel server) {
+      List<String> missing = new ArrayList<>();
+      if (!this.open) {
+         missing.add("closed");
+      }
+
+      if (this.door == null) {
+         missing.add("no door set");
+      } else if (this.doorSides() == null) {
+         missing.add("door at " + this.door.toShortString() + " is not a door any more");
+      }
+
+      if (this.stock.isEmpty()) {
+         missing.add("nothing stocked");
+      }
+
+      PubDebug.log(
+         this.worldPosition,
+         "register",
+         "status: " + (missing.isEmpty() ? "taking customers" : "not taking customers (" + String.join(", ", missing) + ")")
+            + "; customers " + this.patrons.size() + "/" + this.capacity
+            + ", seats " + this.seats.size()
+            + ", stocked " + this.stocked().size()
+            + ", barkeeps " + this.staff(server).size()
+            + ", style " + STYLES[this.style]
+      );
+   }
+
    public int patronCount() {
       return this.patrons.size();
    }
@@ -610,6 +639,7 @@ public class CashRegisterEntity extends SyncedEntity implements MenuProvider {
          BlockPos home = this.workerHome();
          BarWorker w = (BarWorker)((EntityType)Drunkard.BAR_WORKER.get()).create(server);
          if (w == null || home == null) {
+            PubDebug.log(this.worldPosition, "register", "cannot hire a barkeep: " + (home == null ? "no standing spot found behind the counter" : "entity could not be created"));
             return;
          }
 
@@ -828,6 +858,10 @@ public class CashRegisterEntity extends SyncedEntity implements MenuProvider {
    public static void tick(Level level, BlockPos pos, BlockState state, CashRegisterEntity register) {
       if (level instanceof ServerLevel server) {
          long now = level.getGameTime();
+         if (now % 600L == 0L) {
+            register.debugStatus(server);
+         }
+
          if ((Boolean)state.getValue(CashRegisterBlock.OPEN) != register.open) {
             level.setBlock(pos, (BlockState)state.setValue(CashRegisterBlock.OPEN, register.open), 3);
          }

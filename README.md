@@ -24,6 +24,14 @@
 
 On 1.21.1 the register's pub profile and the safe's money, owner and supplier deal travel on the dropped item as custom data, like the keg's beer. Seated customers sit at the same height as before.
 
+The NeoForge build logs pub diagnostics to the game log (`latest.log` / `debug.log`), each line starting with `[Drunkard pub]`:
+- Each register's status every 30 seconds, including why it is not taking customers.
+- Barkeep job changes, routing failures, abandoned orders with a reason, complaints, and orders it skips. A barkeep only pours pints from tap towers and shots from wine racks; customers' other orders are for the player.
+- Customer state changes, conversations, and everything barkeeps and customers say.
+- One line on the client confirming that customer labels and barkeep speech are being drawn.
+
+Repeats of the same line are suppressed for 10 seconds.
+
 `neoforge/` holds the port: `src/` (pub classes plus the changed NeoForge classes; the untouched NeoForge versions are in `original-src/`), `resources/` (overlay) and `tools/build.sh <original 1.1.0 jar>`, which rebuilds the jar and runs the bytecode, interface and link checks. `tools/verify/` holds the checks that also need the Minecraft mapping data (MCPConfig, Parchment, Yarn): API references, override signatures and renamed members.
 
 ## Layout
