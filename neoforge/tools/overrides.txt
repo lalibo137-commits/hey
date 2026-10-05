@@ -1,0 +1,388 @@
+# Hierarchy and generics the bytecode references do not reveal.
+class net/minecraft/world/entity/Entity
+class net/minecraft/world/entity/LivingEntity extends net.minecraft.world.entity.Entity
+class net/minecraft/world/entity/Mob extends net.minecraft.world.entity.LivingEntity
+class net/minecraft/world/entity/PathfinderMob extends net.minecraft.world.entity.Mob
+class net/minecraft/world/entity/player/Player extends net.minecraft.world.entity.LivingEntity
+class net/minecraft/server/level/ServerPlayer extends net.minecraft.world.entity.player.Player
+class net/minecraft/world/level/BlockGetter interface
+class net/minecraft/world/level/LevelReader interface extends net.minecraft.world.level.BlockGetter
+class net/minecraft/world/level/LevelAccessor interface extends net.minecraft.world.level.LevelReader
+class net/minecraft/world/level/Level implements net.minecraft.world.level.LevelAccessor
+class net/minecraft/server/level/ServerLevel extends net.minecraft.world.level.Level implements net.minecraft.world.level.WorldGenLevel
+class net/minecraft/core/Vec3i
+class net/minecraft/core/BlockPos extends net.minecraft.core.Vec3i
+class net/minecraft/core/BlockPos$MutableBlockPos extends net.minecraft.core.BlockPos
+class net/minecraft/world/level/block/state/StateHolder<O, S>
+class net/minecraft/world/level/block/state/BlockBehaviour$BlockStateBase extends net.minecraft.world.level.block.state.StateHolder<net.minecraft.world.level.block.Block, net.minecraft.world.level.block.state.BlockState>
+class net/minecraft/world/level/block/state/BlockState extends net.minecraft.world.level.block.state.BlockBehaviour.BlockStateBase
+class net/minecraft/world/level/block/state/BlockBehaviour
+class net/minecraft/world/level/block/Block extends net.minecraft.world.level.block.state.BlockBehaviour implements net.minecraft.world.level.ItemLike
+class net/minecraft/world/level/ItemLike interface
+class net/minecraft/world/item/Item implements net.minecraft.world.level.ItemLike
+class net/minecraft/world/level/block/HorizontalDirectionalBlock extends net.minecraft.world.level.block.Block
+class net/minecraft/world/level/block/DoorBlock extends net.minecraft.world.level.block.Block
+class net/minecraft/world/level/block/FenceGateBlock extends net.minecraft.world.level.block.HorizontalDirectionalBlock
+class net/minecraft/world/level/block/StairBlock extends net.minecraft.world.level.block.Block
+class net/minecraft/world/level/block/entity/BlockEntity
+class net/minecraft/world/level/block/state/properties/Property<T extends java.lang.Comparable<T>>
+class net/minecraft/world/level/block/state/properties/BooleanProperty extends net.minecraft.world.level.block.state.properties.Property<java.lang.Boolean>
+class net/minecraft/world/level/block/state/properties/EnumProperty<T extends java.lang.Enum<T>> extends net.minecraft.world.level.block.state.properties.Property<T>
+class net/minecraft/world/level/block/state/properties/DirectionProperty extends net.minecraft.world.level.block.state.properties.EnumProperty<net.minecraft.core.Direction>
+class net/minecraft/world/level/block/state/properties/IntegerProperty extends net.minecraft.world.level.block.state.properties.Property<java.lang.Integer>
+class net/minecraft/core/Direction enum
+class net/minecraft/core/Direction$Axis enum
+class net/minecraft/core/Direction$Plane enum implements java.lang.Iterable<net.minecraft.core.Direction>
+extra public java.util.Iterator<net.minecraft.core.Direction> iterator() { return null; }
+class net/minecraft/world/level/block/state/properties/Half enum
+class net/minecraft/world/level/block/state/properties/DoubleBlockHalf enum
+class net/minecraft/world/InteractionHand enum
+class net/minecraft/sounds/SoundSource enum
+class net/minecraft/world/entity/ai/control/MoveControl$Operation enum
+class net/minecraft/network/syncher/EntityDataAccessor<T>
+class net/minecraft/network/syncher/EntityDataSerializer<T> interface
+class net/minecraft/tags/TagKey<T>
+class net/minecraft/world/entity/EntityType<T extends net.minecraft.world.entity.Entity>
+class net/minecraft/world/entity/ai/control/Control interface
+class net/minecraft/world/entity/ai/control/MoveControl implements net.minecraft.world.entity.ai.control.Control
+class net/minecraft/world/entity/ai/control/LookControl implements net.minecraft.world.entity.ai.control.Control
+class net/minecraft/world/entity/ai/goal/Goal
+class net/minecraft/world/entity/ai/goal/FloatGoal extends net.minecraft.world.entity.ai.goal.Goal
+class net/minecraft/world/entity/ai/navigation/PathNavigation
+class net/minecraft/network/chat/MutableComponent implements net.minecraft.network.chat.Component
+class net/minecraft/core/particles/ParticleOptions interface
+class net/minecraft/core/particles/ParticleType<T extends net.minecraft.core.particles.ParticleOptions>
+class net/minecraft/core/particles/SimpleParticleType extends net.minecraft.core.particles.ParticleType<net.minecraft.core.particles.SimpleParticleType> implements net.minecraft.core.particles.ParticleOptions
+class net/minecraftforge/eventbus/api/Event
+class net/minecraftforge/event/entity/EntityEvent extends net.minecraftforge.eventbus.api.Event
+class net/minecraftforge/event/entity/living/LivingEvent extends net.minecraftforge.event.entity.EntityEvent
+class net/minecraftforge/event/entity/player/PlayerEvent extends net.minecraftforge.event.entity.living.LivingEvent
+class net/minecraftforge/event/entity/player/PlayerInteractEvent extends net.minecraftforge.event.entity.player.PlayerEvent
+class net/minecraftforge/event/entity/player/PlayerInteractEvent$RightClickBlock extends net.minecraftforge.event.entity.player.PlayerInteractEvent
+class net/minecraftforge/event/TickEvent extends net.minecraftforge.eventbus.api.Event
+class net/minecraftforge/event/TickEvent$PlayerTickEvent extends net.minecraftforge.event.TickEvent
+class net/minecraftforge/event/TickEvent$Phase enum
+class net/minecraftforge/eventbus/api/Event$Result enum
+class net/minecraft/world/Container interface
+class net/minecraft/world/WorldlyContainer interface extends net.minecraft.world.Container
+class net/minecraft/world/MenuProvider interface
+class net/minecraft/world/level/block/entity/BaseContainerBlockEntity extends net.minecraft.world.level.block.entity.BlockEntity implements net.minecraft.world.Container;net.minecraft.world.MenuProvider
+extra public net.minecraft.world.inventory.AbstractContainerMenu createMenu(int id, net.minecraft.world.entity.player.Inventory inv, net.minecraft.world.entity.player.Player p) { return null; }
+class net/minecraft/world/entity/ai/attributes/Attribute
+class net/minecraft/world/entity/ai/attributes/RangedAttribute extends net.minecraft.world.entity.ai.attributes.Attribute
+class net/minecraft/world/phys/HitResult
+class net/minecraft/world/phys/BlockHitResult extends net.minecraft.world.phys.HitResult
+class net/minecraft/world/damagesource/DamageSource
+class net/minecraft/world/InteractionResult enum
+class net/minecraft/core/NonNullList<E> extends java.util.AbstractList<E>
+skip net/minecraft/core/NonNullList.get(I)Ljava/lang/Object;
+skip net/minecraft/core/NonNullList.size()I
+extra public E get(int i) { return null; }
+extra public int size() { return 0; }
+class net/minecraft/util/RandomSource interface
+class net/minecraftforge/registries/RegistryObject<T> implements java.util.function.Supplier<T>
+skip net/minecraftforge/registries/RegistryObject.get()Ljava/lang/Object;
+extra public T get() { return null; }
+class net/minecraft/world/entity/ai/goal/GoalSelector
+
+member net/minecraft/network/syncher/SynchedEntityData.defineId(Ljava/lang/Class;Lnet/minecraft/network/syncher/EntityDataSerializer;)Lnet/minecraft/network/syncher/EntityDataAccessor; = public static <T> net.minecraft.network.syncher.EntityDataAccessor<T> defineId(Class<? extends net.minecraft.world.entity.Entity> c, net.minecraft.network.syncher.EntityDataSerializer<T> s) { return null; }
+member net/minecraft/network/syncher/SynchedEntityData.get(Lnet/minecraft/network/syncher/EntityDataAccessor;)Ljava/lang/Object; = public <T> T get(net.minecraft.network.syncher.EntityDataAccessor<T> a) { return null; }
+member net/minecraft/network/syncher/SynchedEntityData.set(Lnet/minecraft/network/syncher/EntityDataAccessor;Ljava/lang/Object;)V = public <T> void set(net.minecraft.network.syncher.EntityDataAccessor<T> a, T v) { }
+member net/minecraft/network/syncher/SynchedEntityData.define(Lnet/minecraft/network/syncher/EntityDataAccessor;Ljava/lang/Object;)V = public <T> void define(net.minecraft.network.syncher.EntityDataAccessor<T> a, T v) { }
+member net/minecraft/network/syncher/EntityDataSerializers.INTLnet/minecraft/network/syncher/EntityDataSerializer; = public static net.minecraft.network.syncher.EntityDataSerializer<Integer> INT;
+member net/minecraft/network/syncher/EntityDataSerializers.STRINGLnet/minecraft/network/syncher/EntityDataSerializer; = public static net.minecraft.network.syncher.EntityDataSerializer<String> STRING;
+member net/minecraft/world/level/block/state/StateHolder.getValue(Lnet/minecraft/world/level/block/state/properties/Property;)Ljava/lang/Comparable; = public <T extends Comparable<T>> T getValue(net.minecraft.world.level.block.state.properties.Property<T> p) { return null; }
+member net/minecraft/world/level/block/state/BlockState.getValue(Lnet/minecraft/world/level/block/state/properties/Property;)Ljava/lang/Comparable; = public <T extends Comparable<T>> T getValue(net.minecraft.world.level.block.state.properties.Property<T> p) { return null; }
+member net/minecraft/world/level/block/state/StateHolder.setValue(Lnet/minecraft/world/level/block/state/properties/Property;Ljava/lang/Comparable;)Ljava/lang/Object; = public <T extends Comparable<T>, V extends T> S setValue(net.minecraft.world.level.block.state.properties.Property<T> p, V v) { return null; }
+member net/minecraft/world/level/block/state/BlockState.setValue(Lnet/minecraft/world/level/block/state/properties/Property;Ljava/lang/Comparable;)Ljava/lang/Object; = public <T extends Comparable<T>, V extends T> Object setValue(net.minecraft.world.level.block.state.properties.Property<T> p, V v) { return null; }
+member net/minecraft/world/level/block/state/StateHolder.hasProperty(Lnet/minecraft/world/level/block/state/properties/Property;)Z = public <T extends Comparable<T>> boolean hasProperty(net.minecraft.world.level.block.state.properties.Property<T> p) { return false; }
+member net/minecraft/world/level/block/state/BlockState.hasProperty(Lnet/minecraft/world/level/block/state/properties/Property;)Z = public <T extends Comparable<T>> boolean hasProperty(net.minecraft.world.level.block.state.properties.Property<T> p) { return false; }
+member net/minecraft/world/level/Level.getEntitiesOfClass(Ljava/lang/Class;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;)Ljava/util/List; = public <T extends net.minecraft.world.entity.Entity> java.util.List<T> getEntitiesOfClass(Class<T> c, net.minecraft.world.phys.AABB b, java.util.function.Predicate<? super T> p) { return null; }
+member net/minecraft/world/level/Level.getEntitiesOfClass(Ljava/lang/Class;Lnet/minecraft/world/phys/AABB;)Ljava/util/List; = public <T extends net.minecraft.world.entity.Entity> java.util.List<T> getEntitiesOfClass(Class<T> c, net.minecraft.world.phys.AABB b) { return null; }
+member net/minecraft/server/level/ServerLevel.getEntitiesOfClass(Ljava/lang/Class;Lnet/minecraft/world/phys/AABB;)Ljava/util/List; = public <T extends net.minecraft.world.entity.Entity> java.util.List<T> getEntitiesOfClass(Class<T> c, net.minecraft.world.phys.AABB b) { return null; }
+member net/minecraft/core/BlockPos.betweenClosed(Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/BlockPos;)Ljava/lang/Iterable; = public static Iterable<net.minecraft.core.BlockPos> betweenClosed(net.minecraft.core.BlockPos a, net.minecraft.core.BlockPos b) { return null; }
+member net/minecraft/world/phys/shapes/VoxelShape.toAabbs()Ljava/util/List; = public java.util.List<net.minecraft.world.phys.AABB> toAabbs() { return null; }
+member net/minecraft/tags/BlockTags.WOODEN_DOORSLnet/minecraft/tags/TagKey; = public static net.minecraft.tags.TagKey<net.minecraft.world.level.block.Block> WOODEN_DOORS;
+member net/minecraft/world/level/block/state/BlockBehaviour$BlockStateBase.is(Lnet/minecraft/tags/TagKey;)Z = public boolean is(net.minecraft.tags.TagKey<net.minecraft.world.level.block.Block> t) { return false; }
+member net/minecraft/world/level/block/state/BlockState.is(Lnet/minecraft/tags/TagKey;)Z = public boolean is(net.minecraft.tags.TagKey<net.minecraft.world.level.block.Block> t) { return false; }
+member net/minecraft/world/level/block/HorizontalDirectionalBlock.FACINGLnet/minecraft/world/level/block/state/properties/DirectionProperty; = public static net.minecraft.world.level.block.state.properties.DirectionProperty FACING;
+class net/minecraft/world/level/block/entity/BlockEntityType<T extends net.minecraft.world.level.block.entity.BlockEntity>
+class net/minecraft/nbt/Tag interface
+class net/minecraft/nbt/CompoundTag implements net.minecraft.nbt.Tag
+class net/minecraft/nbt/ListTag extends java.util.AbstractList<net.minecraft.nbt.Tag> implements net.minecraft.nbt.Tag
+extra public net.minecraft.nbt.Tag get(int i) { return null; }
+extra public int size() { return 0; }
+class net/minecraft/nbt/LongTag implements net.minecraft.nbt.Tag
+class net/minecraft/nbt/IntTag implements net.minecraft.nbt.Tag
+class net/minecraft/nbt/StringTag implements net.minecraft.nbt.Tag
+member net/minecraft/core/NonNullList.withSize(ILjava/lang/Object;)Lnet/minecraft/core/NonNullList; = public static <E> NonNullList<E> withSize(int n, E e) { return null; }
+member net/minecraft/core/NonNullList.create()Lnet/minecraft/core/NonNullList; = public static <E> NonNullList<E> create() { return null; }
+class net/minecraft/client/gui/screens/Screen
+class net/minecraft/client/gui/screens/inventory/AbstractContainerScreen<T extends net.minecraft.world.inventory.AbstractContainerMenu> extends net.minecraft.client.gui.screens.Screen
+member net/minecraft/client/gui/screens/inventory/AbstractContainerScreen.menuLnet/minecraft/world/inventory/AbstractContainerMenu; = public T menu;
+class net/minecraft/client/gui/components/Button$OnPress interface
+class net/minecraft/world/inventory/MenuConstructor interface
+class net/minecraft/world/MenuProvider interface extends net.minecraft.world.inventory.MenuConstructor
+skip net/minecraft/world/MenuProvider.createMenu(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/entity/player/Player;)Lnet/minecraft/world/inventory/AbstractContainerMenu;
+class net/minecraft/world/inventory/ContainerData interface
+class net/minecraft/world/inventory/SimpleContainerData implements net.minecraft.world.inventory.ContainerData
+class net/minecraft/world/level/block/state/StateDefinition$Builder<O, S>
+class net/minecraft/world/level/block/entity/BlockEntityTicker<T extends net.minecraft.world.level.block.entity.BlockEntity> interface
+class net/minecraft/world/entity/ai/navigation/GroundPathNavigation extends net.minecraft.world.entity.ai.navigation.PathNavigation
+class net/minecraft/world/level/block/JukeboxBlock extends net.minecraft.world.level.block.Block
+class net/minecraft/core/particles/ItemParticleOption implements net.minecraft.core.particles.ParticleOptions
+class net/minecraft/core/particles/BlockParticleOption implements net.minecraft.core.particles.ParticleOptions
+class net/minecraft/core/Position interface
+class net/minecraft/world/phys/Vec3 implements net.minecraft.core.Position
+class net/minecraft/world/level/ServerLevelAccessor interface extends net.minecraft.world.level.LevelAccessor
+class net/minecraft/world/level/WorldGenLevel interface extends net.minecraft.world.level.ServerLevelAccessor
+member net/minecraft/world/level/Level.players()Ljava/util/List; = public java.util.List<? extends net.minecraft.world.entity.player.Player> players() { return null; }
+member net/minecraft/server/level/ServerLevel.players()Ljava/util/List; = public java.util.List<net.minecraft.server.level.ServerPlayer> players() { return null; }
+#member net/minecraftforge/network/NetworkHooks.openScreen(Lnet/minecraft/server/level/ServerPlayer;Lnet/minecraft/world/MenuProvider;Ljava/util/function/Consumer;)V = public static void openScreen(net.minecraft.server.level.ServerPlayer a, net.minecraft.world.MenuProvider b, java.util.function.Consumer<net.minecraft.network.FriendlyByteBuf> c) { }
+skip net/minecraft/server/level/ServerLevel.getEntitiesOfClass(Ljava/lang/Class;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;)Ljava/util/List;
+skip net/minecraft/client/multiplayer/ClientLevel.getEntitiesOfClass(Ljava/lang/Class;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;)Ljava/util/List;
+class net/minecraft/client/multiplayer/ClientLevel extends net.minecraft.world.level.Level
+class net/minecraft/client/gui/components/events/GuiEventListener interface
+class net/minecraft/client/gui/components/Renderable interface
+class net/minecraft/client/gui/components/AbstractWidget implements net.minecraft.client.gui.components.events.GuiEventListener;net.minecraft.client.gui.components.Renderable
+class net/minecraft/client/gui/components/AbstractButton extends net.minecraft.client.gui.components.AbstractWidget
+class net/minecraft/client/gui/components/Button extends net.minecraft.client.gui.components.AbstractButton
+member net/minecraft/client/gui/screens/inventory/AbstractContainerScreen.addRenderableWidget(Lnet/minecraft/client/gui/components/events/GuiEventListener;)Lnet/minecraft/client/gui/components/events/GuiEventListener; = public <T extends net.minecraft.client.gui.components.events.GuiEventListener> T addRenderableWidget(T a) { return null; }
+class net/minecraft/core/Holder<T> interface
+class net/minecraft/core/Holder$Reference<T> implements net.minecraft.core.Holder<T>
+class net/minecraft/network/chat/FormattedText interface
+class net/minecraft/network/chat/Component interface extends net.minecraft.network.chat.FormattedText
+member net/minecraft/world/level/block/BaseEntityBlock.createTickerHelper(Lnet/minecraft/world/level/block/entity/BlockEntityType;Lnet/minecraft/world/level/block/entity/BlockEntityType;Lnet/minecraft/world/level/block/entity/BlockEntityTicker;)Lnet/minecraft/world/level/block/entity/BlockEntityTicker; = public static <E extends net.minecraft.world.level.block.entity.BlockEntity, A extends net.minecraft.world.level.block.entity.BlockEntity> net.minecraft.world.level.block.entity.BlockEntityTicker<A> createTickerHelper(net.minecraft.world.level.block.entity.BlockEntityType<A> a, net.minecraft.world.level.block.entity.BlockEntityType<E> b, net.minecraft.world.level.block.entity.BlockEntityTicker<? super E> c) { return null; }
+class net/minecraft/world/SimpleMenuProvider implements net.minecraft.world.MenuProvider
+class net/minecraft/client/resources/sounds/SoundInstance interface
+class net/minecraft/client/resources/sounds/AbstractSoundInstance implements net.minecraft.client.resources.sounds.SoundInstance
+class net/minecraft/client/resources/sounds/SimpleSoundInstance extends net.minecraft.client.resources.sounds.AbstractSoundInstance
+member net/minecraft/world/level/block/entity/BlockEntityTicker.tick(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/entity/BlockEntity;)V = void tick(net.minecraft.world.level.Level a, net.minecraft.core.BlockPos b, net.minecraft.world.level.block.state.BlockState c, T d);
+
+# ---- NeoForge 1.21.1 additions
+class net/neoforged/neoforge/common/util/FakePlayer extends net.minecraft.server.level.ServerPlayer
+class net/minecraft/client/player/AbstractClientPlayer extends net.minecraft.world.entity.player.Player
+class net/minecraft/client/player/LocalPlayer extends net.minecraft.client.player.AbstractClientPlayer
+class com/mojang/serialization/Codec<A> interface implements com.mojang.serialization.Encoder<A>;com.mojang.serialization.Decoder<A>
+class com/mojang/serialization/Encoder<A> interface
+class com/mojang/serialization/Decoder<A> interface
+class com/mojang/serialization/MapCodec<A>
+class net/minecraft/network/codec/StreamCodec<B, V> interface implements net.minecraft.network.codec.StreamDecoder<B, V>;net.minecraft.network.codec.StreamEncoder<B, V>
+class net/minecraft/network/codec/StreamDecoder<I, T> interface
+class net/minecraft/network/codec/StreamEncoder<O, T> interface
+class net/minecraft/network/protocol/common/custom/CustomPacketPayload interface
+class net/minecraft/network/protocol/common/custom/CustomPacketPayload$Type<T extends net.minecraft.network.protocol.common.custom.CustomPacketPayload>
+class net/minecraft/world/item/crafting/RecipeInput interface
+class net/minecraft/world/item/crafting/CraftingInput implements net.minecraft.world.item.crafting.RecipeInput
+class net/minecraft/world/item/crafting/SingleRecipeInput implements net.minecraft.world.item.crafting.RecipeInput
+class net/minecraft/world/item/crafting/Recipe<T extends net.minecraft.world.item.crafting.RecipeInput> interface
+class net/minecraft/world/item/crafting/CraftingRecipe interface extends net.minecraft.world.item.crafting.Recipe<net.minecraft.world.item.crafting.CraftingInput>
+class net/minecraft/world/item/crafting/ShapelessRecipe implements net.minecraft.world.item.crafting.CraftingRecipe
+class net/minecraft/world/item/crafting/CustomRecipe implements net.minecraft.world.item.crafting.CraftingRecipe
+class net/minecraft/world/item/crafting/RecipeSerializer<T extends net.minecraft.world.item.crafting.Recipe<?>> interface
+class net/minecraft/world/item/crafting/SimpleCraftingRecipeSerializer<T extends net.minecraft.world.item.crafting.CraftingRecipe> implements net.minecraft.world.item.crafting.RecipeSerializer<T>
+class net/minecraft/world/item/crafting/RecipeType<T extends net.minecraft.world.item.crafting.Recipe<?>> interface
+class net/minecraft/world/item/crafting/RecipeHolder<T extends net.minecraft.world.item.crafting.Recipe<?>>
+class net/minecraft/world/InteractionResultHolder<T>
+class net/minecraft/world/inventory/MenuType<T extends net.minecraft.world.inventory.AbstractContainerMenu>
+class net/neoforged/neoforge/registries/DeferredRegister<T>
+class net/neoforged/neoforge/registries/DeferredHolder<R, T extends R> implements java.util.function.Supplier<T>;net.minecraft.core.Holder<R>
+class net/neoforged/neoforge/registries/DeferredItem<T extends net.minecraft.world.item.Item> extends net.neoforged.neoforge.registries.DeferredHolder<net.minecraft.world.item.Item, T>
+class net/neoforged/neoforge/registries/DeferredBlock<T extends net.minecraft.world.level.block.Block> extends net.neoforged.neoforge.registries.DeferredHolder<net.minecraft.world.level.block.Block, T>
+class net/neoforged/fml/common/asm/enumextension/EnumProxy<E extends java.lang.Enum<E>>
+class net/minecraft/client/particle/ParticleProvider<T extends net.minecraft.core.particles.ParticleOptions> interface
+class net/minecraft/client/renderer/blockentity/BlockEntityRenderer<T extends net.minecraft.world.level.block.entity.BlockEntity> interface
+class net/minecraft/client/renderer/blockentity/BlockEntityRendererProvider<T extends net.minecraft.world.level.block.entity.BlockEntity> interface
+class net/minecraft/client/model/Model
+class net/minecraft/client/model/EntityModel<T extends net.minecraft.world.entity.Entity> extends net.minecraft.client.model.Model
+class net/minecraft/client/model/AgeableListModel<T extends net.minecraft.world.entity.Entity> extends net.minecraft.client.model.EntityModel<T>
+class net/minecraft/client/model/HumanoidModel<T extends net.minecraft.world.entity.LivingEntity> extends net.minecraft.client.model.AgeableListModel<T>
+class net/minecraft/client/model/PlayerModel<T extends net.minecraft.world.entity.LivingEntity> extends net.minecraft.client.model.HumanoidModel<T>
+class net/minecraft/client/renderer/entity/RenderLayerParent<T extends net.minecraft.world.entity.Entity, M extends net.minecraft.client.model.EntityModel<T>> interface
+class net/minecraft/client/renderer/entity/layers/RenderLayer<T extends net.minecraft.world.entity.Entity, M extends net.minecraft.client.model.EntityModel<T>>
+class net/minecraft/client/renderer/entity/EntityRenderer<T extends net.minecraft.world.entity.Entity>
+class net/minecraft/client/renderer/entity/LivingEntityRenderer<T extends net.minecraft.world.entity.LivingEntity, M extends net.minecraft.client.model.EntityModel<T>> extends net.minecraft.client.renderer.entity.EntityRenderer<T> implements net.minecraft.client.renderer.entity.RenderLayerParent<T, M>
+class net/minecraft/client/renderer/entity/MobRenderer<T extends net.minecraft.world.entity.Mob, M extends net.minecraft.client.model.EntityModel<T>> extends net.minecraft.client.renderer.entity.LivingEntityRenderer<T, M>
+class net/minecraft/client/renderer/entity/player/PlayerRenderer extends net.minecraft.client.renderer.entity.LivingEntityRenderer<net.minecraft.client.player.AbstractClientPlayer, net.minecraft.client.model.PlayerModel<net.minecraft.client.player.AbstractClientPlayer>>
+class net/minecraft/client/renderer/entity/EntityRendererProvider<T extends net.minecraft.world.entity.Entity> interface
+class net/minecraft/core/HolderLookup$Provider interface
+class net/minecraft/core/RegistryAccess interface extends net.minecraft.core.HolderLookup.Provider
+class net/minecraft/core/RegistryAccess$Frozen interface extends net.minecraft.core.RegistryAccess
+class net/minecraft/world/entity/player/Inventory implements net.minecraft.world.Container
+class mezz/jei/api/ingredients/IIngredientType<T> interface
+class mezz/jei/api/ingredients/IIngredientTypeWithSubtypes<B, I> interface extends mezz.jei.api.ingredients.IIngredientType<I>
+class org/joml/Vector3fc interface
+class org/joml/Vector3f implements org.joml.Vector3fc
+class org/joml/Quaternionfc interface
+class org/joml/Quaternionf implements org.joml.Quaternionfc
+class net/minecraft/world/entity/projectile/Projectile extends net.minecraft.world.entity.Entity
+class net/minecraft/world/entity/projectile/ThrowableProjectile extends net.minecraft.world.entity.projectile.Projectile
+class net/minecraft/world/entity/projectile/ThrowableItemProjectile extends net.minecraft.world.entity.projectile.ThrowableProjectile
+class net/minecraft/world/level/block/BushBlock extends net.minecraft.world.level.block.Block
+class net/minecraft/world/level/block/CropBlock extends net.minecraft.world.level.block.BushBlock
+class net/minecraft/world/level/block/BaseEntityBlock extends net.minecraft.world.level.block.Block
+class net/neoforged/neoforge/registries/DeferredHolder<R, T extends R> implements java.util.function.Supplier<T>;net.minecraft.core.Holder<R>
+skip net/neoforged/neoforge/registries/DeferredHolder.get()Ljava/lang/Object;
+extra public T get() { return null; }
+member net/neoforged/bus/api/IEventBus.addListener(Ljava/util/function/Consumer;)V = <T extends net.neoforged.bus.api.Event> void addListener(java.util.function.Consumer<T> c);
+class net/neoforged/bus/api/IEventBus interface
+member net/neoforged/neoforge/registries/DeferredRegister.register(Ljava/lang/String;Ljava/util/function/Supplier;)Lnet/neoforged/neoforge/registries/DeferredHolder; = public <I extends T> net.neoforged.neoforge.registries.DeferredHolder<T, I> register(String n, java.util.function.Supplier<? extends I> s) { return null; }
+member net/neoforged/neoforge/registries/DeferredRegister.create(Lnet/minecraft/core/Registry;Ljava/lang/String;)Lnet/neoforged/neoforge/registries/DeferredRegister; = public static <T> DeferredRegister<T> create(net.minecraft.core.Registry<T> r, String ns) { return null; }
+member net/neoforged/neoforge/registries/DeferredRegister.create(Lnet/minecraft/resources/ResourceKey;Ljava/lang/String;)Lnet/neoforged/neoforge/registries/DeferredRegister; = public static <T> DeferredRegister<T> create(net.minecraft.resources.ResourceKey<? extends net.minecraft.core.Registry<T>> r, String ns) { return null; }
+class net/minecraft/core/Registry<T> interface
+class net/minecraft/core/WritableRegistry<T> interface extends net.minecraft.core.Registry<T>
+class net/minecraft/core/DefaultedRegistry<T> interface extends net.minecraft.core.Registry<T>
+class net/minecraft/resources/ResourceKey<T>
+member net/neoforged/neoforge/common/extensions/IMenuTypeExtension.create(Lnet/neoforged/neoforge/network/IContainerFactory;)Lnet/minecraft/world/inventory/MenuType; = static <T extends net.minecraft.world.inventory.AbstractContainerMenu> net.minecraft.world.inventory.MenuType<T> create(net.neoforged.neoforge.network.IContainerFactory<T> f) { return null; }
+class net/neoforged/neoforge/network/IContainerFactory<T extends net.minecraft.world.inventory.AbstractContainerMenu> interface
+member net/neoforged/neoforge/network/IContainerFactory.create(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/network/RegistryFriendlyByteBuf;)Lnet/minecraft/world/inventory/AbstractContainerMenu; = T create(int id, net.minecraft.world.entity.player.Inventory inv, net.minecraft.network.RegistryFriendlyByteBuf buf);
+class net/minecraft/network/FriendlyByteBuf
+class net/minecraft/network/RegistryFriendlyByteBuf extends net.minecraft.network.FriendlyByteBuf
+member net/minecraft/world/entity/player/Inventory.itemsLnet/minecraft/core/NonNullList; = public net.minecraft.core.NonNullList<net.minecraft.world.item.ItemStack> items;
+member net/minecraft/world/entity/player/Inventory.offhandLnet/minecraft/core/NonNullList; = public net.minecraft.core.NonNullList<net.minecraft.world.item.ItemStack> offhand;
+member net/minecraft/world/entity/player/Inventory.armorLnet/minecraft/core/NonNullList; = public net.minecraft.core.NonNullList<net.minecraft.world.item.ItemStack> armor;
+member net/minecraft/world/item/Item.appendHoverText(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/Item$TooltipContext;Ljava/util/List;Lnet/minecraft/world/item/TooltipFlag;)V = public void appendHoverText(net.minecraft.world.item.ItemStack a, net.minecraft.world.item.Item.TooltipContext b, java.util.List<net.minecraft.network.chat.Component> c, net.minecraft.world.item.TooltipFlag d) { }
+member net/minecraft/world/level/block/Block.appendHoverText(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/Item$TooltipContext;Ljava/util/List;Lnet/minecraft/world/item/TooltipFlag;)V = public void appendHoverText(net.minecraft.world.item.ItemStack a, net.minecraft.world.item.Item.TooltipContext b, java.util.List<net.minecraft.network.chat.Component> c, net.minecraft.world.item.TooltipFlag d) { }
+member net/minecraft/world/level/block/CropBlock.createBlockStateDefinition(Lnet/minecraft/world/level/block/state/StateDefinition$Builder;)V = protected void createBlockStateDefinition(net.minecraft.world.level.block.state.StateDefinition.Builder<net.minecraft.world.level.block.Block, net.minecraft.world.level.block.state.BlockState> b) { }
+member net/minecraft/world/level/block/Block.createBlockStateDefinition(Lnet/minecraft/world/level/block/state/StateDefinition$Builder;)V = protected void createBlockStateDefinition(net.minecraft.world.level.block.state.StateDefinition.Builder<net.minecraft.world.level.block.Block, net.minecraft.world.level.block.state.BlockState> b) { }
+member net/minecraft/world/item/crafting/RecipeSerializer.SHAPELESS_RECIPELnet/minecraft/world/item/crafting/RecipeSerializer; = public static net.minecraft.world.item.crafting.RecipeSerializer<net.minecraft.world.item.crafting.ShapelessRecipe> SHAPELESS_RECIPE = null;
+member net/minecraft/world/item/crafting/RecipeSerializer.codec()Lcom/mojang/serialization/MapCodec; = com.mojang.serialization.MapCodec<T> codec();
+member net/minecraft/world/item/crafting/RecipeSerializer.streamCodec()Lnet/minecraft/network/codec/StreamCodec; = net.minecraft.network.codec.StreamCodec<net.minecraft.network.RegistryFriendlyByteBuf, T> streamCodec();
+member net/minecraft/core/registries/BuiltInRegistries.BLOCKLnet/minecraft/core/DefaultedRegistry; = public static net.minecraft.core.DefaultedRegistry<net.minecraft.world.level.block.Block> BLOCK;
+member net/minecraft/core/registries/BuiltInRegistries.ITEMLnet/minecraft/core/DefaultedRegistry; = public static net.minecraft.core.DefaultedRegistry<net.minecraft.world.item.Item> ITEM;
+member net/minecraft/core/registries/BuiltInRegistries.ENTITY_TYPELnet/minecraft/core/DefaultedRegistry; = public static net.minecraft.core.DefaultedRegistry<net.minecraft.world.entity.EntityType<?>> ENTITY_TYPE;
+member net/minecraft/core/registries/BuiltInRegistries.BLOCK_ENTITY_TYPELnet/minecraft/core/Registry; = public static net.minecraft.core.Registry<net.minecraft.world.level.block.entity.BlockEntityType<?>> BLOCK_ENTITY_TYPE;
+member net/minecraft/core/registries/BuiltInRegistries.MENULnet/minecraft/core/Registry; = public static net.minecraft.core.Registry<net.minecraft.world.inventory.MenuType<?>> MENU;
+member net/minecraft/core/registries/BuiltInRegistries.MOB_EFFECTLnet/minecraft/core/Registry; = public static net.minecraft.core.Registry<net.minecraft.world.effect.MobEffect> MOB_EFFECT;
+member net/minecraft/core/registries/BuiltInRegistries.PARTICLE_TYPELnet/minecraft/core/Registry; = public static net.minecraft.core.Registry<net.minecraft.core.particles.ParticleType<?>> PARTICLE_TYPE;
+member net/minecraft/core/registries/BuiltInRegistries.RECIPE_SERIALIZERLnet/minecraft/core/Registry; = public static net.minecraft.core.Registry<net.minecraft.world.item.crafting.RecipeSerializer<?>> RECIPE_SERIALIZER;
+member net/minecraft/core/registries/Registries.CREATIVE_MODE_TABLnet/minecraft/resources/ResourceKey; = public static net.minecraft.resources.ResourceKey<net.minecraft.core.Registry<net.minecraft.world.item.CreativeModeTab>> CREATIVE_MODE_TAB;
+class net/neoforged/bus/api/Event
+class net/minecraft/world/item/crafting/SimpleCraftingRecipeSerializer<T extends net.minecraft.world.item.crafting.CraftingRecipe> implements net.minecraft.world.item.crafting.RecipeSerializer<T>
+extra public com.mojang.serialization.MapCodec<T> codec() { return null; }
+extra public net.minecraft.network.codec.StreamCodec<net.minecraft.network.RegistryFriendlyByteBuf, T> streamCodec() { return null; }
+class net/minecraft/world/SimpleContainer implements net.minecraft.world.Container
+class net/minecraft/server/packs/resources/ResourceProvider interface
+class net/minecraft/server/packs/resources/ResourceManager interface implements net.minecraft.server.packs.resources.ResourceProvider
+class net/minecraft/server/packs/resources/PreparableReloadListener interface
+class net/minecraft/server/packs/resources/ResourceManagerReloadListener interface implements net.minecraft.server.packs.resources.PreparableReloadListener
+class net/minecraft/world/level/BlockAndTintGetter interface implements net.minecraft.world.level.BlockGetter
+class net/minecraft/world/level/CollisionGetter interface implements net.minecraft.world.level.BlockGetter
+class net/minecraft/world/level/LevelReader interface implements net.minecraft.world.level.BlockAndTintGetter;net.minecraft.world.level.CollisionGetter
+class net/minecraft/world/entity/item/ItemEntity extends net.minecraft.world.entity.Entity
+class org/joml/Matrix4fc interface
+class org/joml/Matrix4f implements org.joml.Matrix4fc
+class org/joml/Matrix3fc interface
+class org/joml/Matrix3f implements org.joml.Matrix3fc
+class net/minecraft/client/renderer/MultiBufferSource interface
+class net/minecraft/client/renderer/MultiBufferSource$BufferSource implements net.minecraft.client.renderer.MultiBufferSource
+class net/minecraft/client/renderer/entity/layers/ItemInHandLayer<T extends net.minecraft.world.entity.LivingEntity, M extends net.minecraft.client.model.EntityModel<T>> extends net.minecraft.client.renderer.entity.layers.RenderLayer<T, M>
+class net/minecraft/client/renderer/entity/layers/PlayerItemInHandLayer<T extends net.minecraft.world.entity.player.Player, M extends net.minecraft.client.model.EntityModel<T>> extends net.minecraft.client.renderer.entity.layers.ItemInHandLayer<T, M>
+class net/minecraft/client/model/HumanoidModel$ArmPose enum
+class net/minecraft/client/particle/Particle
+class net/minecraft/client/particle/SingleQuadParticle extends net.minecraft.client.particle.Particle
+class net/minecraft/client/particle/TextureSheetParticle extends net.minecraft.client.particle.SingleQuadParticle
+class net/minecraft/world/level/block/CampfireBlock extends net.minecraft.world.level.block.BaseEntityBlock
+class net/minecraft/client/multiplayer/ClientLevel extends net.minecraft.world.level.Level
+class net/minecraft/world/item/crafting/RecipeType<T extends net.minecraft.world.item.crafting.Recipe<?>> interface
+member net/minecraft/server/level/ServerPlayer.openMenu(Lnet/minecraft/world/MenuProvider;Ljava/util/function/Consumer;)Ljava/util/OptionalInt; = public java.util.OptionalInt openMenu(net.minecraft.world.MenuProvider a0, java.util.function.Consumer<net.minecraft.network.RegistryFriendlyByteBuf> a1) { return null; }
+member net/neoforged/neoforge/registries/DeferredRegister.getEntries()Ljava/util/Collection; = public java.util.Collection<net.neoforged.neoforge.registries.DeferredHolder<T, ? extends T>> getEntries() { return null; }
+member net/minecraft/core/Holder.unwrapKey()Ljava/util/Optional; = default java.util.Optional<net.minecraft.resources.ResourceKey<T>> unwrapKey() { return null; }
+member net/minecraft/world/level/block/state/BlockBehaviour$Properties.lightLevel(Ljava/util/function/ToIntFunction;)Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties; = public net.minecraft.world.level.block.state.BlockBehaviour.Properties lightLevel(java.util.function.ToIntFunction<net.minecraft.world.level.block.state.BlockState> a0) { return null; }
+class mezz/jei/api/recipe/RecipeType<T>
+class mezz/jei/api/recipe/category/IRecipeCategory<T> interface
+class mezz/jei/api/gui/drawable/IDrawable interface
+class mezz/jei/api/gui/drawable/IDrawableStatic interface implements mezz.jei.api.gui.drawable.IDrawable
+member mezz/jei/api/recipe/RecipeType.create(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Class;)Lmezz/jei/api/recipe/RecipeType; = public static <T> mezz.jei.api.recipe.RecipeType<T> create(String a, String b, Class<? extends T> c) { return null; }
+member net/minecraft/server/level/ServerLevel.getBiome(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/core/Holder; = public net.minecraft.core.Holder<net.minecraft.world.level.biome.Biome> getBiome(net.minecraft.core.BlockPos a0) { return null; }
+class net/minecraft/world/level/biome/Biome
+member net/neoforged/neoforge/client/event/EntityRenderersEvent$AddLayers.getSkins()Ljava/util/Set; = public java.util.Set<net.minecraft.client.resources.PlayerSkin.Model> getSkins() { return null; }
+member net/neoforged/neoforge/client/event/EntityRenderersEvent$RegisterRenderers.registerBlockEntityRenderer(Lnet/minecraft/world/level/block/entity/BlockEntityType;Lnet/minecraft/client/renderer/blockentity/BlockEntityRendererProvider;)V = public <T extends net.minecraft.world.level.block.entity.BlockEntity> void registerBlockEntityRenderer(net.minecraft.world.level.block.entity.BlockEntityType<? extends T> a0, net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider<T> a1) { }
+member net/neoforged/neoforge/client/event/EntityRenderersEvent$RegisterRenderers.registerEntityRenderer(Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/client/renderer/entity/EntityRendererProvider;)V = public <T extends net.minecraft.world.entity.Entity> void registerEntityRenderer(net.minecraft.world.entity.EntityType<? extends T> a0, net.minecraft.client.renderer.entity.EntityRendererProvider<T> a1) { }
+member net/neoforged/neoforge/client/event/RegisterMenuScreensEvent.register(Lnet/minecraft/world/inventory/MenuType;Lnet/minecraft/client/gui/screens/MenuScreens$ScreenConstructor;)V = public <M extends net.minecraft.world.inventory.AbstractContainerMenu, U extends net.minecraft.client.gui.screens.Screen & net.minecraft.client.gui.screens.inventory.MenuAccess<M>> void register(net.minecraft.world.inventory.MenuType<? extends M> a0, net.minecraft.client.gui.screens.MenuScreens.ScreenConstructor<M, U> a1) { }
+class net/minecraft/client/gui/screens/MenuScreens$ScreenConstructor<T extends net.minecraft.world.inventory.AbstractContainerMenu, U extends net.minecraft.client.gui.screens.Screen & net.minecraft.client.gui.screens.inventory.MenuAccess<T>> interface
+member net/minecraft/client/gui/screens/MenuScreens$ScreenConstructor.create(Lnet/minecraft/world/inventory/AbstractContainerMenu;Lnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/network/chat/Component;)Lnet/minecraft/client/gui/screens/Screen; = U create(T a0, net.minecraft.world.entity.player.Inventory a1, net.minecraft.network.chat.Component a2);
+class net/minecraft/client/gui/screens/inventory/MenuAccess<T extends net.minecraft.world.inventory.AbstractContainerMenu> interface
+class net/minecraft/client/gui/screens/inventory/AbstractContainerScreen<T extends net.minecraft.world.inventory.AbstractContainerMenu> extends net.minecraft.client.gui.screens.Screen implements net.minecraft.client.gui.screens.inventory.MenuAccess<T>
+member net/minecraft/client/multiplayer/ClientLevel.players()Ljava/util/List; = public java.util.List<net.minecraft.client.player.AbstractClientPlayer> players() { return null; }
+class net/minecraft/client/renderer/entity/ThrownItemRenderer<T extends net.minecraft.world.entity.Entity> extends net.minecraft.client.renderer.entity.EntityRenderer<T>
+class net/minecraft/client/renderer/entity/NoopRenderer<T extends net.minecraft.world.entity.Entity> extends net.minecraft.client.renderer.entity.EntityRenderer<T>
+class net/minecraft/client/resources/PlayerSkin$Model enum
+class net/minecraft/client/renderer/entity/EntityRendererProvider<T extends net.minecraft.world.entity.Entity> interface
+member net/minecraft/client/renderer/entity/EntityRendererProvider.create(Lnet/minecraft/client/renderer/entity/EntityRendererProvider$Context;)Lnet/minecraft/client/renderer/entity/EntityRenderer; = net.minecraft.client.renderer.entity.EntityRenderer<T> create(net.minecraft.client.renderer.entity.EntityRendererProvider.Context a0);
+class net/minecraft/client/renderer/blockentity/BlockEntityRendererProvider<T extends net.minecraft.world.level.block.entity.BlockEntity> interface
+member net/minecraft/client/renderer/blockentity/BlockEntityRendererProvider.create(Lnet/minecraft/client/renderer/blockentity/BlockEntityRendererProvider$Context;)Lnet/minecraft/client/renderer/blockentity/BlockEntityRenderer; = net.minecraft.client.renderer.blockentity.BlockEntityRenderer<T> create(net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context a0);
+# ---- pub port: constructors / access verified against 1.21.1 (vanilla API, unchanged since 1.20) ----
+class net/minecraft/world/entity/PathfinderMob extends net.minecraft.world.entity.Mob
+extra protected PathfinderMob(net.minecraft.world.entity.EntityType<? extends net.minecraft.world.entity.PathfinderMob> t, net.minecraft.world.level.Level l) { }
+member net/minecraft/world/entity/PathfinderMob.customServerAiStep()V = protected void customServerAiStep() { }
+member net/minecraft/world/entity/PathfinderMob.pushEntities()V = protected void pushEntities() { }
+class net/minecraft/world/entity/ai/control/MoveControl implements net.minecraft.world.entity.ai.control.Control
+extra public MoveControl(net.minecraft.world.entity.Mob m) { }
+class net/minecraft/world/entity/ai/goal/FloatGoal extends net.minecraft.world.entity.ai.goal.Goal
+extra public FloatGoal(net.minecraft.world.entity.Mob m) { }
+class net/minecraft/client/gui/components/Button$OnPress interface
+extra void onPress(net.minecraft.client.gui.components.Button b);
+member net/minecraft/client/gui/screens/inventory/AbstractContainerScreen.init()V = protected void init() { }
+member net/minecraft/client/gui/screens/inventory/AbstractContainerScreen.containerTick()V = protected void containerTick() { }
+class net/minecraft/core/particles/BlockParticleOption implements net.minecraft.core.particles.ParticleOptions
+extra public BlockParticleOption(net.minecraft.core.particles.ParticleType<net.minecraft.core.particles.BlockParticleOption> t, net.minecraft.world.level.block.state.BlockState s) { }
+class net/minecraft/core/particles/ItemParticleOption implements net.minecraft.core.particles.ParticleOptions
+extra public ItemParticleOption(net.minecraft.core.particles.ParticleType<net.minecraft.core.particles.ItemParticleOption> t, net.minecraft.world.item.ItemStack s) { }
+class net/minecraft/world/SimpleMenuProvider implements net.minecraft.world.MenuProvider
+extra public SimpleMenuProvider(net.minecraft.world.inventory.MenuConstructor c, net.minecraft.network.chat.Component t) { }
+extra public net.minecraft.world.inventory.AbstractContainerMenu createMenu(int id, net.minecraft.world.entity.player.Inventory inv, net.minecraft.world.entity.player.Player p) { return null; }
+class net/minecraft/world/inventory/MenuConstructor interface
+extra net.minecraft.world.inventory.AbstractContainerMenu createMenu(int id, net.minecraft.world.entity.player.Inventory inv, net.minecraft.world.entity.player.Player p);
+class net/neoforged/neoforge/event/entity/EntityAttributeCreationEvent extends net.neoforged.bus.api.Event
+class net/minecraft/world/inventory/MenuType<T extends net.minecraft.world.inventory.AbstractContainerMenu>
+extra public MenuType(net.minecraft.world.inventory.MenuType.MenuSupplier<T> c, net.minecraft.world.flag.FeatureFlagSet f) { }
+class net/minecraft/world/inventory/MenuType$MenuSupplier<T extends net.minecraft.world.inventory.AbstractContainerMenu> interface
+extra T create(int id, net.minecraft.world.entity.player.Inventory inv);
+class net/minecraft/network/syncher/SynchedEntityData$Builder
+extra public <T> net.minecraft.network.syncher.SynchedEntityData.Builder define(net.minecraft.network.syncher.EntityDataAccessor<T> a, T v) { return this; }
+class net/minecraft/world/entity/LivingEntity extends net.minecraft.world.entity.Entity
+extra protected void defineSynchedData(net.minecraft.network.syncher.SynchedEntityData.Builder b) { }
+class net/minecraft/world/level/block/SlabBlock extends net.minecraft.world.level.block.Block
+class net/minecraft/world/level/block/TrapDoorBlock extends net.minecraft.world.level.block.HorizontalDirectionalBlock
+class net/minecraft/world/level/block/FenceBlock extends net.minecraft.world.level.block.Block
+class net/minecraft/world/ItemInteractionResult enum
+class net/minecraft/client/renderer/texture/DynamicTexture extends net.minecraft.client.renderer.texture.AbstractTexture
+class net/minecraft/client/model/PlayerModel<T extends net.minecraft.world.entity.LivingEntity> extends net.minecraft.client.model.HumanoidModel<T>
+extra public PlayerModel(net.minecraft.client.model.geom.ModelPart root, boolean slim) { }
+class net/minecraft/client/renderer/entity/MobRenderer<T extends net.minecraft.world.entity.Mob, M extends net.minecraft.client.model.EntityModel<T>> extends net.minecraft.client.renderer.entity.LivingEntityRenderer<T, M>
+extra public MobRenderer(net.minecraft.client.renderer.entity.EntityRendererProvider.Context c, M model, float shadow) { }
+class net/minecraft/client/renderer/entity/layers/ItemInHandLayer<T extends net.minecraft.world.entity.LivingEntity, M extends net.minecraft.client.model.EntityModel<T>> extends net.minecraft.client.renderer.entity.layers.RenderLayer<T, M>
+extra public ItemInHandLayer(net.minecraft.client.renderer.entity.RenderLayerParent<T, M> parent, net.minecraft.client.renderer.ItemInHandRenderer r) { }
+# ---- 1.21.1 renderer/model generics (class membership checked against tsrg 1.21.1 via intermediary/Yarn) ----
+skip net/minecraft/client/renderer/entity/MobRenderer.render(Lnet/minecraft/world/entity/Entity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V
+skip net/minecraft/client/renderer/entity/MobRenderer.getRenderOffset(Lnet/minecraft/world/entity/Entity;F)Lnet/minecraft/world/phys/Vec3;
+skip net/minecraft/client/model/PlayerModel.setupAnim(Lnet/minecraft/world/entity/Entity;FFFFF)V
+class net/minecraft/client/renderer/entity/EntityRenderer<T extends net.minecraft.world.entity.Entity>
+extra public void render(T e, float yaw, float partial, com.mojang.blaze3d.vertex.PoseStack pose, net.minecraft.client.renderer.MultiBufferSource buffers, int light) { }
+extra public net.minecraft.resources.ResourceLocation getTextureLocation(T e) { return null; }
+extra protected boolean shouldShowName(T e) { return false; }
+extra public net.minecraft.world.phys.Vec3 getRenderOffset(T e, float partial) { return null; }
+class net/minecraft/client/renderer/entity/LivingEntityRenderer<T extends net.minecraft.world.entity.LivingEntity, M extends net.minecraft.client.model.EntityModel<T>> extends net.minecraft.client.renderer.entity.EntityRenderer<T> implements net.minecraft.client.renderer.entity.RenderLayerParent<T, M>
+extra public void render(T e, float yaw, float partial, com.mojang.blaze3d.vertex.PoseStack pose, net.minecraft.client.renderer.MultiBufferSource buffers, int light) { }
+extra protected void scale(T e, com.mojang.blaze3d.vertex.PoseStack pose, float partial) { }
+extra protected boolean shouldShowName(T e) { return false; }
+class net/minecraft/client/renderer/entity/MobRenderer<T extends net.minecraft.world.entity.Mob, M extends net.minecraft.client.model.EntityModel<T>> extends net.minecraft.client.renderer.entity.LivingEntityRenderer<T, M>
+extra protected boolean shouldShowName(T e) { return false; }
+class net/minecraft/client/model/EntityModel<T extends net.minecraft.world.entity.Entity> extends net.minecraft.client.model.Model
+extra public void setupAnim(T e, float limbSwing, float limbSwingAmount, float age, float headYaw, float headPitch) { }
+extra public void prepareMobModel(T e, float limbSwing, float limbSwingAmount, float partial) { }
+class net/minecraft/client/model/HumanoidModel<T extends net.minecraft.world.entity.LivingEntity> extends net.minecraft.client.model.AgeableListModel<T>
+extra public void setupAnim(T e, float limbSwing, float limbSwingAmount, float age, float headYaw, float headPitch) { }
+extra public void prepareMobModel(T e, float limbSwing, float limbSwingAmount, float partial) { }
+class net/minecraft/client/model/PlayerModel<T extends net.minecraft.world.entity.LivingEntity> extends net.minecraft.client.model.HumanoidModel<T>
+extra public void setupAnim(T e, float limbSwing, float limbSwingAmount, float age, float headYaw, float headPitch) { }
+class net/minecraft/client/renderer/entity/layers/RenderLayer<T extends net.minecraft.world.entity.Entity, M extends net.minecraft.client.model.EntityModel<T>>
+extra public void render(com.mojang.blaze3d.vertex.PoseStack pose, net.minecraft.client.renderer.MultiBufferSource buffers, int light, T e, float limbSwing, float limbSwingAmount, float partial, float age, float headYaw, float headPitch) { }
+class net/minecraft/client/renderer/entity/layers/ItemInHandLayer<T extends net.minecraft.world.entity.LivingEntity, M extends net.minecraft.client.model.EntityModel<T>> extends net.minecraft.client.renderer.entity.layers.RenderLayer<T, M>
+extra public void render(com.mojang.blaze3d.vertex.PoseStack pose, net.minecraft.client.renderer.MultiBufferSource buffers, int light, T e, float limbSwing, float limbSwingAmount, float partial, float age, float headYaw, float headPitch) { }
+class net/minecraft/client/renderer/blockentity/BlockEntityRenderer<T extends net.minecraft.world.level.block.entity.BlockEntity> interface
+extra void render(T be, float partial, com.mojang.blaze3d.vertex.PoseStack pose, net.minecraft.client.renderer.MultiBufferSource buffers, int light, int overlay);
+class net/neoforged/neoforge/event/entity/player/PlayerInteractEvent$RightClickBlock extends net.neoforged.neoforge.event.entity.player.PlayerInteractEvent
+extra public RightClickBlock(net.minecraft.world.entity.player.Player p, net.minecraft.world.InteractionHand h, net.minecraft.core.BlockPos pos, net.minecraft.world.phys.BlockHitResult hit) { }
+member net/minecraft/server/level/ServerLevel.getBlockStates(Lnet/minecraft/world/phys/AABB;)Ljava/util/stream/Stream; = public java.util.stream.Stream<net.minecraft.world.level.block.state.BlockState> getBlockStates(net.minecraft.world.phys.AABB a) { return null; }

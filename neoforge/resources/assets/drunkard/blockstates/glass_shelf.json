@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "drunkard:block/glass_shelf",
+      "y": 0
+    },
+    "facing=east": {
+      "model": "drunkard:block/glass_shelf",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "drunkard:block/glass_shelf",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "drunkard:block/glass_shelf",
+      "y": 270
+    }
+  }
+}

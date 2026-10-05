@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "drunkard:brew_kettle",
+    "drunkard:distillation_still",
+    "drunkard:copper_pipe",
+    "drunkard:transfer_pump",
+    "drunkard:bar_stool",
+    "drunkard:cash_register",
+    "drunkard:safe"
+  ]
+}
