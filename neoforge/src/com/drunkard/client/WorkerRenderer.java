@@ -2,6 +2,7 @@ package com.drunkard.client;
 
 import com.drunkard.BarWorker;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -46,7 +47,7 @@ public class WorkerRenderer extends MobRenderer<BarWorker, PlayerModel<BarWorker
       if (!worker.speech().isEmpty() && !(this.entityRenderDispatcher.distanceToSqr(worker) > 1024.0)) {
          pose.pushPose();
          pose.translate(0.0F, worker.getBbHeight() + 0.55F, 0.0F);
-         pose.mulPose(this.entityRenderDispatcher.cameraOrientation());
+         faceCamera(pose);
          pose.scale(-0.025F, -0.025F, 0.025F);
          Font font = this.getFont();
          List<FormattedCharSequence> lines = font.split(Component.literal(worker.speech()), 120);
@@ -62,5 +63,11 @@ public class WorkerRenderer extends MobRenderer<BarWorker, PlayerModel<BarWorker
 
          pose.popPose();
       }
+   }
+
+   // 1.20.5+ camera orientation is the 1.20.1 one turned 180 degrees about Y; undo that so labels and icons face the player as before.
+   private void faceCamera(PoseStack pose) {
+      pose.mulPose(this.entityRenderDispatcher.cameraOrientation());
+      pose.mulPose(Axis.YP.rotationDegrees(180.0F));
    }
 }

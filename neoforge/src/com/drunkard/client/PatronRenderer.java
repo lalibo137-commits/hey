@@ -97,7 +97,7 @@ public class PatronRenderer extends MobRenderer<BarPatron, PatronRenderer.Model>
             if (ordered) {
                pose.pushPose();
                pose.translate(0.0F, top - 0.02F + bob, 0.0F);
-               pose.mulPose(this.entityRenderDispatcher.cameraOrientation());
+               faceCamera(pose);
                pose.translate(0.24F, 0.0F, 0.0F);
                pose.scale(0.58F, 0.58F, 0.58F);
                Minecraft.getInstance()
@@ -112,7 +112,7 @@ public class PatronRenderer extends MobRenderer<BarPatron, PatronRenderer.Model>
          } else if (patron.state() == BarPatron.State.AWAIT_SHOT && patron.product() != null) {
             pose.pushPose();
             pose.translate(0.0F, top + 0.2F + bob, 0.0F);
-            pose.mulPose(this.entityRenderDispatcher.cameraOrientation());
+            faceCamera(pose);
             pose.scale(0.55F, 0.55F, 0.55F);
             Minecraft.getInstance()
                .getItemRenderer()
@@ -149,7 +149,7 @@ public class PatronRenderer extends MobRenderer<BarPatron, PatronRenderer.Model>
    private void label(Component text, PoseStack pose, MultiBufferSource buffers, int light, float y, float scale, int color, boolean background, float dx) {
       pose.pushPose();
       pose.translate(0.0F, y, 0.0F);
-      pose.mulPose(this.entityRenderDispatcher.cameraOrientation());
+      faceCamera(pose);
       pose.translate(dx, 0.0F, 0.0F);
       pose.scale(-0.025F * scale, -0.025F * scale, 0.025F * scale);
       Matrix4f matrix = pose.last().pose();
@@ -470,5 +470,11 @@ public class PatronRenderer extends MobRenderer<BarPatron, PatronRenderer.Model>
             }
          }
       }
+   }
+
+   // 1.20.5+ camera orientation is the 1.20.1 one turned 180 degrees about Y; undo that so labels and icons face the player as before.
+   private void faceCamera(PoseStack pose) {
+      pose.mulPose(this.entityRenderDispatcher.cameraOrientation());
+      pose.mulPose(Axis.YP.rotationDegrees(180.0F));
    }
 }
