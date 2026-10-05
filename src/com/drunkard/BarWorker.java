@@ -112,8 +112,6 @@ public class BarWorker extends PathfinderMob {
    @Nullable
    private BlockPos myHome;
    @Nullable
-   private BlockPos arrivedAt;
-   @Nullable
    private BlockPos restockShelf;
    private int restockTicks;
 
@@ -587,27 +585,19 @@ public class BarWorker extends PathfinderMob {
       }
    }
 
-   private double pace() {
-      return 0.91 + (double)(this.m_20148_().getLeastSignificantBits() & 255L) / 255.0 * 0.18;
-   }
-
    private boolean goTo(BlockPos goal, double speed) {
       Vec3 target = Vec3.m_82539_(goal);
       double dx = target.f_82479_ - this.m_20185_();
       double dz = target.f_82481_ - this.m_20189_();
-      double left = dx * dx + dz * dz;
       boolean level = Math.abs(target.f_82480_ - this.m_20186_()) < 1.2;
-      if (level && (left < 0.0625 || goal.equals(this.arrivedAt) && left < 0.36)) {
-         this.arrivedAt = goal;
+      if (level && dx * dx + dz * dz < 0.0625) {
          this.halt();
          return true;
-      } else if (level && left < 1.69 && this.standing.contains(goal)) {
+      } else if (level && dx * dx + dz * dz < 1.69 && this.standing.contains(goal)) {
          // A colleague is standing right there; stop beside them instead of walking into them.
-         this.arrivedAt = goal;
          this.halt();
          return true;
       } else {
-         this.arrivedAt = null;
          if (!goal.equals(this.routeGoal)) {
             this.routeGoal = goal;
             this.plan(goal);
@@ -630,118 +620,14 @@ public class BarWorker extends PathfinderMob {
             this.route.poll();
          }
 
-         this.skipReached();
-         next = this.route.peek();
          this.doors();
-         BlockPos aimAt = this.aimNode();
-         double aimY = aimAt == null ? target.f_82480_ : this.height(aimAt);
-         Vec3 aim = aimAt == null
+         double aimY = next == null ? target.f_82480_ : this.height(next);
+         Vec3 aim = next == null
             ? target
-            : new Vec3((double)aimAt.m_123341_() + 0.5, Double.isNaN(aimY) ? (double)aimAt.m_123342_() : aimY, (double)aimAt.m_123343_() + 0.5);
-         double pace = speed * this.pace();
-         if (this.route.size() <= 1 && left < 2.25) {
-            // Ease into the final spot rather than stopping dead.
-            pace *= Math.max(0.4, Math.sqrt(left) / 1.5);
-         }
-
-         this.m_21566_().m_6849_(aim.f_82479_, aim.f_82480_, aim.f_82481_, pace);
-         this.m_21563_().m_24946_(aim.f_82479_, this.m_20188_(), aim.f_82481_);
+            : new Vec3((double)next.m_123341_() + 0.5, Double.isNaN(aimY) ? (double)next.m_123342_() : aimY, (double)next.m_123343_() + 0.5);
+         this.m_21566_().m_6849_(aim.f_82479_, aim.f_82480_, aim.f_82481_, speed);
          return false;
       }
-   }
-
-   // Drop route nodes we already walked past while cutting a corner.
-   private void skipReached() {
-      BlockPos at = this.m_20183_();
-      int i = 0;
-      int reached = -1;
-
-      for (BlockPos c : this.route) {
-         if (i >= 6) {
-            break;
-         }
-
-         if (c.m_123341_() == at.m_123341_() && c.m_123343_() == at.m_123343_() && Math.abs(c.m_123342_() - at.m_123342_()) <= 1) {
-            reached = i;
-         }
-
-         i++;
-      }
-
-      for (int k = 0; k < reached; k++) {
-         this.route.poll();
-      }
-   }
-
-   // Furthest upcoming route node we can walk to in a straight line, so paths curve instead of zig-zagging.
-   @Nullable
-   private BlockPos aimNode() {
-      BlockPos best = this.route.peek();
-      if (best != null && !this.passage(best)) {
-         int i = 0;
-
-         for (BlockPos c : this.route) {
-            if (i++ >= 6 || c.m_123342_() != best.m_123342_() || this.passage(c) || !this.clearLine(c)) {
-               break;
-            }
-
-            best = c;
-         }
-
-         return best;
-      } else {
-         return best;
-      }
-   }
-
-   private boolean clearLine(BlockPos c) {
-      double sx = this.m_20185_();
-      double sz = this.m_20189_();
-      double ex = (double)c.m_123341_() + 0.5;
-      double ez = (double)c.m_123343_() + 0.5;
-      double len = Math.sqrt((ex - sx) * (ex - sx) + (ez - sz) * (ez - sz));
-      if (len < 0.001) {
-         return true;
-      } else {
-         double h = this.cachedHeight(c);
-         if (Double.isNaN(h)) {
-            return false;
-         } else {
-            double nx = -(ez - sz) / len * 0.35;
-            double nz = (ex - sx) / len * 0.35;
-            int steps = (int)Math.ceil(len / 0.25);
-
-            for (int step = 0; step <= steps; step++) {
-               double t = (double)step / (double)steps;
-               double x = sx + (ex - sx) * t;
-               double z = sz + (ez - sz) * t;
-
-               for (int side = -1; side <= 1; side++) {
-                  BlockPos p = new BlockPos((int)Math.floor(x + nx * (double)side), c.m_123342_(), (int)Math.floor(z + nz * (double)side));
-                  if (!this.floor.contains(p) || this.passage(p) || this.standing.contains(p)) {
-                     return false;
-                  }
-
-                  double ph = this.cachedHeight(p);
-                  if (Double.isNaN(ph) || Math.abs(ph - h) > 0.3) {
-                     return false;
-                  }
-               }
-            }
-
-            return true;
-         }
-      }
-   }
-
-   private double cachedHeight(BlockPos p) {
-      Double h = this.heights.get(p);
-      if (h == null) {
-         h = this.height(p);
-         this.heights.put(p.m_7949_(), h);
-      }
-
-      return h;
    }
 
    private void doors() {
@@ -1545,33 +1431,22 @@ public class BarWorker extends PathfinderMob {
    }
 
    private static final class WalkControl extends MoveControl {
-      private float pace;
-
       WalkControl(Mob mob) {
          super(mob);
       }
 
       public void m_8126_() {
          if (this.f_24981_ != Operation.MOVE_TO) {
-            this.pace = 0.0F;
             super.m_8126_();
          } else {
             this.f_24981_ = Operation.WAIT;
             double dx = this.f_24975_ - this.f_24974_.m_20185_();
             double dz = this.f_24977_ - this.f_24974_.m_20189_();
-            if (!(dx * dx + dz * dz < 2.5E-7) && !(this.f_24978_ <= 0.0)) {
-               // Turn gradually and slow down while turning, then ease up to full pace.
-               float want = (float)(Mth.m_14136_(dz, dx) * 180.0F / (float)Math.PI) - 90.0F;
-               float off = Math.abs(Mth.m_14177_(want - this.f_24974_.m_146908_()));
-               this.f_24974_.m_146922_(this.m_24991_(this.f_24974_.m_146908_(), want, off > 100.0F ? 30.0F : 18.0F));
-               float after = Math.abs(Mth.m_14177_(want - this.f_24974_.m_146908_()));
-               float facing = after < 25.0F ? 1.0F : Math.max(0.1F, (float)Math.cos(Math.toRadians((double)after)));
-               float target = (float)(this.f_24978_ * this.f_24974_.m_21133_(Attributes.f_22279_)) * facing;
-               this.pace = this.pace + (target - this.pace) * (target > this.pace ? 0.2F : 0.35F);
-               this.f_24974_.m_7910_(this.pace);
-            } else {
-               this.pace = 0.0F;
+            if (dx * dx + dz * dz < 2.5E-7) {
                this.f_24974_.m_21564_(0.0F);
+            } else {
+               this.f_24974_.m_146922_(this.m_24991_(this.f_24974_.m_146908_(), (float)(Mth.m_14136_(dz, dx) * 180.0F / (float)Math.PI) - 90.0F, 90.0F));
+               this.f_24974_.m_7910_((float)(this.f_24978_ * this.f_24974_.m_21133_(Attributes.f_22279_)));
             }
          }
       }
