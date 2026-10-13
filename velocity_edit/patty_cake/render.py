@@ -28,7 +28,7 @@ def src_pos(i,t):
 SA=np.array([x[0] for x in SEGS])
 
 enc=subprocess.Popen(['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','rgb24','-s',f'{W}x{H}','-r',str(OUT_FPS),'-i','-',
-     '-c:v','libx264','-preset','medium','-crf','14','-pix_fmt','yuv420p','sb6_raw.mp4'],stdin=subprocess.PIPE)
+     '-c:v','libx264','-preset','medium','-crf','14','-pix_fmt','yuv420p','sb7_raw.mp4'],stdin=subprocess.PIPE)
 cur=-1; prev=None
 def load(i):
     raw=subprocess.run(['ffmpeg','-v','error','-i',f'clip_{i}.mp4','-f','rawvideo','-pix_fmt','rgb24','-'],capture_output=True).stdout
@@ -37,15 +37,19 @@ for o in range(int(T_END*OUT_FPS)):
     t=o/OUT_FPS; i=min(max(np.searchsorted(SA,t,side='right')-1,0),len(SEGS)-1)
     if i!=cur: fr=load(i); cur=i; prev=None
     a,b,w0,w1,c0,c1=SEGS[i]; s=ramp(t,a,b,w0,w1); f1=(s-starts[i])*CF; f1=float(np.clip(f1,0,len(fr)-1.001))
-    f0=f1 if prev is None else f1-0.7*(f1-prev); prev=f1
+    f0=f1 if prev is None else f1-0.4*(f1-prev); prev=f1
     lo,hi=int(np.floor(min(f0,f1))),int(np.floor(max(f0,f1)))
     if hi<=lo:
         w=f1-np.floor(f1); k=int(np.floor(f1)); img=cv2.addWeighted(fr[k],1-w,fr[min(k+1,len(fr)-1)],w,0)
     else:
         img=np.clip(fr[lo:hi+1].astype(np.float32).mean(0)+0.5,0,255).astype(np.uint8)
-    # only effect: a slight push-in that follows the playback speed (no shake/flash/RGB)
-    sp=float(vnat(t)[0])/(BASE+AMP); z=1+0.045*min(sp,1.0)
-    if z>1.002:
-        M=np.float32([[z,0,(1-z)*W/2],[0,z,(1-z)*H/2]]); img=cv2.warpAffine(img,M,(W,H),flags=cv2.INTER_CUBIC)
+    # aggressive eased push-in toward the subject over the shot + smooth bump on each 808
+    fx,fy,z0,z1=ZOOM[i]; u=(t-a)/(b-a); e=0.8*(1-(1-u)**2.4)+0.2*u
+    z=z0+(z1-z0)*e
+    d=t-hits; m=(d>-0.12)&(d<0.6)
+    z*=1+0.07*(STR[m]*np.where(d[m]<0,np.exp(-(d[m]/0.06)**2),np.exp(-d[m]/0.22))).sum()
+    cx,cy=fx*W,fy*H
+    M=np.float32([[z,0,cx-z*cx],[0,z,cy-z*cy]])
+    img=cv2.warpAffine(img,M,(W,H),flags=cv2.INTER_CUBIC,borderMode=cv2.BORDER_REFLECT)
     enc.stdin.write(np.ascontiguousarray(img).tobytes())
 enc.stdin.close(); enc.wait()
