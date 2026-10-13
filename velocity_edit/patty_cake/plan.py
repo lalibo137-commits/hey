@@ -44,8 +44,7 @@ def Nat(t): return np.interp(t,tt,N)
 B=np.concatenate([[0],hits,[T_END]])
 assert len(B)-1==len(CLIPS),(len(B)-1,len(CLIPS))
 Q=0.7895/4
-MODES={0:('rewind',1.43),4:('rewind',4.39),7:('rewind',7.55),8:('break',9.56),10:('rewind',10.70),13:('rewind',13.86),
-       15:('rewind',15.25),17:('stutter',None),18:('rewind',17.02),20:('rewind',18.41),22:('rewind',19.59),23:('stutter',None)}
+MODES={}
 INNER=[1.43,4.39,7.55,9.56,10.70,13.86,15.25,16.43,17.02,18.41,19.59,20.18]
 SEGS=[]
 for i,(c0,c1,pc) in enumerate(CLIPS):
