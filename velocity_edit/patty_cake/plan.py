@@ -33,7 +33,7 @@ CLIPS=[(3.17,4.15,3.6),     # car pulls up
        (67.46,69.0,68.2),   # Patrick helmet
        (18.05,20.2,19.3),   # yellow car
        (142.94,144.66,143.9)]# SpongeBob celebrates
-BASE=0.22; AMP=4.2; RISE=0.08; FALL=0.12
+BASE=0.18; AMP=7.0; RISE=0.06; FALL=0.09
 def vnat(t):
     d=np.atleast_1d(t)[:,None]-hits[None,:]
     return BASE+AMP*(STR[None,:]*np.where(d<0,np.exp(-(d/RISE)**2),np.exp(-(d/FALL)**2))).sum(1)
@@ -43,9 +43,13 @@ N=np.concatenate([[0],np.cumsum(vnat(tt[:-1]+0.5/OUT_FPS))/OUT_FPS])
 def Nat(t): return np.interp(t,tt,N)
 B=np.concatenate([[0],hits,[T_END]])
 assert len(B)-1==len(CLIPS),(len(B)-1,len(CLIPS))
+Q=0.7895/4
+MODES={0:('rewind',1.43),4:('rewind',4.39),7:('rewind',7.55),8:('break',9.56),10:('rewind',10.70),13:('rewind',13.86),
+       15:('rewind',15.25),17:('stutter',None),18:('rewind',17.02),20:('rewind',18.41),22:('rewind',19.59),23:('stutter',None)}
+INNER=[1.43,4.39,7.55,9.56,10.70,13.86,15.25,16.43,17.02,18.41,19.59,20.18]
 SEGS=[]
 for i,(c0,c1,pc) in enumerate(CLIPS):
-    a,b=B[i],B[i+1]; n=Nat(b)-Nat(a); L=min(n*1.25,c1-c0)
+    a,b=B[i],B[i+1]; n=Nat(b)-Nat(a); L=min(n*1.0,c1-c0)
     w0=min(max(pc-L/2,c0),c1-L); SEGS.append((a,b,w0,w0+L,c0,c1))
 if __name__=='__main__':
     for a,b,w0,w1,c0,c1 in SEGS: print(f"out {a:5.2f}-{b:5.2f} src {w0:7.2f}-{w1:7.2f} mult {(w1-w0)/(Nat(b)-Nat(a)):.2f}")
