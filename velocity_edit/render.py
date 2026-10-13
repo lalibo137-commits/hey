@@ -1,82 +1,104 @@
-# TikTok-style velocity edit: slow-mo base, speed whips up and peaks ON each hard kick, eases back to slow.
+# TikTok velocity edit v4: a cut on (almost) every hard kick, slow-mo between, speed whip peaking on the kick,
+# plus flash / RGB split / shake / zoom punch on each hit.
 import numpy as np, subprocess, sys, cv2
 W,H=1280,720; SRC_FPS=120; OUT_FPS=60
-T_END=31.6                      # output length (audio 1:03 -> 1:34.6)
-SRC_END=29.95                   # last usable source time
-# hard 808 kicks (seconds after 1:03), from low-band attack strength on the 8th-note grid (90 BPM, phase 0.114)
+T_END=31.6
 grid=np.load('hits_all.npy')
 cand=sorted([(a,t) for t,a in grid if a>=2.5 and t<T_END-0.6],reverse=True)
 hits=[]
-for a,t in cand:                # strongest first, keep >=0.6s apart
+for a,t in cand:
     if all(abs(t-h)>=0.6 for h in hits): hits.append(t)
-hits=np.array(sorted(hits))
-# source cuts (original video time) to snap onto kicks
-cuts=[0.835,1.58,3.125,4.625,5.083,5.79,7.335,8.295,9.295,12.71,13.295,14.29,14.755,15.375,16.71,18.585,20.88,22.42,24.0,25.585,26.875,28.46]
-BASE=0.3; AMP=3.2; RISE=0.08; FALL=0.17
+hits=sorted(hits); HARD=set(hits)
+# fill long gaps with snare hits (backbeat: 0.448 + 1.334k) so slow-mo never drags
+snares=[0.448+1.334*k for k in range(30) if 0.448+1.334*k<T_END-0.6]
+for _ in range(3):
+    for sn in snares:
+        hs=sorted(hits); i=np.searchsorted(hs,sn)
+        prv=hs[i-1] if i>0 else 0.0; nx=hs[i] if i<len(hs) else T_END
+        if nx-prv>1.3 and sn-prv>=0.6 and nx-sn>=0.6: hits.append(sn)
+hits=np.array(sorted(hits)); STR=np.array([1.0 if h in HARD else 0.6 for h in hits])
+# shots in original video time (transition frames trimmed); text card 22.42-24.0 dropped
+SH=[(0.0,0.81),(0.84,1.56),(1.6,3.1),(3.14,4.6),(4.64,5.06),(5.1,5.77),(5.8,7.25),(7.34,7.81),(7.84,8.27),
+    (8.3,9.27),(9.3,10.02),(10.06,11.56),(11.6,12.69),(12.72,13.27),(13.3,13.77),(13.8,14.27),(14.3,14.73),
+    (14.76,15.35),(15.38,16.69),(16.72,18.56),(18.59,19.48),(19.52,20.86),(20.89,22.4),(24.02,25.56),
+    (25.59,26.85),(26.88,28.44),(28.47,29.95)]
+BASE=0.22; AMP=3.1; RISE=0.08; FALL=0.12
 def vnat(t):
-    d=t[:,None]-hits[None,:]
-    return BASE+AMP*np.where(d<0,np.exp(-(d/RISE)**2),np.exp(-(d/FALL)**2)).sum(1)
-tt=np.arange(int(T_END*OUT_FPS)+1)/OUT_FPS
+    d=np.atleast_1d(t)[:,None]-hits[None,:]
+    return BASE+AMP*(STR[None,:]*np.where(d<0,np.exp(-(d/RISE)**2),np.exp(-(d/FALL)**2))).sum(1)
+tt=np.arange(int(T_END*OUT_FPS)+2)/OUT_FPS
 N=np.concatenate([[0],np.cumsum(vnat(tt[:-1]+0.5/OUT_FPS))/OUT_FPS])
-S=SRC_END/N[-1]
-Nh=np.interp(hits,tt,N)*S
-anch=[(0.0,0.0)]; used=-1
-for c in cuts:                  # snap each cut to the nearest unused later kick
-    j=used+1+int(np.argmin(np.abs(Nh[used+1:]-c))) if used+1<len(hits) else None
-    if j is None: break
-    # accept only if the speed multiplier since the previous anchor stays near S (keeps slow-mo consistent)
-    pa,ps=anch[-1]; m=(c-ps)/(Nh[j]/S-np.interp(pa,tt,N))/S
-    if abs(Nh[j]-c)<0.9 and 0.7<m<1.45: anch.append((hits[j],c)); used=j
-anch.append((T_END,SRC_END))
-at=np.array([a for a,_ in anch]); asrc=np.array([s for _,s in anch])
-aN=np.interp(at,tt,N)
+def Nat(t): return np.interp(t,tt,N)
+# slots: [0,h0], [h0,h1], ..., [h_last,T_END]; first shot -> first slot, last shot -> last slot
+B=np.concatenate([[0],hits,[T_END]]); nslot=len(B)-1
+mid=SH[1:-1]; ns=nslot-2
+# DP: assign middle shots in order to consecutive groups of 1-3 slots; cost = mismatch of shot length vs natural consumption
+INF=1e18; dp=np.full((len(mid)+1,ns+1),INF); bk={}; dp[0,0]=0
+for i in range(len(mid)):
+    L=mid[i][1]-mid[i][0]
+    for j in range(ns+1):
+        if dp[i,j]>=INF: continue
+        for k in (1,2,3):
+            if j+k>ns: break
+            n=Nat(B[1+j+k])-Nat(B[1+j]); m=L/n
+            c=(np.log(min(m,1.0))**2)*3 if m<1 else 0.15*np.log(m)   # slowing a shot down hurts more than trimming it
+            if dp[i,j]+c<dp[i+1,j+k]: dp[i+1,j+k]=dp[i,j]+c; bk[(i+1,j+k)]=k
+groups=[]; j=ns
+for i in range(len(mid),0,-1): k=bk[(i,j)]; groups.append(k); j-=k
+groups=groups[::-1]
+plan=[(B[0],B[1],SH[0])]; s=1
+for g,sh in zip(groups,mid): plan.append((B[s],B[s+g],sh)); s+=g
+plan.append((B[-2],B[-1],SH[-1]))
+# per shot: source window; trim long shots (keep the end, where the next whip lands), slow short ones
+segs=[]
+for a,b,(s0,s1) in plan:
+    n=Nat(b)-Nat(a); L=s1-s0; m=L/n
+    if m>1.25: s0=s1-1.25*n                     # cap speed multiplier; drop the shot's head
+    segs.append((a,b,s0,s1))
+    print(f"out {a:5.2f}-{b:5.2f}  src {s0:5.2f}-{s1:5.2f}  mult {(s1-s0)/n:4.2f}",file=sys.stderr)
+SA=np.array([x[0] for x in segs])
 def src_at(t):
-    n=np.interp(t,tt,N); i=min(np.searchsorted(at,t,side='right')-1,len(at)-2)
-    return asrc[i]+(asrc[i+1]-asrc[i])*(n-aN[i])/(aN[i+1]-aN[i])
-print("S",round(S,2),"base x",round(BASE*S,2),"peak x",round((BASE+AMP)*S,2),file=sys.stderr)
-print("hits",len(hits),np.round(hits,2).tolist(),file=sys.stderr)
-print("anchors",[(round(a,2),s) for a,s in anch],file=sys.stderr)
-print("seg speed mult",np.round(np.diff(asrc)/np.diff(aN),2).tolist(),file=sys.stderr)
+    i=min(max(np.searchsorted(SA,t,side='right')-1,0),len(segs)-1); a,b,s0,s1=segs[i]
+    return i, s0+(s1-s0)*(Nat(t)-Nat(a))/(Nat(b)-Nat(a))
 HEAD_N=591; TAIL_T0=5.0
 def fidx(st): return st*SRC_FPS if st*SRC_FPS<HEAD_N-1 else HEAD_N+(st-TAIL_T0)*SRC_FPS
-dec=subprocess.Popen(['ffmpeg','-v','error','-i','interp_head.mp4','-i','interp120.mp4','-filter_complex','[0:v][1:v]concat=n=2:v=1[v]','-map','[v]','-f','rawvideo','-pix_fmt','rgb24','-'],stdout=subprocess.PIPE)
+# random-access frame cache: decode interpolated footage once into a memory-mapped file
+TOT=HEAD_N+2996
+mm=np.lib.format.open_memmap('frames.npy',mode='w+',dtype=np.uint8,shape=(TOT,H//2*2,W,3)) if '--decode' in sys.argv else np.load('frames.npy',mmap_mode='r')
+if '--decode' in sys.argv:
+    dec=subprocess.Popen(['ffmpeg','-v','error','-i','interp_head.mp4','-i','interp120.mp4','-filter_complex','[0:v][1:v]concat=n=2:v=1[v]','-map','[v]','-f','rawvideo','-pix_fmt','rgb24','-'],stdout=subprocess.PIPE)
+    for k in range(TOT):
+        d=dec.stdout.read(W*H*3)
+        if len(d)<W*H*3: break
+        mm[k]=np.frombuffer(d,np.uint8).reshape(H,W,3)
+    mm.flush(); print("decoded",k,file=sys.stderr); sys.exit()
+def frame(i): return mm[int(np.clip(i,0,TOT-1))]
 enc=subprocess.Popen(['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','rgb24','-s',f'{W}x{H}','-r',str(OUT_FPS),'-i','-',
-     '-c:v','libx264','-preset','medium','-crf','14','-pix_fmt','yuv420p','vel2_raw.mp4'],stdin=subprocess.PIPE)
-FS=W*H*3; buf={}; nxt=0
-def frame(i):
-    global nxt
-    i=max(0,i)
-    while nxt<=i:
-        d=dec.stdout.read(FS)
-        if len(d)<FS: break
-        buf[nxt]=np.frombuffer(d,np.uint8).reshape(H,W,3); nxt+=1
-    for k in [k for k in buf if k<i-60]: del buf[k]
-    return buf[min(i,nxt-1)]
-# all shot boundaries (incl. ones not snapped) in interpolated-frame index space; blur never crosses them
-ALLCUTS=sorted(set(cuts+[2.835,7.835,13.795,18.17,19.0,19.5,24.5]))
-CI=np.array([np.ceil(fidx(c)) for c in ALLCUTS])
-prev=src_at(0.0)
+     '-c:v','libx264','-preset','medium','-crf','14','-pix_fmt','yuv420p','vel3_raw.mp4'],stdin=subprocess.PIPE)
+rng=np.random.default_rng(7)
 for o in range(int(T_END*OUT_FPS)):
-    t=o/OUT_FPS; s=src_at(t)
-    s_open=s-0.5*max(0.0,s-prev); prev=s          # 180-degree shutter motion blur
+    t=o/OUT_FPS; seg,s=src_at(t)
+    _,sp=src_at(max(0,t-1/OUT_FPS))
+    s_open=s-0.6*max(0.0,s-sp) if src_at(max(0,t-1/OUT_FPS))[0]==seg else s   # motion blur, never across a cut
+    s_open=max(s_open,segs[seg][2])
     f0=fidx(s_open); f1=fidx(s)
-    lo_i=int(np.floor(f0)); hi_i=int(np.floor(f1))
-    before=CI[CI<=f1]
-    if len(before): lo_i=max(lo_i,int(before[-1]))
-    nxt_c=CI[CI>f1]
-    idx=np.arange(lo_i,hi_i+1)
-    if len(idx)<=1:
-        i0=max(int(np.floor(f1)),lo_i); w=f1-i0
-        if len(nxt_c) and i0+1>=nxt_c[0]: w=0.0
-        img=frame(i0) if w==0 else cv2.addWeighted(frame(i0),1-w,frame(i0+1),w,0)
+    lo,hi=int(np.floor(f0)),int(np.floor(f1))
+    if hi<=lo:
+        w=f1-hi; img=cv2.addWeighted(np.asarray(frame(hi)),1-w,np.asarray(frame(min(hi+1,int(fidx(segs[seg][3]))))),w,0)
     else:
-        img=np.clip(np.mean([frame(i).astype(np.float32) for i in idx],axis=0)+0.5,0,255).astype(np.uint8)
-    # zoom punch on each kick
-    d=t-hits; d=d[d>=0]
-    z=1+0.09*np.exp(-d.min()/0.14) if len(d) else 1.0
-    if z>1.001:
-        cw,ch=W/z,H/z; x0,y0=(W-cw)/2,(H-ch)/2
-        M=np.float32([[z,0,-x0*z],[0,z,-y0*z]])
-        img=cv2.warpAffine(img,M,(W,H),flags=cv2.INTER_CUBIC)
-    enc.stdin.write(img.tobytes())
-enc.stdin.close(); enc.wait(); dec.kill()
+        img=np.clip(np.mean([frame(i).astype(np.float32) for i in range(lo,hi+1)],axis=0)+0.5,0,255).astype(np.uint8)
+    d=t-hits; ok=d>=0; dt=d[ok].min() if ok.any() else 9.0; st=STR[ok][np.argmin(d[ok])] if ok.any() else 0
+    pre=hits-t; pre=pre[pre>0]; dp_=pre.min() if len(pre) else 9.0
+    # zoom: builds slightly into the hit, punches on it, settles
+    z=1+0.13*st*np.exp(-dt/0.17)+0.05*np.exp(-(dp_/0.12)**2)
+    sx=11*st*np.exp(-dt/0.09)*np.sin(dt*2*np.pi*22); sy=8*st*np.exp(-dt/0.09)*np.cos(dt*2*np.pi*17)
+    M=np.float32([[z,0,(1-z)*W/2+sx],[0,z,(1-z)*H/2+sy]])
+    img=cv2.warpAffine(img,M,(W,H),flags=cv2.INTER_CUBIC,borderMode=cv2.BORDER_REFLECT)
+    k=int(round(12*st*np.exp(-dt/0.11)))
+    if k>0:                                   # RGB split
+        r=np.roll(img[:,:,0],k,axis=1); b=np.roll(img[:,:,2],-k,axis=1)
+        img=np.dstack([r,img[:,:,1],b])
+    fl=0.55*st*st*np.exp(-dt/0.05)                  # flash
+    if fl>0.01: img=cv2.addWeighted(img,1+fl,np.full_like(img,255),fl*0.35,0)
+    enc.stdin.write(np.ascontiguousarray(img).tobytes())
+enc.stdin.close(); enc.wait()
