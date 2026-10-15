@@ -33,12 +33,14 @@ public class DialogueScreen extends Screen {
     private final List<int[]> boxes = new ArrayList<>();
     private final List<Integer> visible = new ArrayList<>();
     private boolean sent;
+    private final boolean rate;
 
-    public DialogueScreen(Dialogue tree, String start, int npcId, @Nullable Entity npc) {
+    public DialogueScreen(Dialogue tree, String start, int npcId, @Nullable Entity npc, boolean rate) {
         super(Component.literal(tree.speaker));
         this.tree = tree;
         this.npcId = npcId;
         this.npc = npc;
+        this.rate = rate;
         Dialogue.Node n = tree.node(start);
         this.node = n == null ? tree.node("start") : n;
         enterNode();
@@ -104,7 +106,8 @@ public class DialogueScreen extends Screen {
         ClientFx.play(Snd.of(SoundEvents.UI_BUTTON_CLICK), 0.5f, 1f);
         if (c.next == null) {
             sent = true;
-            minecraft.setScreen(null);
+            if (rate && npc instanceof com.airlinestory.entity.StoryNpc sn && sn.isAlive()) minecraft.setScreen(new RatingScreen(sn));
+            else minecraft.setScreen(null);
             return;
         }
         Dialogue.Node next = tree.node(c.next);

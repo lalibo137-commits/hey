@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.client.event.ViewportEvent;
 import net.minecraftforge.event.TickEvent;
@@ -58,6 +59,13 @@ public final class ClientEvents {
         event.setYaw(event.getYaw() + s[0]);
         event.setPitch(event.getPitch() + s[1]);
         event.setRoll(event.getRoll() + s[2]);
+    }
+
+    @SubscribeEvent
+    public static void onRenderLevel(RenderLevelStageEvent event) {
+        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) return;
+        if (!ClientStory.INSTANCE.active) return;
+        Guidance.renderWorld(event.getPoseStack(), event.getCamera());
     }
 
     @SubscribeEvent

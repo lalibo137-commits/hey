@@ -66,6 +66,24 @@ public final class ModBlocks {
     public static final RegistryObject<Block> SUITCASE = reg("suitcase", () -> new StateInteractBlock("suitcase", cloth().mapColor(MapColor.COLOR_BROWN).noOcclusion(),
             box(1, 0, 4, 15, 12, 12)));
 
+    // ---------- Story objects ----------
+    public static final RegistryObject<Block> CLUE_NOTE = reg("clue_note", () -> new InteractBlock("clue", Properties.of().mapColor(MapColor.SNOW)
+            .strength(-1f, 3600000f).noCollission().noOcclusion().sound(SoundType.WOOL), box(3, 0, 3, 13, 1, 13)));
+    public static final RegistryObject<Block> CLUE_TAPE = reg("clue_tape", () -> new InteractBlock("clue", Properties.of().mapColor(MapColor.COLOR_BLACK)
+            .strength(-1f, 3600000f).noCollission().noOcclusion().sound(SoundType.METAL), box(3, 0, 5, 13, 2, 11)));
+    public static final RegistryObject<Block> CLUE_PHOTO = reg("clue_photo", () -> new InteractBlock("clue", Properties.of().mapColor(MapColor.SNOW)
+            .strength(-1f, 3600000f).noCollission().noOcclusion().sound(SoundType.WOOL), box(4, 0, 4, 12, 1, 12)));
+    public static final RegistryObject<Block> WET_FLOOR_SIGN = reg("wet_floor_sign_block", () -> new InteractBlock("pickup", Properties.of().mapColor(MapColor.COLOR_YELLOW)
+            .strength(-1f, 3600000f).noOcclusion().sound(SoundType.WOOD), box(4, 0, 4, 12, 14, 12)));
+    public static final RegistryObject<Block> LOST_PLUSH = reg("lost_plush", () -> new InteractBlock("pickup", Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY)
+            .strength(-1f, 3600000f).noOcclusion().sound(SoundType.WOOL), box(4, 0, 4, 12, 8, 12)));
+    public static final RegistryObject<Block> ENGINE_PART = reg("engine_part", () -> new InteractBlock("pickup", metal().strength(-1f, 3600000f).noOcclusion()
+            .lightLevel(s -> 4), box(3, 0, 3, 13, 10, 13)));
+    public static final RegistryObject<Block> LOUNGE_TV = reg("lounge_tv", () -> new StateInteractBlock("tv", metal().strength(-1f, 3600000f).noOcclusion()
+            .lightLevel(s -> 9), box(0, 0, 14, 16, 16, 16)));
+    public static final RegistryObject<Block> MISSING_POSTER = reg("missing_poster", () -> new InteractBlock("poster", Properties.of().mapColor(MapColor.SNOW)
+            .strength(-1f, 3600000f).noCollission().noOcclusion().sound(SoundType.WOOL), box(0, 0, 15, 16, 16, 16)));
+
     // ---------- Airplane ----------
     public static final RegistryObject<Block> FUSELAGE = reg("fuselage", () -> new Block(metal().mapColor(MapColor.SNOW)));
     public static final RegistryObject<Block> FUSELAGE_STRIPE = reg("fuselage_stripe", () -> new Block(metal().mapColor(MapColor.COLOR_BLUE)));

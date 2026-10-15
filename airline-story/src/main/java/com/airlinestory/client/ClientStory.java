@@ -46,6 +46,11 @@ public final class ClientStory implements FlagView {
         ratingLog.clear();
     }
 
+    /** Meridian's world shows everyone's SmileScore; the island doesn't. */
+    public boolean showsScores() {
+        return active && (!flags.contains("on_island") || "the_end".equals(quest) && flags.contains("ending_loop"));
+    }
+
     @Override public boolean has(String flag) { return flags.contains(flag); }
     @Override public int counter(String key) { return counters.getOrDefault(key, 0); }
     @Override public float rating() { return rating; }

@@ -16,12 +16,13 @@ public final class ClientHooks {
             String old = ClientStory.INSTANCE.quest;
             ClientStory.INSTANCE.apply(s);
             if (!old.equals(s.quest())) ClientFx.onQuestChanged();
+            Guidance.onSync();
         } else if (msg instanceof Net.OpenDialogue o) {
             Dialogue d = Dialogues.get(o.tree());
             if (d == null || mc.player == null) return;
             Entity npc = o.npc() >= 0 && mc.level != null ? mc.level.getEntity(o.npc()) : null;
             if (CutscenePlayer.isPlaying()) return;
-            mc.setScreen(new DialogueScreen(d, o.node(), o.npc(), npc));
+            mc.setScreen(new DialogueScreen(d, o.node(), o.npc(), npc, o.rate()));
         } else if (msg instanceof Net.PlayCutscene c) {
             CutscenePlayer.play(c.id());
         } else if (msg instanceof Net.Fx f) {

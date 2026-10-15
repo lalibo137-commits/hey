@@ -29,7 +29,7 @@ public final class Quest {
 
     public boolean complete(FlagView v) {
         for (int i = 0; i < objectives.size(); i++) {
-            if (!objectives.get(i).isDone(v, id, i)) return false;
+            if (!objectives.get(i).optional && !objectives.get(i).isDone(v, id, i)) return false;
         }
         return true;
     }

@@ -85,6 +85,15 @@ public final class ModItems {
     public static final RegistryObject<Item> TIDEFOLK_CHARM = reg("tidefolk_charm", () -> new LoreItem(story(), 2, true));
     public static final RegistryObject<Item> BOAT_BLUEPRINT = reg("boat_blueprint", () -> new LoreItem(story(), 3, false));
     public static final RegistryObject<Item> NAVIGATION_CHART = reg("navigation_chart", () -> new LoreItem(story(), 3, true));
+    public static final RegistryObject<Item> SMARTPHONE = reg("smartphone", () -> new LoreItem(new Item.Properties().stacksTo(1), 2, false));
+    public static final RegistryObject<Item> PLUSH_RABBIT = reg("plush_rabbit", () -> new LoreItem(story(), 2, false));
+    public static final RegistryObject<Item> WET_FLOOR_SIGN = reg("wet_floor_sign", () -> new LoreItem(story(), 1, false));
+    public static final RegistryObject<Item> LOST_WALLET = reg("lost_wallet", () -> new LoreItem(story(), 2, false));
+    public static final RegistryObject<Item> STAFF_LANYARD = reg("staff_lanyard", () -> new LoreItem(story(), 2, false));
+    public static final RegistryObject<Item> FLIGHT_TAPE = reg("flight_tape", () -> new LoreItem(story(), 1, false));
+    public static final RegistryObject<Item> ENGINE_COIL = reg("engine_coil", () -> new LoreItem(story(), 2, true));
+    public static final RegistryObject<Item> ISLAND_MAP = reg("island_map", () -> new LoreItem(story(), 2, false));
+    public static final RegistryObject<Item> BOAR_TUSK = reg("boar_tusk", () -> new LoreItem(new Item.Properties(), 1, false));
     public static final RegistryObject<Item> STATION_KEYCARD = reg("station_keycard", () -> new LoreItem(story(), 2, false));
 
     @SuppressWarnings("unused")

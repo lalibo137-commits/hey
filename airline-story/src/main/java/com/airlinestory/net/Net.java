@@ -41,6 +41,8 @@ public final class Net {
                 .consumerMainThread(Net::toServer).add();
         CHANNEL.messageBuilder(CutsceneDone.class, id++, NetworkDirection.PLAY_TO_SERVER).encoder(CutsceneDone::encode).decoder(CutsceneDone::decode)
                 .consumerMainThread(Net::toServer).add();
+        CHANNEL.messageBuilder(Rate.class, id++, NetworkDirection.PLAY_TO_SERVER).encoder(Rate::encode).decoder(Rate::decode)
+                .consumerMainThread(Net::toServer).add();
         CHANNEL.messageBuilder(EndingDone.class, id++, NetworkDirection.PLAY_TO_SERVER).encoder(EndingDone::encode).decoder(EndingDone::decode)
                 .consumerMainThread(Net::toServer).add();
     }
@@ -82,9 +84,14 @@ public final class Net {
         }
     }
 
-    public record OpenDialogue(int npc, String tree, String node) {
-        void encode(FriendlyByteBuf b) { b.writeVarInt(npc); b.writeUtf(tree); b.writeUtf(node); }
-        static OpenDialogue decode(FriendlyByteBuf b) { return new OpenDialogue(b.readVarInt(), b.readUtf(), b.readUtf()); }
+    public record OpenDialogue(int npc, String tree, String node, boolean rate) {
+        void encode(FriendlyByteBuf b) { b.writeVarInt(npc); b.writeUtf(tree); b.writeUtf(node); b.writeBoolean(rate); }
+        static OpenDialogue decode(FriendlyByteBuf b) { return new OpenDialogue(b.readVarInt(), b.readUtf(), b.readUtf(), b.readBoolean()); }
+    }
+
+    public record Rate(int npc, int stars) {
+        void encode(FriendlyByteBuf b) { b.writeVarInt(npc); b.writeVarInt(stars); }
+        static Rate decode(FriendlyByteBuf b) { return new Rate(b.readVarInt(), b.readVarInt()); }
     }
 
     public record PlayCutscene(String id) {

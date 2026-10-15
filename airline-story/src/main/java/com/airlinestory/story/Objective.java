@@ -15,6 +15,13 @@ public final class Objective {
     @Nullable final Function<FlagView, String> progress;
     /** Counter key the director keeps up to date from the player's inventory, if any. */
     @Nullable public final String tracks;
+    /** Exact spot to guide the player to (a podium, a seat, a door), if more precise than the place. */
+    @Nullable public net.minecraft.core.BlockPos at;
+    /** Optional objective: shown, but not needed to finish the quest. */
+    public boolean optional;
+
+    public Objective at(net.minecraft.core.BlockPos pos) { this.at = pos; return this; }
+    public Objective optional() { this.optional = true; return this; }
 
     private Objective(String text, String hint, @Nullable String npcId, @Nullable String npcName, @Nullable String locId,
                       Predicate<FlagView> done, @Nullable Function<FlagView, String> progress, @Nullable String tracks) {
