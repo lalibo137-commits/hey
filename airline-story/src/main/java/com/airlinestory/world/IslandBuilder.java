@@ -284,17 +284,7 @@ public final class IslandBuilder {
     }
 
     private static void deadTree(Placer p, int x, int y, int z, double seed) {
-        Random r = new Random((long) (seed * 1e9));
-        int height = 5 + r.nextInt(5);
-        BlockState log = (r.nextBoolean() ? Blocks.STRIPPED_BIRCH_LOG : Blocks.STRIPPED_DARK_OAK_LOG).defaultBlockState();
-        for (int i = 0; i < height; i++) p.set(x, y + i, z, log);
-        for (int i = 0; i < 3; i++) {
-            Direction d = Direction.from2DDataValue(r.nextInt(4));
-            int by = y + height - 1 - r.nextInt(3);
-            BlockState branch = log.setValue(RotatedPillarBlock.AXIS, d.getAxis());
-            p.set(x + d.getStepX(), by, z + d.getStepZ(), branch);
-            p.set(x + d.getStepX() * 2, by + 1, z + d.getStepZ() * 2, branch);
-        }
+        bleachedTree(p, x, y, z, new Random((long) (seed * 1e9)));
     }
 
     // =========================================================================================
@@ -1104,15 +1094,34 @@ public final class IslandBuilder {
         return Math.max(SEA, ground(x - Locations.ISLAND_X, z - Locations.ISLAND_Z));
     }
 
+    /** A gnarled dead tree: the trunk kinks sideways partway up, limbs climb diagonally at staggered heights. */
     private static void bleachedTree(Placer p, int x, int y, int z, Random r) {
+        BlockState log = (r.nextInt(3) == 0 ? Blocks.STRIPPED_DARK_OAK_LOG : Blocks.STRIPPED_BIRCH_LOG).defaultBlockState();
         int height = 6 + r.nextInt(6);
-        BlockState log = (r.nextBoolean() ? Blocks.STRIPPED_BIRCH_LOG : Blocks.STRIPPED_DARK_OAK_LOG).defaultBlockState();
-        for (int i = 0; i < height; i++) p.set(x, y + i, z, log);
-        for (int i = 0; i < 2 + r.nextInt(2); i++) {
-            Direction d = Direction.from2DDataValue(r.nextInt(4));
-            int by = y + height - 2 - r.nextInt(3);
-            p.set(x + d.getStepX(), by, z + d.getStepZ(), log.setValue(RotatedPillarBlock.AXIS, d.getAxis()));
-            if (r.nextBoolean()) p.set(x + d.getStepX() * 2, by + 1, z + d.getStepZ() * 2, log);
+        int kink = 2 + r.nextInt(3);
+        Direction lean = Direction.from2DDataValue(r.nextInt(4));
+        int cx = x, cz = z;
+        for (int i = 0; i < height; i++) {
+            if (i == kink) {
+                p.set(cx + lean.getStepX(), y + i, cz + lean.getStepZ(), log.setValue(RotatedPillarBlock.AXIS, lean.getAxis()));
+                cx += lean.getStepX();
+                cz += lean.getStepZ();
+            } else {
+                p.set(cx, y + i, cz, log);
+            }
+        }
+        int limbs = 1 + r.nextInt(2);
+        int used = -1;
+        for (int i = 0; i < limbs; i++) {
+            Direction d;
+            do d = Direction.from2DDataValue(r.nextInt(4)); while (d.get2DDataValue() == used || d == lean.getOpposite());
+            used = d.get2DDataValue();
+            int by = y + kink + 1 + r.nextInt(Math.max(1, height - kink - 2)) + i;
+            int len = 2 + r.nextInt(2);
+            for (int k = 1; k <= len; k++) {
+                int lx = cx + d.getStepX() * k, lz = cz + d.getStepZ() * k, ly = by + k / 2 + (k == len ? 1 : 0);
+                p.set(lx, ly, lz, k == len ? log : log.setValue(RotatedPillarBlock.AXIS, d.getAxis()));
+            }
         }
     }
 

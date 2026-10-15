@@ -114,7 +114,7 @@ public final class DevAutotest {
                 {"35_village_ground", "VILLAGE", "-14,4,14"}, {"36_dock", "VILLAGE", "48,10,-14"},
                 {"37_burned_village", "BURNED", "-18,14,18"}, {"38_mangroves", "MANGROVE", "24,16,-24"},
                 {"39_cave_mouth", "CAVE_MOUTH", "-16,8,10"}, {"40_lagoon", "LAGOON", "-40,26,-30"},
-                {"41_grove", "GROVE", "-20,14,20"}, {"41b_grove_ground", "GROVE", "4,3,12"}, {"42_station", "PEAK", "-26,16,30"},
+                {"41_grove", "GROVE", "-20,14,20"}, {"41b_grove_ground", "GROVE", "-1,3,9"}, {"42_station", "PEAK", "-26,16,30"},
                 {"42b_station_eye", "PEAK", "6,6,32"}, {"42c_station_far", "PEAK", "60,30,90"},
                 {"43_island_from_sea", "CRASH", "60,40,120"}, {"44_island_overview", "PEAK", "0,170,140"}};
         for (String[] sp : spots) {
