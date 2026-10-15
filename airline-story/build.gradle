@@ -31,6 +31,7 @@ minecraft {
 
         client {
             property 'forge.enabledGameTestNamespaces', mod_id
+            property 'airlinestory.autotest', (project.findProperty('autotest') ?: 'false').toString()
         }
 
         server {

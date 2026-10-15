@@ -42,6 +42,7 @@ public final class ClientEvents {
         if (event.phase != TickEvent.Phase.END) return;
         Minecraft mc = Minecraft.getInstance();
         CutscenePlayer.tick();
+        DevAutotest.tick();
         ClientFx.tick();
         if (mc.player == null) return;
         while (ClientModEvents.JOURNAL.consumeClick()) {

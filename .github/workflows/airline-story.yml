@@ -27,7 +27,8 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: gradle-${{ hashFiles('airline-story/build.gradle', 'airline-story/gradle.properties', 'airline-story/gradle/wrapper/gradle-wrapper.properties') }}
+          key: gradle-v2-${{ hashFiles('airline-story/build.gradle', 'airline-story/gradle.properties', 'airline-story/gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: gradle-
       - name: Build
         run: |
           chmod +x gradlew
@@ -35,8 +36,32 @@ jobs:
             grep -n -E "error:|warning: \[|What went wrong|Caused by|\.java:[0-9]+" -A 4 build.log | grep -v "^\s*at " | head -400 > errors.txt; cat errors.txt | tail -150
             exit 1
           fi
-          tail -20 build.log
+          tail -5 build.log
       - uses: actions/upload-artifact@v4
         with:
           name: airline-story-jar
           path: airline-story/build/libs/*.jar
+      - name: Play-test in a virtual display
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq xvfb libgl1-mesa-dri > /dev/null
+          mkdir -p run
+          printf "onboardAccessibility:false\nrenderDistance:8\nsimulationDistance:8\nguiScale:2\npauseOnLostFocus:false\nsoundCategory_master:0.0\ntutorialStep:none\njoinedFirstServer:true\nskipMultiplayerWarning:true\nlastServer:\n" > run/options.txt
+          export LIBGL_ALWAYS_SOFTWARE=1
+          timeout 1800 xvfb-run -a -s "-screen 0 1280x720x24" ./gradlew runClient -Pautotest=true --console=plain > client.log 2>&1 || echo "client exited with $?"
+          mkdir -p ci-report
+          rm -f ci-report/*.png
+          cp run/screenshots/*.png ci-report/ 2>/dev/null || true
+          cp build/libs/airlinestory-forge-1.20.1-*.jar ci-report/ 2>/dev/null || true
+          ls build/libs
+          { echo "== errors in latest.log =="; grep -n -E "ERROR|Exception|\[autotest\]|WARN.*airlinestory|Caused by" run/logs/latest.log | grep -v "Realms" | head -300; echo; echo "== client.log tail =="; tail -60 client.log; } > ci-report/playtest.txt
+          tail -80 ci-report/playtest.txt
+      - name: Commit play-test report
+        if: always()
+        working-directory: .
+        run: |
+          git config user.name "airline-story-ci"
+          git config user.email "ci@users.noreply.github.com"
+          git add -f airline-story/ci-report || true
+          git commit -m "CI play-test report [skip ci]" || exit 0
+          git pull --rebase origin ${{ github.ref_name }} || true
+          git push origin HEAD:${{ github.ref_name }}

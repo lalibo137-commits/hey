@@ -70,6 +70,10 @@ public class StoryStartScreen extends Screen {
     }
 
     private void newStory() {
+        startNew();
+    }
+
+    public static void startNew() {
         Minecraft mc = Minecraft.getInstance();
         if (saveExists()) {
             try (LevelStorageSource.LevelStorageAccess access = mc.getLevelSource().createAccess(LEVEL_ID)) {
