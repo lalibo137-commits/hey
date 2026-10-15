@@ -292,13 +292,13 @@ public final class Dialogues {
                 .opt("[Say nothing]", "silent")
                 .timed(7, 3)
                 .node("hold", "His hand is shaking. Then it isn't. \"Okay. Okay. If I don't... find my brother for me. Nate. Nate Bell.\"")
-                .end("[Brace]").flag("marcus_held")
+                .end("[Brace]").flag("marcus_held").timed(6, 0)
                 .node("shut", "He shuts up. He braces. He doesn't look at you again.")
-                .end("[Brace]")
+                .end("[Brace]").timed(6, 0)
                 .node("dunno", "\"Nobody knows,\" he whispers. \"That's the worst part. Nobody ever knows.\"")
-                .end("[Brace]")
+                .end("[Brace]").timed(6, 0)
                 .node("silent", "You say nothing. Marcus starts to pray, stops, and starts again.")
-                .end("[Brace]"));
+                .end("[Brace]").timed(6, 0));
 
         add(tree("priya", "Priya")
                 .start(v -> v.has("on_air_plane") ? "plane" : v.has("talked_priya") ? "again" : "hello")

@@ -74,8 +74,8 @@ public final class Cutscenes {
                         .text("Please enjoy", "your experience.").fade(0, 20));
             }
             case "stare" -> {
-                l.add(shot(a.at(10.5, 2.7, 0.5), a.at(13.5, 2.7, 0.5), a.at(50, 2.0, 0.5), 170).fade(15, 0).sound("heartbeat"));
-                l.add(shot(a.at(31.5, 2.6, -0.5), a.at(30.6, 2.5, -0.8), a.at(28.5, 2.2, -2.5), 45).shake(0.3f).fade(0, 6).sound("sting"));
+                l.add(shot(a.at(39.5, 2.7, 0.5), a.at(37.5, 2.7, 0.5), a.at(4, 2.0, 0.5), 170).fade(15, 0).sound("heartbeat"));
+                l.add(shot(a.at(33.6, 2.6, 0.5), a.at(32.8, 2.5, 0.2), a.at(30.5, 2.2, -2.5), 45).shake(0.3f).fade(0, 6).sound("sting"));
             }
             case "storm" -> {
                 l.add(shot(a.at(70, 14, 35), a.at(50, 8, 25), a.at(25, 2, 0), 130).shake(0.6f).sound("thunder"));
