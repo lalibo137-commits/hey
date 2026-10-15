@@ -53,7 +53,7 @@ public final class AirportBuilder {
         p.fill(-30, F, -11, 70, F, -1, Blocks.SMOOTH_STONE);
         p.fill(-30, F, -11, 70, F, -11, Blocks.POLISHED_ANDESITE);
         for (int x = 4; x <= 60; x += 14) {
-            p.fill(x, F + 1, -6, x, F + 4, -6, Blocks.POLISHED_ANDESITE_WALL);
+            p.fill(x, F + 1, -6, x, F + 4, -6, Blocks.ANDESITE_WALL);
             p.set(x, F + 5, -6, Blocks.SEA_LANTERN);
             p.set(x - 1, F + 1, -7, Blocks.POTTED_AZALEA);
         }
