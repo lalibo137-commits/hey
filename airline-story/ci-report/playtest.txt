@@ -1,176 +1,182 @@
 == errors in latest.log ==
-28:[15Oct2026 20:26:05.126] [Render thread/ERROR] [com.mojang.text2speech.Narrator/]: Error while loading the narrator
+28:[15Oct2026 20:43:36.717] [Render thread/ERROR] [com.mojang.text2speech.Narrator/]: Error while loading the narrator
 29:com.mojang.text2speech.Narrator$InitializeException: Failed to load library flite
 52:Caused by: java.lang.UnsatisfiedLinkError: Unable to load library 'flite':
 115:	Suppressed: java.io.IOException: Native library (linux-x86-64/libflite.so) not found in resource path (/home/runner/work/hey/hey/airline-story/build/classes/java/main:/home/runner/work/hey/hey/airline-story/build/resources/main:/home/runner/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.3.0_mapped_official_1.20.1/forge-1.20.1-47.3.0_mapped_official_1.20.1.jar:/home/runner/.gradle/caches/forge_gradle/minecraft_repo/versions/1.20.1/client-extra.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlearlydisplay/1.20.1-47.3.0/91e33682894f35862e9ce29d633e3258120952f0/fmlearlydisplay-1.20.1-47.3.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/javafmllanguage/1.20.1-47.3.0/d7ebc62120f202109e300e084ca1a31a7b946a62/javafmllanguage-1.20.1-47.3.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/lowcodelanguage/1.20.1-47.3.0/1bf3e845ea0ce750096da8c71c8364b188ab74d4/lowcodelanguage-1.20.1-47.3.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/mclanguage/1.20.1-47.3.0/6093682e943ddccbabf70539319d7f2fe64db2e7/mclanguage-1.20.1-47.3.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlcore/1.20.1-47.3.0/3b6be96aba3e323f3c918e8ef6a96312d82d76ad/fmlcore-1.20.1-47.3.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/fmlloader/1.20.1-47.3.0/547850469c8a336b4c60cb8619f6cd421e9e5f55/fmlloader-1.20.1-47.3.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/JarJarSelector/0.3.19/376cc9c8ea60720cf027c01fc033de915699801c/JarJarSelector-0.3.19.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/JarJarMetadata/0.3.19/83feaa9b770e6ac0e96ee4fc23fa89325c5fe2/JarJarMetadata-0.3.19.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/31.1-jre/60458f877d055d0c9114d9e1a2efb737b4bc282c/guava-31.1-jre.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.2/25ea2e8b0c338a877313bd4672d3fe056ea78f0d/jsr305-3.0.2.jar:/home/runner/.gradle/caches/modules-2/files-2.1/ca.weblite/java-objc-bridge/1.1/1227f9e0666314f9de41477e3ec277e542ed7f7b/java-objc-bridge-1.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/forgespi/7.0.1/3b4972a0cdb135853dba219be61a79b22cff1309/forgespi-7.0.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/mergetool/1.1.5/f3da18e12c696d35a47c82cbb2cc8b5aa15e1154/mergetool-1.1.5-api.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/24.0.1/13c5c75c4206580aa4d683bffee658caae6c9f43/annotations-24.0.1.jar:/home/runner/.gradle/caches/forge_gradle/mcp_repo/net/minecraft/mapping/1.20.1/mapping-1.20.1-mapping.zip:/home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/accesstransformers/8.0.4/272d240aa73f42195b2a68e2ebd8b701ecf41f63/accesstransformers-8.0.4.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/eventbus/6.0.5/699143dd438431d06b57416944f7cedbe52e1475/eventbus-6.0.5.jar:/home/runner/.gradle/caches/modules-2/files-2.1/cpw.mods/modlauncher/10.0.9/6d9443f56f50bb85cea383686ff9c867391458b/modlauncher-10.0.9.jar:/home/runner/.gradle/caches/modules-2/files-2.1/cpw.mods/bootstraplauncher/1.1.2/c546e00443d8432cda6baa1c860346980742628/bootstraplauncher-1.1.2.jar:/home/runner/.gradle/caches/modules-2/files-2.1/cpw.mods/securejarhandler/2.1.10/51e6a22c6c716beb11e244bf5b8be480f51dd6b5/securejarhandler-2.1.10.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/coremods/5.1.6/62fab3c3d59d37f8e15af311cb638c6f6123423/coremods-5.1.6.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.openjdk.nashorn/nashorn-core/15.3/43977e804697048fc8d81d333a36c17d07a5b3dd/nashorn-core-15.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-commons/9.7/e86dda4696d3c185fcc95d8d311904e7ce38a53f/asm-commons-9.7.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-util/9.7/c0655519f24d92af2202cb681cd7c1569df6ead6/asm-util-9.7.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/9.7/e4a258b7eb96107106c0599f0061cfc1832fe07a/asm-analysis-9.7.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/9.7/e446a17b175bfb733b87c5c2560ccb4e57d69f1a/asm-tree-9.7.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/9.7/73d7b3086e14beb604ced229c302feff6449723/asm-9.7.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.antlr/antlr4/4.9.1/e92af8ab33e428461927b484e90bb155a4f3a052/antlr4-4.9.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.antlr/antlr4-runtime/4.9.1/428664f05d2b7f7b7610204b5aa7c1763f62011a/antlr4-runtime-4.9.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/unsafe/0.2.0/54d7a0a5e8fdb71b973025caa46f341ae5904f39/unsafe-0.2.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/toml/3.6.4/51d6cefb2b55ee55ee26b16391212fb2c7dfb4f4/toml-3.6.4.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.electronwill.night-config/core/3.6.4/510f174abbf1c947494db50ef2445683bd52c230/core-3.6.4.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.apache.maven/maven-artifact/3.8.5/4433f50c07debefaed0553bd0068f4f48d449313/maven-artifact-3.8.5.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.jodah/typetools/0.6.3/a01aaa6ddaea9ec07ec4f209487b7a46a526283a/typetools-0.6.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.minecrell/terminalconsoleappender/1.2.0/96d02cd3b384ff015a8fef4223bcb4ccf1717c95/terminalconsoleappender-1.2.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jline/jline-reader/3.12.1/4382ab1382c7b6f379377ed5f665dc2f6e1218bc/jline-reader-3.12.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.jline/jline-terminal/3.12.1/c777448314e050d980a6b697c140f3bfe9eb7416/jline-terminal-3.12.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.5/9d1c0c3a304ae6697ecd477218fa61b850bf57fc/mixin-0.8.5.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/JarJarFileSystems/0.3.19/2464eb7d6b9ddb9db36a82cf8a95193e5c6fe020/JarJarFileSystems-0.3.19.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.github.oshi/oshi-core/6.2.2/54f5efc19bca95d709d9a37d19ffcbba3d21c1a6/oshi-core-6.2.2.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.10/dd9b193aef96e973d5a11ab13cd17430c2e4306b/gson-2.10.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.google.guava/failureaccess/1.0.1/1dcf1de382a0bf95a3d8b0849546c88bac1292c9/failureaccess-1.0.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.ibm.icu/icu4j/71.1/9e7d3304c23f9ba5cb71915f7cce23231a57a445/icu4j-71.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/authlib/4.0.43/2ff9d747a77570a07a60d32ac77eb6162ad2a2d9/authlib-4.0.43.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/blocklist/1.0.10/5c685c5ffa94c4cd39496c7184c1d122e515ecef/blocklist-1.0.10.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/brigadier/1.1.8/5244ce82c3337bba4a196a3ce858bfaecc74404a/brigadier-1.1.8.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/datafixerupper/6.0.8/3ba4a30557a9b057760af4011f909ba619fc5125/datafixerupper-6.0.8.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/logging/1.1.1/832b8e6674a9b325a5175a3a6267dfaf34c85139/logging-1.1.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/patchy/2.2.10/da05971b07cbb379d002cf7eaec6a2048211fefc/patchy-2.2.10.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.mojang/text2speech/1.17.9/3cad216e3a7f0c19b4b394388bc9ffc446f13b14/text2speech-1.17.9.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient/4.5.13/e5f6cae5ca7ecaac1ec2827a9e2d65ae2869cada/httpclient-4.5.13.jar:/home/runner/.gradle/caches/modules-2/files-2.1/commons-codec/commons-codec/1.15/49d94806b6e3dc933dacbd8acb0fdbab8ebd1e5d/commons-codec-1.15.jar:/home/runner/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.11.0/a2503f302b11ebde7ebc3df41daebe0e4eea3689/commons-io-2.11.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/4bfc12adfe4842bf07b657f0369c4cb522955686/commons-logging-1.2.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-handler/4.1.82.Final/644041d1fa96a5d3130a29e8978630d716d76e38/netty-handler-4.1.82.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-codec/4.1.82.Final/b77200379acb345a9ffdece1c605e591ac3e4e0a/netty-codec-4.1.82.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport-native-epoll/4.1.82.Final/476409d6255001ca53a55f65b01c13822f8dc93a/netty-transport-native-epoll-4.1.82.Final-linux-aarch_64.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport-native-epoll/4.1.82.Final/c7350a71920f3ae9142945e25fed4846cce53374/netty-transport-native-epoll-4.1.82.Final-linux-x86_64.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport-classes-epoll/4.1.82.Final/e7c7dd18deac93105797f30057c912651ea76521/netty-transport-classes-epoll-4.1.82.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport-native-unix-common/4.1.82.Final/3e895b35ca1b8a0eca56cacff4c2dde5d2c6abce/netty-transport-native-unix-common-4.1.82.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-transport/4.1.82.Final/e431a218d91acb6476ccad5f5aafde50aa3945ca/netty-transport-4.1.82.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-buffer/4.1.82.Final/a544270cf1ae8b8077082f5036436a9a9971ea71/netty-buffer-4.1.82.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-resolver/4.1.82.Final/38f665ae8dcd29032eea31245ba7806bed2e0fa8/netty-resolver-4.1.82.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/io.netty/netty-common/4.1.82.Final/22d148e85c3f5ebdacc0ce1f5aabb1d420f73f3/netty-common-4.1.82.Final.jar:/home/runner/.gradle/caches/modules-2/files-2.1/it.unimi.dsi/fastutil/8.5.9/bb7ea75ecdb216654237830b3a96d87ad91f8cc5/fastutil-8.5.9.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.java.dev.jna/jna-platform/5.12.1/97406a297c852f4a41e688a176ec675f72e8329/jna-platform-5.12.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.java.dev.jna/jna/5.12.1/b1e93a735caea94f503e95e6fe79bf9cdc1e985d/jna-5.12.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.sf.jopt-simple/jopt-simple/5.0.4/4fdac2fbe92dfad86aa6e9301736f6b4342a3f5c/jopt-simple-5.0.4.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.21/4ec95b60d4e86b5c95a0e919cb172a0af98011ef/commons-compress-1.21.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.12.0/c6842c86792ff03b9f1d1fe2aab8dc23aa6c6f0e/commons-lang3-3.12.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.4.15/7f2e0c573eaa7a74bac2e89b359e1f73d92a0a1d/httpcore-4.4.15.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-core/2.19.0/3b6eeb4de4c49c0fe38a4ee27188ff5fee44d0bb/log4j-core-2.19.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-slf4j2-impl/2.19.0/5c04bfdd63ce9dceb2e284b81e96b6a70010ee10/log4j-slf4j2-impl-2.19.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-api/2.19.0/ea1b37f38c327596b216542bc636cfdc0b8036fa/log4j-api-2.19.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.joml/joml/1.10.5/22566d58af70ad3d72308bab63b8339906deb649/joml-1.10.5.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-glfw/3.3.1/cbac1b8d30cb4795149c1ef540f912671a8616d0/lwjgl-glfw-3.3.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-glfw/3.3.1/81716978214ecbda15050ca394b06ef61501a49e/lwjgl-glfw-3.3.1-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.3.1/a817bcf213db49f710603677457567c37d53e103/lwjgl-jemalloc-3.3.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.3.1/33dbb017b6ed6b25f993ad9d56741a49e7937718/lwjgl-jemalloc-3.3.1-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.3.1/2623a6b8ae1dfcd880738656a9f0243d2e6840bd/lwjgl-openal-3.3.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.3.1/f906b6439f6daa66001182ea7727e3467a93681b/lwjgl-openal-3.3.1-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.3.1/831a5533a21a5f4f81bbc51bb13e9899319b5411/lwjgl-opengl-3.3.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.3.1/ab9ab6fde3743e3550fa5d46d785ecb45b047d99/lwjgl-opengl-3.3.1-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.3.1/b119297cf8ed01f247abe8685857f8e7fcf5980f/lwjgl-stb-3.3.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.3.1/3ee7aec8686e52867677110415566a5342a80230/lwjgl-stb-3.3.1-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-tinyfd/3.3.1/ff1914111ef2e3e0110ef2dabc8d8cdaad82347/lwjgl-tinyfd-3.3.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-tinyfd/3.3.1/a35110b9471bea8cde826ab297550ee8c22f5035/lwjgl-tinyfd-3.3.1-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl/3.3.1/ae58664f88e18a9bb2c77b063833ca7aaec484cb/lwjgl-3.3.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl/3.3.1/1de885aba434f934201b99f2f1afb142036ac189/lwjgl-3.3.1-natives-linux.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.machinezoo.noexception/noexception/1.7.1/b65330c98e38a1f915fa54a6e5eca496505e3f0a/noexception-1.7.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-simple/1.7.30/e606eac955f55ecf1d8edcccba04eb8ac98088dd/slf4j-simple-1.7.30.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/2.0.1/f48d81adce2abf5ad3cfe463df517952749e03bc/slf4j-api-2.0.1.jar:/home/runner/.gradle/caches/modules-2/files-2.1/net.minecraftforge/srgutils/0.4.11/fbad1341ffdb47d276bbdc40ecb06da49e053e74/srgutils-0.4.11.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.codehaus.plexus/plexus-utils/3.3.0/cf43b5391de623b36fe066a21127baef82c64022/plexus-utils-3.3.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.google.guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/b421526c5f297295adef1c886e5246c39d4ac629/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker-qual/3.12.0/d5692f0526415fcc6de94bb5bfbd3afd9dd3b3e5/checker-qual-3.12.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.11.0/c5a0ace696d3f8b1c1d8cc036d8c03cc0cbe6b69/error_prone_annotations-2.11.0.jar:/home/runner/.gradle/caches/modules-2/files-2.1/com.google.j2objc/j2objc-annotations/1.3/ba035118bc8bac37d7eff77700720999acd9986d/j2objc-annotations-1.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.antlr/ST4/4.3/92f2c1ad8d84abcbeead6cf7f2c53a04166293c2/ST4-4.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.antlr/antlr-runtime/3.5.2/cd9cd41361c155f3af0f653009dcecb08d8b4afd/antlr-runtime-3.5.2.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.abego.treelayout/org.abego.treelayout.core/1.0.3/457216e8e6578099ae63667bb1e4439235892028/org.abego.treelayout.core-1.0.3.jar:/home/runner/.gradle/caches/modules-2/files-2.1/org.glassfish/javax.json/1.0.4/3178f73569fd7a1e5ffc464e680f7a8cc784b85a/javax.json-1.0.4.jar)
-157:[15Oct2026 20:26:12.115] [Render thread/ERROR] [net.minecraft.client.sounds.SoundEngine/SOUNDS]: Error starting SoundSystem. Turning off sounds & music
+157:[15Oct2026 20:43:44.643] [Render thread/ERROR] [net.minecraft.client.sounds.SoundEngine/SOUNDS]: Error starting SoundSystem. Turning off sounds & music
 158:java.lang.IllegalStateException: Failed to open OpenAL device
-206:[15Oct2026 20:26:15.515] [IO-Worker-2/INFO] [AirlineStory/]: [autotest] screenshot 01_title_screen
-248:[15Oct2026 20:26:45.070] [IO-Worker-8/INFO] [AirlineStory/]: [autotest] screenshot 02_intro_cutscene
-249:[15Oct2026 20:27:06.195] [IO-Worker-8/INFO] [AirlineStory/]: [autotest] screenshot 03_arrival_hud
-250:[15Oct2026 20:27:08.594] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 04_journal
-251:[15Oct2026 20:27:09.601] [Server thread/INFO] [AirlineStory/]: [autotest] tp:26.5,64.0,3.5,0.0,8.0
-254:[15Oct2026 20:27:13.165] [IO-Worker-5/INFO] [AirlineStory/]: [autotest] screenshot 05_hall_entrance
-255:[15Oct2026 20:27:13.552] [Server thread/INFO] [AirlineStory/]: [autotest] tp:26.5,64.0,26.5,180.0,5.0
-256:[15Oct2026 20:27:15.526] [Server thread/INFO] [AirlineStory/]: [autotest] talk:dana,dana
-257:[15Oct2026 20:27:19.712] [IO-Worker-5/INFO] [AirlineStory/]: [autotest] screenshot 06_dialogue_dana
-258:[15Oct2026 20:27:20.553] [Server thread/INFO] [AirlineStory/]: [autotest] tp:40.5,66.0,18.5,140.0,15.0
-259:[15Oct2026 20:27:23.644] [IO-Worker-10/INFO] [AirlineStory/]: [autotest] screenshot 07_checkin_islands
-260:[15Oct2026 20:27:24.006] [Server thread/INFO] [AirlineStory/]: [autotest] tp:14.5,64.0,36.5,130.0,12.0
-261:[15Oct2026 20:27:27.193] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 08_west_benches
-262:[15Oct2026 20:27:27.732] [Server thread/INFO] [AirlineStory/]: [autotest] tp:47.5,64.0,49.5,0.0,20.0
-263:[15Oct2026 20:27:30.080] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 09_closet
-264:[15Oct2026 20:27:30.460] [Server thread/INFO] [AirlineStory/]: [autotest] spawn:security
-265:[15Oct2026 20:27:31.034] [Server thread/INFO] [AirlineStory/]: [autotest] tp:56.5,65.0,18.5,-60.0,15.0
-266:[15Oct2026 20:27:34.709] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 10_security
-267:[15Oct2026 20:27:34.988] [Server thread/INFO] [AirlineStory/]: [autotest] tp:68.5,64.0,44.5,0.0,15.0
-269:[15Oct2026 20:27:37.741] [IO-Worker-4/INFO] [AirlineStory/]: [autotest] screenshot 11_interview_room
-270:[15Oct2026 20:27:38.243] [Server thread/INFO] [AirlineStory/]: [autotest] spawn:airside
-271:[15Oct2026 20:27:38.547] [Server thread/INFO] [AirlineStory/]: [autotest] tp:84.5,64.0,12.5,180.0,10.0
-272:[15Oct2026 20:27:42.118] [IO-Worker-2/INFO] [AirlineStory/]: [autotest] screenshot 12_cafe
-273:[15Oct2026 20:27:42.537] [Server thread/INFO] [AirlineStory/]: [autotest] tp:88.5,64.0,43.5,0.0,5.0
-274:[15Oct2026 20:27:45.555] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 13_lounge
-275:[15Oct2026 20:27:46.021] [Server thread/INFO] [AirlineStory/]: [autotest] tp:87.5,64.0,50.5,0.0,-10.0
-276:[15Oct2026 20:27:48.712] [IO-Worker-10/INFO] [AirlineStory/]: [autotest] screenshot 13b_lounge_tv
-277:[15Oct2026 20:27:49.112] [Server thread/INFO] [AirlineStory/]: [autotest] tp:100.5,64.0,37.5,0.0,0.0
-278:[15Oct2026 20:27:51.151] [IO-Worker-9/INFO] [AirlineStory/]: [autotest] screenshot 13c_poster
-280:[15Oct2026 20:27:51.511] [Server thread/INFO] [AirlineStory/]: [autotest] tp:108.5,66.0,30.5,-90.0,10.0
-282:[15Oct2026 20:27:54.669] [IO-Worker-9/INFO] [AirlineStory/]: [autotest] screenshot 14_concourse
-283:[15Oct2026 20:27:54.955] [Server thread/INFO] [AirlineStory/]: [autotest] spawn:backstage
-284:[15Oct2026 20:27:55.459] [Server thread/INFO] [AirlineStory/]: [autotest] tp:106.5,64.0,-4.5,180.0,5.0
-285:[15Oct2026 20:27:58.514] [IO-Worker-2/INFO] [AirlineStory/]: [autotest] screenshot 15_backstage
-286:[15Oct2026 20:27:58.948] [Server thread/INFO] [AirlineStory/]: [autotest] tp:130.5,64.0,-24.5,180.0,15.0
-287:[15Oct2026 20:28:01.481] [IO-Worker-5/INFO] [AirlineStory/]: [autotest] screenshot 16_control_room
-288:[15Oct2026 20:28:01.955] [Server thread/INFO] [AirlineStory/]: [autotest] quest:wait_gate
-290:[15Oct2026 20:28:02.433] [Server thread/INFO] [AirlineStory/]: [autotest] tp:148.5,64.0,32.5,0.0,10.0
-291:[15Oct2026 20:28:06.579] [IO-Worker-5/INFO] [AirlineStory/]: [autotest] screenshot 17_gate_b7
-292:[15Oct2026 20:28:06.961] [Server thread/INFO] [AirlineStory/]: [autotest] quest:boarding_call
-294:[15Oct2026 20:28:07.483] [Server thread/INFO] [AirlineStory/]: [autotest] tp:140.5,64.0,50.5,-30.0,10.0
-295:[15Oct2026 20:28:27.541] [IO-Worker-9/INFO] [AirlineStory/]: [autotest] screenshot 18_boarding
-296:[15Oct2026 20:28:27.965] [Server thread/INFO] [AirlineStory/]: [autotest] tp:148.5,70.0,69.5,0.0,5.0
-297:[15Oct2026 20:28:30.539] [IO-Worker-2/INFO] [AirlineStory/]: [autotest] screenshot 19_jet_bridge
-298:[15Oct2026 20:28:30.939] [Server thread/INFO] [AirlineStory/]: [autotest] quest:find_seat
-300:[15Oct2026 20:28:31.475] [Server thread/INFO] [AirlineStory/]: [autotest] tp:149.5,70.0,75.5,-90.0,5.0
-301:[15Oct2026 20:28:35.555] [IO-Worker-5/INFO] [AirlineStory/]: [autotest] screenshot 20_cabin_gate
-302:[15Oct2026 20:28:35.975] [Server thread/INFO] [AirlineStory/]: [autotest] sitgate
-303:[15Oct2026 20:28:36.962] [Server thread/INFO] [AirlineStory/]: [autotest] quest:takeoff
-305:[15Oct2026 20:28:37.481] [Server thread/INFO] [AirlineStory/]: [autotest] ticks:495
-306:[15Oct2026 20:28:44.633] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 21_takeoff_cutscene
-308:[15Oct2026 20:28:59.518] [IO-Worker-5/INFO] [AirlineStory/]: [autotest] screenshot 22_cruising
-309:[15Oct2026 20:28:59.936] [Server thread/INFO] [AirlineStory/]: [autotest] quest:the_hold
-311:[15Oct2026 20:29:00.445] [Server thread/INFO] [AirlineStory/]: [autotest] tp:1027.5,207.0,-999.5,-90.0,10.0
-312:[15Oct2026 20:29:03.530] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 23_cargo_hold
-313:[15Oct2026 20:29:03.944] [Server thread/INFO] [AirlineStory/]: [autotest] quest:lights_out
-315:[15Oct2026 20:29:04.444] [Server thread/INFO] [AirlineStory/]: [autotest] flag:june_stare
-316:[15Oct2026 20:29:04.924] [Server thread/INFO] [AirlineStory/]: [autotest] sitair
-317:[15Oct2026 20:29:12.487] [IO-Worker-2/INFO] [AirlineStory/]: [autotest] screenshot 24_stare_cutscene
-319:[15Oct2026 20:29:25.494] [IO-Worker-2/INFO] [AirlineStory/]: [autotest] screenshot 25_after_stare
-320:[15Oct2026 20:29:25.946] [Server thread/INFO] [AirlineStory/]: [autotest] quest:turbulence
-322:[15Oct2026 20:29:41.038] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 26_turbulence
-323:[15Oct2026 20:29:41.423] [Server thread/INFO] [AirlineStory/]: [autotest] island
-324:[15Oct2026 20:29:41.424] [Server thread/INFO] [AirlineStory/]: [autotest] island done=true 100%
-325:[15Oct2026 20:29:43.454] [Server thread/INFO] [AirlineStory/]: [autotest] land
-327:[15Oct2026 20:29:49.094] [Server thread/INFO] [AirlineStory/]: [autotest] quest:wake
-329:[15Oct2026 20:29:52.200] [IO-Worker-2/INFO] [AirlineStory/]: [autotest] screenshot 27_shore_cutscene
-330:[15Oct2026 20:30:07.093] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 28_crash_site
-331:[15Oct2026 20:30:07.494] [Server thread/INFO] [AirlineStory/]: [autotest] gm:spectator
-332:[15Oct2026 20:30:07.977] [Server thread/INFO] [AirlineStory/]: [autotest] spawn:tribe
-333:[15Oct2026 20:30:08.504] [Server thread/INFO] [AirlineStory/]: [autotest] look:14,134,-30,28,40
-334:[15Oct2026 20:30:13.606] [IO-Worker-5/INFO] [AirlineStory/]: [autotest] screenshot 29_crash_aerial
-335:[15Oct2026 20:30:13.957] [Server thread/INFO] [AirlineStory/]: [autotest] look:-12,156,10,6,-12
-336:[15Oct2026 20:30:19.019] [IO-Worker-8/INFO] [AirlineStory/]: [autotest] screenshot 30_lone_seat
-337:[15Oct2026 20:30:19.427] [Server thread/INFO] [AirlineStory/]: [autotest] look:-18,-46,-22,14,22
-339:[15Oct2026 20:30:24.570] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 31_falls
-340:[15Oct2026 20:30:24.954] [Server thread/INFO] [AirlineStory/]: [autotest] look:-14,-68,18,10,18
-341:[15Oct2026 20:30:30.016] [IO-Worker-2/INFO] [AirlineStory/]: [autotest] screenshot 32_upper_falls
-342:[15Oct2026 20:30:30.450] [Server thread/INFO] [AirlineStory/]: [autotest] look:-78,-28,24,16,24
-343:[15Oct2026 20:30:35.601] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 33_lookout_tower
-344:[15Oct2026 20:30:35.948] [Server thread/INFO] [AirlineStory/]: [autotest] look:112,34,-36,30,36
-345:[15Oct2026 20:30:41.109] [IO-Worker-10/INFO] [AirlineStory/]: [autotest] screenshot 34_village_aerial
-346:[15Oct2026 20:30:41.487] [Server thread/INFO] [AirlineStory/]: [autotest] look:112,34,-14,4,14
-347:[15Oct2026 20:30:46.586] [IO-Worker-10/INFO] [AirlineStory/]: [autotest] screenshot 35_village_ground
-348:[15Oct2026 20:30:46.928] [Server thread/INFO] [AirlineStory/]: [autotest] look:112,34,48,10,-14
-349:[15Oct2026 20:30:52.008] [IO-Worker-5/INFO] [AirlineStory/]: [autotest] screenshot 36_dock
-350:[15Oct2026 20:30:52.461] [Server thread/INFO] [AirlineStory/]: [autotest] look:92,-82,-18,14,18
-351:[15Oct2026 20:30:57.495] [IO-Worker-9/INFO] [AirlineStory/]: [autotest] screenshot 37_burned_village
-352:[15Oct2026 20:30:57.979] [Server thread/INFO] [AirlineStory/]: [autotest] look:82,-70,24,16,-24
-353:[15Oct2026 20:31:03.154] [IO-Worker-8/INFO] [AirlineStory/]: [autotest] screenshot 38_mangroves
-354:[15Oct2026 20:31:03.426] [Server thread/INFO] [AirlineStory/]: [autotest] look:-162,-20,-16,8,10
-355:[15Oct2026 20:31:08.573] [IO-Worker-11/INFO] [AirlineStory/]: [autotest] screenshot 39_cave_mouth
-356:[15Oct2026 20:31:08.955] [Server thread/INFO] [AirlineStory/]: [autotest] look:92,102,-40,26,-30
-357:[15Oct2026 20:31:14.056] [IO-Worker-11/INFO] [AirlineStory/]: [autotest] screenshot 40_lagoon
-358:[15Oct2026 20:31:14.475] [Server thread/INFO] [AirlineStory/]: [autotest] look:-96,86,-20,14,20
-359:[15Oct2026 20:31:19.602] [IO-Worker-2/INFO] [AirlineStory/]: [autotest] screenshot 41_grove
-360:[15Oct2026 20:31:19.979] [Server thread/INFO] [AirlineStory/]: [autotest] look:10,-85,-26,16,30
-362:[15Oct2026 20:31:25.034] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 42_station
-363:[15Oct2026 20:31:25.479] [Server thread/INFO] [AirlineStory/]: [autotest] look:14,134,60,40,120
-364:[15Oct2026 20:31:30.544] [IO-Worker-11/INFO] [AirlineStory/]: [autotest] screenshot 43_island_from_sea
-365:[15Oct2026 20:31:30.959] [Server thread/INFO] [AirlineStory/]: [autotest] look:10,-85,0,170,140
-366:[15Oct2026 20:31:35.991] [IO-Worker-11/INFO] [AirlineStory/]: [autotest] screenshot 44_island_overview
-367:[15Oct2026 20:31:36.425] [Server thread/INFO] [AirlineStory/]: [autotest] gm:adventure
-368:[15Oct2026 20:31:36.933] [Server thread/INFO] [AirlineStory/]: [autotest] tp:2870.5,65.0,2976.5,-90.0,10.0
-369:[15Oct2026 20:31:40.015] [IO-Worker-5/INFO] [AirlineStory/]: [autotest] screenshot 45_cave_camp
-370:[15Oct2026 20:31:40.451] [Server thread/INFO] [AirlineStory/]: [autotest] tp:3112.5,65.0,3010.5,180.0,5.0
-371:[15Oct2026 20:31:41.438] [Server thread/INFO] [AirlineStory/]: [autotest] talk:ahu,ahu
-372:[15Oct2026 20:31:45.544] [IO-Worker-11/INFO] [AirlineStory/]: [autotest] screenshot 46_longhouse_ahu
-373:[15Oct2026 20:31:46.426] [Server thread/INFO] [AirlineStory/]: [autotest] tp:3007.5,168.0,2919.5,180.0,10.0
-374:[15Oct2026 20:31:50.477] [IO-Worker-11/INFO] [AirlineStory/]: [autotest] screenshot 47_station_inside
-375:[15Oct2026 20:31:50.939] [Server thread/INFO] [AirlineStory/]: [autotest] time:18000
-376:[15Oct2026 20:31:51.427] [Server thread/INFO] [AirlineStory/]: [autotest] hollow
-377:[15Oct2026 20:31:55.497] [IO-Worker-9/INFO] [AirlineStory/]: [autotest] screenshot 48_hollow_night
+206:[15Oct2026 20:43:48.225] [IO-Worker-2/INFO] [AirlineStory/]: [autotest] screenshot 01_title_screen
+247:[15Oct2026 20:44:18.179] [IO-Worker-2/INFO] [AirlineStory/]: [autotest] screenshot 02_intro_cutscene
+248:[15Oct2026 20:44:39.393] [IO-Worker-7/INFO] [AirlineStory/]: [autotest] screenshot 03_arrival_hud
+249:[15Oct2026 20:44:41.742] [IO-Worker-4/INFO] [AirlineStory/]: [autotest] screenshot 04_journal
+250:[15Oct2026 20:44:42.720] [Server thread/INFO] [AirlineStory/]: [autotest] tp:26.5,64.0,3.5,0.0,8.0
+252:[15Oct2026 20:44:46.295] [IO-Worker-7/INFO] [AirlineStory/]: [autotest] screenshot 05_hall_entrance
+253:[15Oct2026 20:44:46.640] [Server thread/INFO] [AirlineStory/]: [autotest] tp:26.5,64.0,26.5,180.0,5.0
+255:[15Oct2026 20:44:48.611] [Server thread/INFO] [AirlineStory/]: [autotest] talk:dana,dana
+256:[15Oct2026 20:44:52.722] [IO-Worker-2/INFO] [AirlineStory/]: [autotest] screenshot 06_dialogue_dana
+257:[15Oct2026 20:44:53.612] [Server thread/INFO] [AirlineStory/]: [autotest] tp:40.5,66.0,18.5,140.0,15.0
+258:[15Oct2026 20:44:56.733] [IO-Worker-10/INFO] [AirlineStory/]: [autotest] screenshot 07_checkin_islands
+259:[15Oct2026 20:44:57.091] [Server thread/INFO] [AirlineStory/]: [autotest] tp:14.5,64.0,36.5,130.0,12.0
+260:[15Oct2026 20:45:00.223] [IO-Worker-8/INFO] [AirlineStory/]: [autotest] screenshot 08_west_benches
+261:[15Oct2026 20:45:00.590] [Server thread/INFO] [AirlineStory/]: [autotest] tp:47.5,64.0,49.5,0.0,20.0
+262:[15Oct2026 20:45:03.130] [IO-Worker-10/INFO] [AirlineStory/]: [autotest] screenshot 09_closet
+263:[15Oct2026 20:45:03.553] [Server thread/INFO] [AirlineStory/]: [autotest] spawn:security
+264:[15Oct2026 20:45:04.138] [Server thread/INFO] [AirlineStory/]: [autotest] tp:56.5,65.0,18.5,-60.0,15.0
+265:[15Oct2026 20:45:07.766] [IO-Worker-8/INFO] [AirlineStory/]: [autotest] screenshot 10_security
+266:[15Oct2026 20:45:08.389] [Server thread/INFO] [AirlineStory/]: [autotest] tp:68.5,64.0,44.5,0.0,15.0
+267:[15Oct2026 20:45:10.770] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 11_interview_room
+268:[15Oct2026 20:45:11.151] [Server thread/INFO] [AirlineStory/]: [autotest] spawn:airside
+269:[15Oct2026 20:45:11.612] [Server thread/INFO] [AirlineStory/]: [autotest] tp:84.5,64.0,12.5,180.0,10.0
+270:[15Oct2026 20:45:15.245] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 12_cafe
+272:[15Oct2026 20:45:15.654] [Server thread/INFO] [AirlineStory/]: [autotest] tp:88.5,64.0,43.5,0.0,5.0
+273:[15Oct2026 20:45:18.852] [IO-Worker-11/INFO] [AirlineStory/]: [autotest] screenshot 13_lounge
+274:[15Oct2026 20:45:19.125] [Server thread/INFO] [AirlineStory/]: [autotest] tp:87.5,64.0,50.5,0.0,-10.0
+275:[15Oct2026 20:45:21.798] [IO-Worker-2/INFO] [AirlineStory/]: [autotest] screenshot 13b_lounge_tv
+276:[15Oct2026 20:45:22.225] [Server thread/INFO] [AirlineStory/]: [autotest] tp:100.5,64.0,37.5,0.0,0.0
+277:[15Oct2026 20:45:24.292] [IO-Worker-8/INFO] [AirlineStory/]: [autotest] screenshot 13c_poster
+278:[15Oct2026 20:45:24.607] [Server thread/INFO] [AirlineStory/]: [autotest] tp:108.5,66.0,30.5,-90.0,10.0
+279:[15Oct2026 20:45:27.762] [IO-Worker-10/INFO] [AirlineStory/]: [autotest] screenshot 14_concourse
+280:[15Oct2026 20:45:28.313] [Server thread/INFO] [AirlineStory/]: [autotest] spawn:backstage
+281:[15Oct2026 20:45:28.591] [Server thread/INFO] [AirlineStory/]: [autotest] tp:106.5,64.0,-4.5,180.0,5.0
+283:[15Oct2026 20:45:31.721] [IO-Worker-8/INFO] [AirlineStory/]: [autotest] screenshot 15_backstage
+284:[15Oct2026 20:45:32.114] [Server thread/INFO] [AirlineStory/]: [autotest] tp:130.5,64.0,-24.5,180.0,15.0
+285:[15Oct2026 20:45:34.624] [IO-Worker-10/INFO] [AirlineStory/]: [autotest] screenshot 16_control_room
+286:[15Oct2026 20:45:35.083] [Server thread/INFO] [AirlineStory/]: [autotest] quest:wait_gate
+288:[15Oct2026 20:45:35.551] [Server thread/INFO] [AirlineStory/]: [autotest] tp:148.5,64.0,32.5,0.0,10.0
+289:[15Oct2026 20:45:39.680] [IO-Worker-10/INFO] [AirlineStory/]: [autotest] screenshot 17_gate_b7
+290:[15Oct2026 20:45:40.122] [Server thread/INFO] [AirlineStory/]: [autotest] quest:boarding_call
+292:[15Oct2026 20:45:40.591] [Server thread/INFO] [AirlineStory/]: [autotest] tp:140.5,64.0,50.5,-30.0,10.0
+293:[15Oct2026 20:46:00.674] [IO-Worker-2/INFO] [AirlineStory/]: [autotest] screenshot 18_boarding
+294:[15Oct2026 20:46:01.083] [Server thread/INFO] [AirlineStory/]: [autotest] tp:148.5,70.0,69.5,0.0,5.0
+295:[15Oct2026 20:46:03.639] [IO-Worker-2/INFO] [AirlineStory/]: [autotest] screenshot 19_jet_bridge
+296:[15Oct2026 20:46:04.065] [Server thread/INFO] [AirlineStory/]: [autotest] quest:find_seat
+298:[15Oct2026 20:46:04.558] [Server thread/INFO] [AirlineStory/]: [autotest] tp:149.5,70.0,75.5,-90.0,5.0
+299:[15Oct2026 20:46:08.682] [IO-Worker-2/INFO] [AirlineStory/]: [autotest] screenshot 20_cabin_gate
+300:[15Oct2026 20:46:09.071] [Server thread/INFO] [AirlineStory/]: [autotest] sitgate
+301:[15Oct2026 20:46:10.047] [Server thread/INFO] [AirlineStory/]: [autotest] quest:takeoff
+303:[15Oct2026 20:46:10.565] [Server thread/INFO] [AirlineStory/]: [autotest] ticks:495
+304:[15Oct2026 20:46:17.807] [IO-Worker-10/INFO] [AirlineStory/]: [autotest] screenshot 21_takeoff_cutscene
+306:[15Oct2026 20:46:32.610] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 22_cruising
+307:[15Oct2026 20:46:33.058] [Server thread/INFO] [AirlineStory/]: [autotest] quest:the_hold
+309:[15Oct2026 20:46:33.540] [Server thread/INFO] [AirlineStory/]: [autotest] tp:1027.5,207.0,-999.5,-90.0,10.0
+310:[15Oct2026 20:46:36.618] [IO-Worker-8/INFO] [AirlineStory/]: [autotest] screenshot 23_cargo_hold
+311:[15Oct2026 20:46:37.054] [Server thread/INFO] [AirlineStory/]: [autotest] quest:lights_out
+313:[15Oct2026 20:46:37.571] [Server thread/INFO] [AirlineStory/]: [autotest] flag:june_stare
+314:[15Oct2026 20:46:38.043] [Server thread/INFO] [AirlineStory/]: [autotest] sitair
+315:[15Oct2026 20:46:45.627] [IO-Worker-8/INFO] [AirlineStory/]: [autotest] screenshot 24_stare_cutscene
+317:[15Oct2026 20:46:58.719] [IO-Worker-2/INFO] [AirlineStory/]: [autotest] screenshot 25_after_stare
+318:[15Oct2026 20:46:59.070] [Server thread/INFO] [AirlineStory/]: [autotest] quest:turbulence
+320:[15Oct2026 20:47:14.137] [IO-Worker-8/INFO] [AirlineStory/]: [autotest] screenshot 26_turbulence
+321:[15Oct2026 20:47:14.541] [Server thread/INFO] [AirlineStory/]: [autotest] island
+322:[15Oct2026 20:47:14.542] [Server thread/INFO] [AirlineStory/]: [autotest] island done=true 100%
+323:[15Oct2026 20:47:16.542] [Server thread/INFO] [AirlineStory/]: [autotest] land
+325:[15Oct2026 20:47:21.588] [Server thread/INFO] [AirlineStory/]: [autotest] quest:wake
+327:[15Oct2026 20:47:25.345] [IO-Worker-10/INFO] [AirlineStory/]: [autotest] screenshot 27_shore_cutscene
+328:[15Oct2026 20:47:40.192] [IO-Worker-10/INFO] [AirlineStory/]: [autotest] screenshot 28_crash_site
+329:[15Oct2026 20:47:40.564] [Server thread/INFO] [AirlineStory/]: [autotest] gm:spectator
+330:[15Oct2026 20:47:41.157] [Server thread/INFO] [AirlineStory/]: [autotest] spawn:tribe
+331:[15Oct2026 20:47:41.548] [Server thread/INFO] [AirlineStory/]: [autotest] look:14,134,-30,28,40
+332:[15Oct2026 20:47:46.714] [IO-Worker-8/INFO] [AirlineStory/]: [autotest] screenshot 29_crash_aerial
+333:[15Oct2026 20:47:47.094] [Server thread/INFO] [AirlineStory/]: [autotest] look:-12,156,10,6,-12
+334:[15Oct2026 20:47:52.188] [IO-Worker-7/INFO] [AirlineStory/]: [autotest] screenshot 30_lone_seat
+335:[15Oct2026 20:47:52.587] [Server thread/INFO] [AirlineStory/]: [autotest] look:-18,-46,-22,14,22
+337:[15Oct2026 20:47:57.731] [IO-Worker-10/INFO] [AirlineStory/]: [autotest] screenshot 31_falls
+338:[15Oct2026 20:47:58.066] [Server thread/INFO] [AirlineStory/]: [autotest] look:-14,-68,18,10,18
+340:[15Oct2026 20:48:03.282] [IO-Worker-8/INFO] [AirlineStory/]: [autotest] screenshot 32_upper_falls
+341:[15Oct2026 20:48:03.623] [Server thread/INFO] [AirlineStory/]: [autotest] look:-78,-28,24,16,24
+342:[15Oct2026 20:48:08.678] [IO-Worker-8/INFO] [AirlineStory/]: [autotest] screenshot 33_lookout_tower
+343:[15Oct2026 20:48:09.056] [Server thread/INFO] [AirlineStory/]: [autotest] look:112,34,-36,30,36
+345:[15Oct2026 20:48:14.244] [IO-Worker-11/INFO] [AirlineStory/]: [autotest] screenshot 34_village_aerial
+346:[15Oct2026 20:48:14.554] [Server thread/INFO] [AirlineStory/]: [autotest] look:112,34,-14,4,14
+347:[15Oct2026 20:48:19.670] [IO-Worker-11/INFO] [AirlineStory/]: [autotest] screenshot 35_village_ground
+348:[15Oct2026 20:48:20.108] [Server thread/INFO] [AirlineStory/]: [autotest] look:112,34,48,10,-14
+349:[15Oct2026 20:48:25.198] [IO-Worker-2/INFO] [AirlineStory/]: [autotest] screenshot 36_dock
+350:[15Oct2026 20:48:25.549] [Server thread/INFO] [AirlineStory/]: [autotest] look:92,-82,-18,14,18
+351:[15Oct2026 20:48:30.650] [IO-Worker-8/INFO] [AirlineStory/]: [autotest] screenshot 37_burned_village
+352:[15Oct2026 20:48:31.078] [Server thread/INFO] [AirlineStory/]: [autotest] look:82,-70,24,16,-24
+353:[15Oct2026 20:48:36.260] [IO-Worker-9/INFO] [AirlineStory/]: [autotest] screenshot 38_mangroves
+354:[15Oct2026 20:48:36.568] [Server thread/INFO] [AirlineStory/]: [autotest] look:-162,-20,-16,8,10
+355:[15Oct2026 20:48:41.676] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 39_cave_mouth
+356:[15Oct2026 20:48:42.064] [Server thread/INFO] [AirlineStory/]: [autotest] look:92,102,-40,26,-30
+358:[15Oct2026 20:48:47.205] [IO-Worker-2/INFO] [AirlineStory/]: [autotest] screenshot 40_lagoon
+359:[15Oct2026 20:48:47.587] [Server thread/INFO] [AirlineStory/]: [autotest] look:-96,86,-20,14,20
+360:[15Oct2026 20:48:52.665] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 41_grove
+361:[15Oct2026 20:48:53.074] [Server thread/INFO] [AirlineStory/]: [autotest] look:-96,86,4,3,12
+362:[15Oct2026 20:48:58.161] [IO-Worker-8/INFO] [AirlineStory/]: [autotest] screenshot 41b_grove_ground
+363:[15Oct2026 20:48:58.573] [Server thread/INFO] [AirlineStory/]: [autotest] look:10,-85,-26,16,30
+365:[15Oct2026 20:49:03.680] [IO-Worker-7/INFO] [AirlineStory/]: [autotest] screenshot 42_station
+366:[15Oct2026 20:49:04.064] [Server thread/INFO] [AirlineStory/]: [autotest] look:10,-85,6,6,32
+368:[15Oct2026 20:49:09.138] [IO-Worker-11/INFO] [AirlineStory/]: [autotest] screenshot 42b_station_eye
+369:[15Oct2026 20:49:09.565] [Server thread/INFO] [AirlineStory/]: [autotest] look:10,-85,60,30,90
+370:[15Oct2026 20:49:14.638] [IO-Worker-8/INFO] [AirlineStory/]: [autotest] screenshot 42c_station_far
+371:[15Oct2026 20:49:15.095] [Server thread/INFO] [AirlineStory/]: [autotest] look:14,134,60,40,120
+372:[15Oct2026 20:49:20.203] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 43_island_from_sea
+373:[15Oct2026 20:49:20.578] [Server thread/INFO] [AirlineStory/]: [autotest] look:10,-85,0,170,140
+375:[15Oct2026 20:49:25.621] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 44_island_overview
+376:[15Oct2026 20:49:26.055] [Server thread/INFO] [AirlineStory/]: [autotest] gm:adventure
+377:[15Oct2026 20:49:26.544] [Server thread/INFO] [AirlineStory/]: [autotest] tp:2870.5,65.0,2976.5,-90.0,10.0
+378:[15Oct2026 20:49:29.680] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 45_cave_camp
+379:[15Oct2026 20:49:30.059] [Server thread/INFO] [AirlineStory/]: [autotest] tp:3112.5,65.0,3010.5,180.0,5.0
+381:[15Oct2026 20:49:31.042] [Server thread/INFO] [AirlineStory/]: [autotest] talk:ahu,ahu
+382:[15Oct2026 20:49:35.101] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 46_longhouse_ahu
+383:[15Oct2026 20:49:36.118] [Server thread/INFO] [AirlineStory/]: [autotest] tp:3007.5,156.0,2919.5,180.0,10.0
+384:[15Oct2026 20:49:40.128] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 47_station_inside
+385:[15Oct2026 20:49:40.552] [Server thread/INFO] [AirlineStory/]: [autotest] time:18000
+386:[15Oct2026 20:49:41.067] [Server thread/INFO] [AirlineStory/]: [autotest] hollow
+387:[15Oct2026 20:49:45.145] [IO-Worker-7/INFO] [AirlineStory/]: [autotest] screenshot 48_hollow_night
 
 == client.log tail ==
-[20:30:19] [Server thread/INFO] [AirlineStory/]: [autotest] look:-18,-46,-22,14,22
-[20:30:19] [Render thread/WARN] [minecraft/ClientPacketListener]: Received passengers for unknown entity
-[20:30:24] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 31_falls
-[20:30:24] [Server thread/INFO] [AirlineStory/]: [autotest] look:-14,-68,18,10,18
-[20:30:30] [IO-Worker-2/INFO] [AirlineStory/]: [autotest] screenshot 32_upper_falls
-[20:30:30] [Server thread/INFO] [AirlineStory/]: [autotest] look:-78,-28,24,16,24
-[20:30:35] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 33_lookout_tower
-[20:30:35] [Server thread/INFO] [AirlineStory/]: [autotest] look:112,34,-36,30,36
-[20:30:41] [IO-Worker-10/INFO] [AirlineStory/]: [autotest] screenshot 34_village_aerial
-[20:30:41] [Server thread/INFO] [AirlineStory/]: [autotest] look:112,34,-14,4,14
-[20:30:46] [IO-Worker-10/INFO] [AirlineStory/]: [autotest] screenshot 35_village_ground
-[20:30:46] [Server thread/INFO] [AirlineStory/]: [autotest] look:112,34,48,10,-14
-[20:30:52] [IO-Worker-5/INFO] [AirlineStory/]: [autotest] screenshot 36_dock
-[20:30:52] [Server thread/INFO] [AirlineStory/]: [autotest] look:92,-82,-18,14,18
-[20:30:57] [IO-Worker-9/INFO] [AirlineStory/]: [autotest] screenshot 37_burned_village
-[20:30:57] [Server thread/INFO] [AirlineStory/]: [autotest] look:82,-70,24,16,-24
-[20:31:03] [IO-Worker-8/INFO] [AirlineStory/]: [autotest] screenshot 38_mangroves
-[20:31:03] [Server thread/INFO] [AirlineStory/]: [autotest] look:-162,-20,-16,8,10
-[20:31:08] [IO-Worker-11/INFO] [AirlineStory/]: [autotest] screenshot 39_cave_mouth
-[20:31:08] [Server thread/INFO] [AirlineStory/]: [autotest] look:92,102,-40,26,-30
-[20:31:14] [IO-Worker-11/INFO] [AirlineStory/]: [autotest] screenshot 40_lagoon
-[20:31:14] [Server thread/INFO] [AirlineStory/]: [autotest] look:-96,86,-20,14,20
-[20:31:19] [IO-Worker-2/INFO] [AirlineStory/]: [autotest] screenshot 41_grove
-[20:31:19] [Server thread/INFO] [AirlineStory/]: [autotest] look:10,-85,-26,16,30
-[20:31:20] [Render thread/WARN] [minecraft/ClientPacketListener]: Received passengers for unknown entity
-[20:31:25] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 42_station
-[20:31:25] [Server thread/INFO] [AirlineStory/]: [autotest] look:14,134,60,40,120
-[20:31:30] [IO-Worker-11/INFO] [AirlineStory/]: [autotest] screenshot 43_island_from_sea
-[20:31:30] [Server thread/INFO] [AirlineStory/]: [autotest] look:10,-85,0,170,140
-[20:31:35] [IO-Worker-11/INFO] [AirlineStory/]: [autotest] screenshot 44_island_overview
-[20:31:36] [Server thread/INFO] [AirlineStory/]: [autotest] gm:adventure
-[20:31:36] [Server thread/INFO] [AirlineStory/]: [autotest] tp:2870.5,65.0,2976.5,-90.0,10.0
-[20:31:40] [IO-Worker-5/INFO] [AirlineStory/]: [autotest] screenshot 45_cave_camp
-[20:31:40] [Server thread/INFO] [AirlineStory/]: [autotest] tp:3112.5,65.0,3010.5,180.0,5.0
-[20:31:41] [Server thread/INFO] [AirlineStory/]: [autotest] talk:ahu,ahu
-[20:31:45] [IO-Worker-11/INFO] [AirlineStory/]: [autotest] screenshot 46_longhouse_ahu
-[20:31:46] [Server thread/INFO] [AirlineStory/]: [autotest] tp:3007.5,168.0,2919.5,180.0,10.0
-[20:31:50] [IO-Worker-11/INFO] [AirlineStory/]: [autotest] screenshot 47_station_inside
-[20:31:50] [Server thread/INFO] [AirlineStory/]: [autotest] time:18000
-[20:31:51] [Server thread/INFO] [AirlineStory/]: [autotest] hollow
-[20:31:55] [IO-Worker-9/INFO] [AirlineStory/]: [autotest] screenshot 48_hollow_night
-[20:31:57] [Render thread/INFO] [minecraft/Minecraft]: Stopping!
-[20:31:57] [Server thread/INFO] [minecraft/ServerGamePacketListenerImpl]: Dev lost connection: Disconnected
-[20:31:57] [Server thread/INFO] [minecraft/MinecraftServer]: Dev left the game
-[20:31:57] [Server thread/INFO] [minecraft/ServerGamePacketListenerImpl]: Stopping singleplayer server as player logged out
-[20:31:57] [Server thread/INFO] [minecraft/MinecraftServer]: Stopping server
-[20:31:57] [Server thread/INFO] [minecraft/MinecraftServer]: Saving players
-[20:31:57] [Server thread/INFO] [minecraft/MinecraftServer]: Saving worlds
-[20:31:58] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'ServerLevel[Airline Story: Flight 417]'/minecraft:overworld
-[20:31:58] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage (airline_story): All chunks are saved
-[20:31:58] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage: All dimensions are saved
+[20:48:19] [IO-Worker-11/INFO] [AirlineStory/]: [autotest] screenshot 35_village_ground
+[20:48:20] [Server thread/INFO] [AirlineStory/]: [autotest] look:112,34,48,10,-14
+[20:48:25] [IO-Worker-2/INFO] [AirlineStory/]: [autotest] screenshot 36_dock
+[20:48:25] [Server thread/INFO] [AirlineStory/]: [autotest] look:92,-82,-18,14,18
+[20:48:30] [IO-Worker-8/INFO] [AirlineStory/]: [autotest] screenshot 37_burned_village
+[20:48:31] [Server thread/INFO] [AirlineStory/]: [autotest] look:82,-70,24,16,-24
+[20:48:36] [IO-Worker-9/INFO] [AirlineStory/]: [autotest] screenshot 38_mangroves
+[20:48:36] [Server thread/INFO] [AirlineStory/]: [autotest] look:-162,-20,-16,8,10
+[20:48:41] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 39_cave_mouth
+[20:48:42] [Server thread/INFO] [AirlineStory/]: [autotest] look:92,102,-40,26,-30
+[20:48:42] [Render thread/WARN] [minecraft/ClientPacketListener]: Received passengers for unknown entity
+[20:48:47] [IO-Worker-2/INFO] [AirlineStory/]: [autotest] screenshot 40_lagoon
+[20:48:47] [Server thread/INFO] [AirlineStory/]: [autotest] look:-96,86,-20,14,20
+[20:48:52] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 41_grove
+[20:48:53] [Server thread/INFO] [AirlineStory/]: [autotest] look:-96,86,4,3,12
+[20:48:58] [IO-Worker-8/INFO] [AirlineStory/]: [autotest] screenshot 41b_grove_ground
+[20:48:58] [Server thread/INFO] [AirlineStory/]: [autotest] look:10,-85,-26,16,30
+[20:48:58] [Render thread/WARN] [minecraft/ClientPacketListener]: Received passengers for unknown entity
+[20:49:03] [IO-Worker-7/INFO] [AirlineStory/]: [autotest] screenshot 42_station
+[20:49:04] [Server thread/INFO] [AirlineStory/]: [autotest] look:10,-85,6,6,32
+[20:49:04] [Render thread/WARN] [minecraft/ClientPacketListener]: Received passengers for unknown entity
+[20:49:09] [IO-Worker-11/INFO] [AirlineStory/]: [autotest] screenshot 42b_station_eye
+[20:49:09] [Server thread/INFO] [AirlineStory/]: [autotest] look:10,-85,60,30,90
+[20:49:14] [IO-Worker-8/INFO] [AirlineStory/]: [autotest] screenshot 42c_station_far
+[20:49:15] [Server thread/INFO] [AirlineStory/]: [autotest] look:14,134,60,40,120
+[20:49:20] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 43_island_from_sea
+[20:49:20] [Server thread/INFO] [AirlineStory/]: [autotest] look:10,-85,0,170,140
+[20:49:20] [Render thread/WARN] [minecraft/ClientPacketListener]: Received passengers for unknown entity
+[20:49:25] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 44_island_overview
+[20:49:26] [Server thread/INFO] [AirlineStory/]: [autotest] gm:adventure
+[20:49:26] [Server thread/INFO] [AirlineStory/]: [autotest] tp:2870.5,65.0,2976.5,-90.0,10.0
+[20:49:29] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 45_cave_camp
+[20:49:30] [Server thread/INFO] [AirlineStory/]: [autotest] tp:3112.5,65.0,3010.5,180.0,5.0
+[20:49:30] [Render thread/WARN] [minecraft/ClientPacketListener]: Received passengers for unknown entity
+[20:49:31] [Server thread/INFO] [AirlineStory/]: [autotest] talk:ahu,ahu
+[20:49:35] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 46_longhouse_ahu
+[20:49:36] [Server thread/INFO] [AirlineStory/]: [autotest] tp:3007.5,156.0,2919.5,180.0,10.0
+[20:49:40] [IO-Worker-3/INFO] [AirlineStory/]: [autotest] screenshot 47_station_inside
+[20:49:40] [Server thread/INFO] [AirlineStory/]: [autotest] time:18000
+[20:49:41] [Server thread/INFO] [AirlineStory/]: [autotest] hollow
+[20:49:45] [IO-Worker-7/INFO] [AirlineStory/]: [autotest] screenshot 48_hollow_night
+[20:49:47] [Render thread/INFO] [minecraft/Minecraft]: Stopping!
+[20:49:47] [Server thread/INFO] [minecraft/ServerGamePacketListenerImpl]: Dev lost connection: Disconnected
+[20:49:47] [Server thread/INFO] [minecraft/MinecraftServer]: Dev left the game
+[20:49:47] [Server thread/INFO] [minecraft/ServerGamePacketListenerImpl]: Stopping singleplayer server as player logged out
+[20:49:47] [Server thread/INFO] [minecraft/MinecraftServer]: Stopping server
+[20:49:47] [Server thread/INFO] [minecraft/MinecraftServer]: Saving players
+[20:49:47] [Server thread/INFO] [minecraft/MinecraftServer]: Saving worlds
+[20:49:47] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'ServerLevel[Airline Story: Flight 417]'/minecraft:overworld
+[20:49:48] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage (airline_story): All chunks are saved
+[20:49:48] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage: All dimensions are saved
 
 Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
 
@@ -178,5 +184,5 @@ You can use '--warning-mode all' to show the individual deprecation warnings and
 
 See https://docs.gradle.org/8.1.1/userguide/command_line_interface.html#sec:command_line_warnings
 
-BUILD SUCCESSFUL in 6m 28s
+BUILD SUCCESSFUL in 6m 44s
 10 actionable tasks: 7 executed, 3 up-to-date
