@@ -72,7 +72,7 @@ public final class ModBlocks {
     public static final RegistryObject<Block> AIRPLANE_WINDOW = reg("airplane_window", () -> new Block(metal().mapColor(MapColor.SNOW).noOcclusion()
             .isViewBlocking((s, l, p) -> false).isSuffocating((s, l, p) -> false)));
     public static final RegistryObject<Block> AIRPLANE_SEAT = reg("airplane_seat", () -> new SeatBlock(true, cloth().noOcclusion(),
-            box(1, 0, 2, 15, 3, 14), box(1, 3, 1, 15, 7, 13), box(1, 7, 12, 15, 26, 16)));
+            box(1, 0, 2, 15, 3, 14), box(1, 3, 1, 15, 7, 13), box(1, 7, 12, 15, 20, 16)));
     public static final RegistryObject<Block> CABIN_FLOOR = reg("cabin_floor", () -> new Block(cloth()));
     public static final RegistryObject<Block> CABIN_PANEL = reg("cabin_panel", () -> new Block(metal().mapColor(MapColor.SAND)));
     public static final RegistryObject<Block> OVERHEAD_BIN = reg("overhead_bin", () -> new InteractBlock("overhead_bin", metal().mapColor(MapColor.SAND)));

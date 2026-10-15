@@ -181,8 +181,8 @@ for i, back in enumerate(['seat_back_logo', 'seat_back_live', 'seat_back_static'
     elements_model('airplane_seat' + ('' if i == 0 else f'_screen{i}'), {'fabric': t('airplane_seat'), 'metal': t('metal_dark'), 'back': t(back), 'head': t('seat_headrest')}, [
         box([1, 0, 3], [15, 3, 13], 'metal'),
         box([1, 3, 1], [15, 7, 13], 'fabric'),
-        box([1, 7, 12], [15, 22, 16], 'fabric', south='back'),
-        box([1, 22, 11.5], [15, 26, 16], 'head'),
+        box([1, 7, 12], [15, 16, 16], 'fabric', south='back'),
+        box([1, 16, 11.5], [15, 20, 16], 'head'),
         box([0, 3, 2], [1, 10, 13], 'metal'), box([15, 3, 2], [16, 10, 13], 'metal'),
     ], render='minecraft:solid', particle=t('airplane_seat'))
 bs('airplane_seat', facing_variants(lambda p: 'airplane_seat' + ('' if p['screen'] == '0' else f"_screen{p['screen']}"), [('screen', ['0', '1', '2'])]))
