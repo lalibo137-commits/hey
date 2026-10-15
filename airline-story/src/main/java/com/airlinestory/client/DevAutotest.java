@@ -20,7 +20,7 @@ public final class DevAutotest {
 
     public static final boolean ENABLED = Boolean.getBoolean("airlinestory.autotest");
 
-    private record Step(int wait, Runnable action) {}
+    private record Step(int delay, Runnable action) {}
 
     private static final List<Step> steps = new ArrayList<>();
     private static int index = -1, timer, titleTicks, worldTicks;
@@ -132,7 +132,7 @@ public final class DevAutotest {
             timer = 0;
         }
         if (index >= steps.size()) return;
-        if (++timer >= steps.get(index).wait) {
+        if (++timer >= steps.get(index).delay) {
             timer = 0;
             try {
                 steps.get(index).action.run();

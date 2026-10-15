@@ -52,7 +52,7 @@ mod's blocks and items exist, but the story does not run.
 - **Build your way out**: five stages of a boat at Teo's dock (keel, hull, mast, sail, provisions).
 - **Three endings.**
 
-Over 50 blocks, 34 items, 35 characters with hand-made skins, all textures 16x16 in the vanilla style.
+Over 50 blocks, 34 items, over 30 characters with hand-made skins, all textures 16x16 in the vanilla style.
 
 ## Build
 
