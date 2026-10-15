@@ -21,6 +21,7 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
@@ -90,6 +91,17 @@ public final class StoryEvents {
                 item.setDefaultPickUpDelay();
                 level.addFreshEntity(item);
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onSleep(PlayerSleepInBedEvent event) {
+        StoryDirector d = StoryDirector.get();
+        if (d == null || !(event.getEntity() instanceof ServerPlayer sp)) return;
+        String q = d.state().quest;
+        if (q.equals("first_night") || q.equals("night_watch") || q.equals("last_night")) {
+            event.setResult(Player.BedSleepingProblem.NOT_POSSIBLE_NOW);
+            d.hint(sp, "You lie down and close your eyes. Something out there takes a step closer. You open them again.");
         }
     }
 

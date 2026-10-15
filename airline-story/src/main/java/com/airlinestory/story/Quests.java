@@ -56,8 +56,8 @@ public final class Quests {
                 })
                 .resume(c -> c.director().gamemode(c.player(), GameType.ADVENTURE))
                 .tick((c, t) -> {
-                    if (t == 30) c.director().cutscene(c.player(), "intro");
-                    if (t > 30 && c.has("cs:intro") && !c.has("intro_pa")) {
+                    if (t == 60) c.director().cutscene(c.player(), "intro");
+                    if (t > 60 && c.has("cs:intro") && !c.has("intro_pa")) {
                         c.flag("intro_pa");
                         c.pa("Good morning and welcome to Meridian International. Please keep your belongings with you at all times. Courtesy is rated.");
                         c.hint("Press [J] to open your Travel Journal: it always tells you what to do next.");
