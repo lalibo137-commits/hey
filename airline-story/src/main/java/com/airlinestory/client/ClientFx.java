@@ -182,6 +182,8 @@ public final class ClientFx {
         return Math.max(0.05f, Math.min(1f, Math.min(m.age / 8f, (m.life - m.age) / 15f)));
     }
 
+    public static final int TRACKER_W = 150;
+
     public static void renderHud(GuiGraphics g, int w, int h) {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null || !ClientStory.INSTANCE.active || CutscenePlayer.isPlaying()) {
@@ -196,7 +198,7 @@ public final class ClientFx {
             tracker(g, font, w);
             Guidance.renderPrompt(g, w, h);
         }
-        int toastY = 4;
+        int toastY = plain && !hudHidden ? h / 2 - 30 : 4;
         int leftY = hudHidden ? 6 : 100;
         int paY = dialogue ? h / 8 + 4 : 34;
         for (Msg m : messages) {
@@ -205,9 +207,12 @@ public final class ClientFx {
             switch (m.type) {
                 case "pa", "halo" -> {
                     boolean halo = m.type.equals("halo");
-                    List<FormattedCharSequence> lines = VanillaGui.wrap(font, m.text, Math.min(280, w - 40));
-                    int bw = Math.min(300, w - 20), bh = 18 + lines.size() * 10;
-                    int bx = (w - bw) / 2;
+                    // during play the box sits under the compass, right of the objective tracker
+                    int left = plain && !hudHidden ? TRACKER_W + 8 : 10;
+                    int bw = Math.min(300, w - left - 6);
+                    List<FormattedCharSequence> lines = VanillaGui.wrap(font, m.text, bw - 12);
+                    int bh = 18 + lines.size() * 10;
+                    int bx = plain && !hudHidden ? left + (w - left - 6 - bw) / 2 : (w - bw) / 2;
                     VanillaGui.hudBox(g, bx, paY, bw, bh, halo ? 0xFFB040FF : 0xFF4FA8E0);
                     String head = halo ? "◉ HALO" : "✈ MERIDIAN ANNOUNCEMENT";
                     g.drawString(font, head, bx + 6, paY + 4, (halo ? 0xD080FF : 0x7FC8FF) | alpha, false);
@@ -268,7 +273,7 @@ public final class ClientFx {
                 case "quest" -> {
                     if (!plain) continue;
                     String ch = "CHAPTER " + (int) m.value + " — " + Quests.CHAPTERS[Math.min(Quests.CHAPTERS.length - 1, (int) m.value)].toUpperCase(Locale.ROOT);
-                    int y = h / 3;
+                    int y = h / 2 + 34;
                     g.drawCenteredString(font, ch, w / 2, y - 12, 0xBBBBBB | alpha);
                     g.pose().pushPose();
                     g.pose().translate(w / 2f, y, 0);
@@ -300,7 +305,7 @@ public final class ClientFx {
             boolean done = o.isDone(v, q.id, i);
             rows.add(new String[]{(done ? "✔ " : o.optional ? "○ " : "□ ") + o.display(v) + (o.optional && !done ? " (optional)" : ""), done ? "d" : o.optional ? "o" : "n"});
         }
-        int width = 168;
+        int width = TRACKER_W;
         int height = 26;
         List<List<FormattedCharSequence>> wrapped = new ArrayList<>();
         for (String[] r : rows) {

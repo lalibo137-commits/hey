@@ -40,6 +40,20 @@ public final class DevHooks {
                 if (p.getVehicle() != null) p.stopRiding();
                 p.teleportTo(d.level(), Locations.ISLAND_X + dx + 0.5, y + dy, Locations.ISLAND_Z + dz + 0.5, Float.parseFloat(c[2]), Float.parseFloat(c[3]));
             }
+            case "gm" -> p.setGameMode(net.minecraft.world.level.GameType.byName(arg));
+            case "look" -> {
+                // look:tx,tz,ox,oy,oz -> camera offset from an island spot, aimed at it
+                String[] c = arg.split(",");
+                int tx = Integer.parseInt(c[0]), tz = Integer.parseInt(c[1]);
+                double ox = Double.parseDouble(c[2]), oy = Double.parseDouble(c[3]), oz = Double.parseDouble(c[4]);
+                int ty = Math.max(com.airlinestory.world.IslandTerrain.SEA, com.airlinestory.world.IslandTerrain.height(tx, tz)) + 1;
+                double cx = Locations.ISLAND_X + tx + 0.5 + ox, cy = ty + oy, cz = Locations.ISLAND_Z + tz + 0.5 + oz;
+                double dx = -ox, dy = -oy + 1, dz = -oz;
+                float yaw = (float) Math.toDegrees(Math.atan2(-dx, dz));
+                float pitch = (float) -Math.toDegrees(Math.atan2(dy, Math.sqrt(dx * dx + dz * dz)));
+                if (p.getVehicle() != null) p.stopRiding();
+                p.teleportTo(d.level(), cx, cy, cz, yaw, pitch);
+            }
             case "time" -> d.level().setDayTime(Long.parseLong(arg));
             case "spawn" -> d.spawnGroup(arg);
             case "island" -> {

@@ -72,6 +72,8 @@ public final class DevAutotest {
         add(10, () -> server("spawn:airside"));
         view("12_cafe", 70, () -> tp(84.5, 64, 12.5, 180, 10));
         view("13_lounge", 60, () -> tp(88.5, 64, 43.5, 0, 5));
+        view("13b_lounge_tv", 50, () -> tp(87.5, 64, 50.5, 0, -10));
+        view("13c_poster", 40, () -> tp(100.5, 64, 37.5, 0, 0));
         view("14_concourse", 60, () -> tp(108.5, 66, 30.5, -90, 10));
         add(10, () -> server("spawn:backstage"));
         view("15_backstage", 60, () -> tp(106.5, 64, -4.5, 180, 5));
@@ -103,41 +105,47 @@ public final class DevAutotest {
         add(10, () -> server("quest:wake"));
         add(160, () -> shot("27_shore_cutscene"));
         add(300, () -> shot("28_crash_site"));
-        view("29_crash_overview", 120, () -> server("tpi:40,165,150,25,20"));
-        view("30_falls", 100, () -> server("tpi:-8,-30,170,10,2"));
-        view("31_lookout_tower", 80, () -> server("tpi:-66,-16,-135,-10"));
+        add(10, () -> server("gm:spectator"));
         add(10, () -> server("spawn:tribe"));
-        view("32_village", 140, () -> server("tpi:" + (V[0] - 22) + "," + (V[1] + 18) + ",-125,18,4"));
-        view("33_village_plaza", 80, () -> server("tpi:" + (V[0] + 4) + "," + (V[1] + 8) + ",160,10"));
-        add(10, () -> server("talk:ahu,ahu"));
-        add(80, () -> shot("34_dialogue_ahu"));
-        add(10, () -> Minecraft.getInstance().setScreen(null));
-        view("35_dock", 80, () -> {
-            var b = com.airlinestory.world.IslandBuilder.dockStart();
-            tp(b.getX() + 0.5, b.getY() + 1, b.getZ() + 0.5, -90, 10);
-        });
-        view("36_burned_village", 80, () -> server("tpi:80,-70,-140,15,3"));
-        view("37_cave_camp", 60, () -> {
+        String[][] spots = {
+                {"29_crash_aerial", "CRASH", "-30,28,40"}, {"30_lone_seat", "LONE_SEAT", "10,6,-12"},
+                {"31_falls", "LOWER_POOL", "-22,14,22"}, {"32_upper_falls", "UPPER_POOL", "18,10,18"},
+                {"33_lookout_tower", "LOOKOUT", "24,16,24"}, {"34_village_aerial", "VILLAGE", "-36,30,36"},
+                {"35_village_ground", "VILLAGE", "-14,4,14"}, {"36_dock", "VILLAGE", "48,10,-14"},
+                {"37_burned_village", "BURNED", "-18,14,18"}, {"38_mangroves", "MANGROVE", "24,16,-24"},
+                {"39_cave_mouth", "CAVE_MOUTH", "-16,8,10"}, {"40_lagoon", "LAGOON", "-40,26,-30"},
+                {"41_grove", "GROVE", "-20,14,20"}, {"42_station", "PEAK", "-26,16,30"},
+                {"43_island_from_sea", "CRASH", "60,40,120"}, {"44_island_overview", "PEAK", "0,170,140"}};
+        for (String[] sp : spots) {
+            int[] at = switch (sp[1]) {
+                case "CRASH" -> com.airlinestory.world.IslandTerrain.CRASH; case "LONE_SEAT" -> com.airlinestory.world.IslandTerrain.LONE_SEAT; case "LOWER_POOL" -> com.airlinestory.world.IslandTerrain.LOWER_POOL;
+                case "UPPER_POOL" -> com.airlinestory.world.IslandTerrain.UPPER_POOL; case "LOOKOUT" -> com.airlinestory.world.IslandTerrain.LOOKOUT; case "VILLAGE" -> com.airlinestory.world.IslandTerrain.VILLAGE;
+                case "BURNED" -> com.airlinestory.world.IslandTerrain.BURNED; case "MANGROVE" -> com.airlinestory.world.IslandTerrain.MANGROVE; case "CAVE_MOUTH" -> com.airlinestory.world.IslandTerrain.CAVE_MOUTH;
+                case "LAGOON" -> com.airlinestory.world.IslandTerrain.LAGOON; case "GROVE" -> com.airlinestory.world.IslandTerrain.GROVE; default -> com.airlinestory.world.IslandTerrain.PEAK;
+            };
+            view(sp[0], 100, () -> server("look:" + at[0] + "," + at[1] + "," + sp[2]));
+        }
+        add(10, () -> server("gm:adventure"));
+        add(10, () -> {
             int[] cc = com.airlinestory.world.IslandTerrain.CAVE_CAMP;
             tp(Locations.ISLAND_X + cc[0] - 5.5, com.airlinestory.world.IslandBuilder.CAVE_Y + 1, Locations.ISLAND_Z + cc[1] + 0.5, -90, 10);
         });
-        view("38_sunken_plane", 80, () -> {
-            int[] sp = com.airlinestory.world.IslandTerrain.SUNKEN;
-            tp(Locations.ISLAND_X + sp[0] + 6.5, 60, Locations.ISLAND_Z + sp[1] - 12.5, 30, 30);
+        add(60, () -> shot("45_cave_camp"));
+        add(10, () -> {
+            var v = com.airlinestory.world.IslandBuilder.village(0, -24);
+            tp(v.getX() + 0.5, v.getY(), v.getZ() + 0.5, 180, 5);
         });
-        view("39_grove", 100, () -> {
-            var s = com.airlinestory.world.IslandBuilder.grove(0, 6);
-            tp(s.getX() + 0.5, s.getY() + 1, s.getZ() + 0.5, 180, 10);
+        add(20, () -> server("talk:ahu,ahu"));
+        add(80, () -> shot("46_longhouse_ahu"));
+        add(10, () -> Minecraft.getInstance().setScreen(null));
+        add(10, () -> {
+            var s = com.airlinestory.world.IslandBuilder.station(-3, 1, 4);
+            tp(s.getX() + 0.5, s.getY(), s.getZ() + 0.5, 180, 10);
         });
-        view("40_station", 120, () -> {
-            var s = com.airlinestory.world.IslandBuilder.station(0, 1, 14);
-            tp(s.getX() + 0.5, s.getY() + 1, s.getZ() + 0.5, 180, 5);
-        });
+        add(80, () -> shot("47_station_inside"));
         add(10, () -> server("time:18000"));
         add(10, () -> server("hollow"));
-        add(80, () -> shot("41_hollow_night"));
-        add(10, () -> server("time:1000"));
-        view("42_island_aerial", 160, () -> server("tpi:0,40,180,40,90"));
+        add(80, () -> shot("48_hollow_night"));
         add(40, () -> Minecraft.getInstance().stop());
     }
 

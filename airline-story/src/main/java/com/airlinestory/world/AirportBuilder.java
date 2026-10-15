@@ -313,6 +313,7 @@ public final class AirportBuilder {
         p.set(68, F + 1, 47, stair(Blocks.DARK_OAK_STAIRS, Direction.NORTH, false));
         p.set(68, F + 1, 51, stair(Blocks.DARK_OAK_STAIRS, Direction.SOUTH, false));
         p.set(68, F + 5, 49, Blocks.LANTERN.defaultBlockState().setValue(net.minecraft.world.level.block.LanternBlock.HANGING, true));
+        for (int[] l : new int[][]{{64, 45}, {72, 45}, {64, 53}, {72, 53}}) p.set(l[0], F + 6, l[1], Blocks.SEA_LANTERN);
         p.set(73, F + 4, 54, facing(Blocks.OBSERVER, Direction.WEST));
         p.set(63, F + 1, 54, Blocks.BARREL);
         partition(p, 76, "AIRSIDE", "Gates B5 - B7", "Cloud Nine • Duty Free");
@@ -527,6 +528,12 @@ public final class AirportBuilder {
                 p.set(x, F + 13, z, Blocks.GRAY_CONCRETE);
             }
         for (int x = BX0 + 4; x < BX1; x += 8) for (int z = BZ0 + 4; z < -1; z += 8) p.hangingLight(x, F + 13, z, 3, Blocks.REDSTONE_LAMP);
+        // work lights hanging from the grid
+        for (int x = BX0 + 4; x <= BX1 - 4; x += 7)
+            for (int z = BZ0 + 4; z <= -3; z += 7) {
+                p.set(x, F + 12, z, Blocks.CHAIN);
+                p.set(x, F + 11, z, Blocks.LANTERN.defaultBlockState().setValue(net.minecraft.world.level.block.LanternBlock.HANGING, true));
+            }
         // corridor from the staff door
         for (int z = -8; z <= -1; z++) {
             p.set(104, F + 1, z, ply); p.set(104, F + 2, z, ply); p.set(104, F + 3, z, ply);

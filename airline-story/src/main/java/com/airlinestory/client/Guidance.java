@@ -162,7 +162,11 @@ public final class Guidance {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null) return;
         Font font = mc.font;
-        int cw = Math.min(220, w - 120), cx = w / 2, y = 4;
+        // keep clear of the objective tracker (left) and the score (right)
+        int left = ClientFx.TRACKER_W + 10, right = w - 72;
+        int cw = Math.max(80, Math.min(220, right - left));
+        int cx = w / 2 - cw / 2 < left ? left + cw / 2 : w / 2;
+        int y = 4;
         int x0 = cx - cw / 2;
         g.fill(x0 - 2, y, x0 + cw + 2, y + 13, 0x70000000);
         g.fill(x0 - 2, y + 13, x0 + cw + 2, y + 14, 0x40FFFFFF);
@@ -189,6 +193,7 @@ public final class Guidance {
             int dist = (int) Math.sqrt(dx * dx + dz * dz);
             double dy = t.pos().y - 1.6 - mc.player.getY();
             String below = t.label() + "  " + dist + "m" + (dy > 4 ? " ↑" : dy < -4 ? " ↓" : "");
+            if (font.width(below) > cw) below = t.label().substring(0, Math.max(0, Math.min(t.label().length(), 18))) + "…  " + dist + "m";
             g.drawCenteredString(font, below, cx, y + 17, 0xFFFFE070);
         }
     }
