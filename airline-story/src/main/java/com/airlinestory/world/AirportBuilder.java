@@ -118,9 +118,9 @@ public final class AirportBuilder {
             p.set(x, F + 1, 7, facing(ModBlocks.AIRPORT_SEAT.get(), Direction.SOUTH));
             p.set(x, F + 1, 12, facing(ModBlocks.AIRPORT_SEAT.get(), Direction.NORTH));
         }
-        p.set(1, F + 1, 1, Blocks.POTTED_AZALEA_BUSH);
-        p.set(1, F + 1, 15, Blocks.POTTED_AZALEA_BUSH);
-        p.set(38, F + 1, 15, Blocks.POTTED_FLOWERING_AZALEA_BUSH);
+        p.set(1, F + 1, 1, Blocks.POTTED_AZALEA);
+        p.set(1, F + 1, 15, Blocks.POTTED_AZALEA);
+        p.set(38, F + 1, 15, Blocks.POTTED_FLOWERING_AZALEA);
         // Departures board on a pillar
         p.fill(26, F + 1, 10, 26, F + 3, 11, wall);
         for (int x = 24; x <= 28; x++) {
@@ -185,8 +185,8 @@ public final class AirportBuilder {
         p.fill(70, F + 1, 0, 80, CEIL - 1, 0, white);
         p.set(68, F + 1, 22, facing(ModBlocks.SMILESCORE_KIOSK.get(), Direction.SOUTH));
         p.set(80, F + 1, 2, facing(ModBlocks.VENDING_MACHINE.get(), Direction.SOUTH));
-        p.set(57, F + 1, 46, Blocks.POTTED_AZALEA_BUSH);
-        p.set(126, F + 1, 20, Blocks.POTTED_AZALEA_BUSH);
+        p.set(57, F + 1, 46, Blocks.POTTED_AZALEA);
+        p.set(126, F + 1, 20, Blocks.POTTED_AZALEA);
 
         int[] gates = {Locations.GATE_B5, Locations.GATE_B6, Locations.GATE_B7};
         String[] names = {"B5", "B6", "B7"};
@@ -230,7 +230,7 @@ public final class AirportBuilder {
             if (z % 4 == 2) p.set(Locations.GATE_B7, 73, z, Blocks.SEA_LANTERN);
             if (isStair(z)) {
                 for (int x = x0 + 1; x < x1; x++)
-                    p.set(x, fy, z, Blocks.SMOOTH_STONE_STAIRS.defaultBlockState().setValue(StairBlock.FACING, Direction.SOUTH));
+                    p.set(x, fy, z, Blocks.POLISHED_ANDESITE_STAIRS.defaultBlockState().setValue(StairBlock.FACING, Direction.SOUTH));
             }
         }
         for (int x = x0; x <= x1; x++) p.fill(x, F + 1, 58, x, F + 1, 58, Blocks.IRON_BLOCK.defaultBlockState());

@@ -32,7 +32,7 @@ jobs:
         run: |
           chmod +x gradlew
           if ! ./gradlew build --console=plain > build.log 2>&1; then
-            grep -n -E "error:|warning: \[|What went wrong|Caused by|\.java:[0-9]+" -A 4 build.log | grep -v "^\s*at " | head -400
+            grep -n -E "error:|warning: \[|What went wrong|Caused by|\.java:[0-9]+" -A 4 build.log | grep -v "^\s*at " | head -400 > errors.txt; cat errors.txt | tail -150
             exit 1
           fi
           tail -20 build.log
