@@ -1,0 +1,36 @@
+name: Airline Story build
+
+on:
+  push:
+    paths:
+      - 'airline-story/**'
+      - '.github/workflows/airline-story.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: airline-story
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ hashFiles('airline-story/build.gradle', 'airline-story/gradle.properties', 'airline-story/gradle/wrapper/gradle-wrapper.properties') }}
+      - name: Build
+        run: chmod +x gradlew && ./gradlew build --stacktrace
+      - uses: actions/upload-artifact@v4
+        with:
+          name: airline-story-jar
+          path: airline-story/build/libs/*.jar
