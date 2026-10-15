@@ -199,7 +199,7 @@ public final class IslandBuilder {
                 switch (region) {
                     case "grove" -> {
                         if (dist(dx, dz, GROVE) < 10) continue;
-                        if (roll < 1 / 34.0) deadTree(p, x, h + 1, z, hash(x, z, 5));
+                        if (roll < 1 / 70.0) deadTree(p, x, h + 1, z, hash(x, z, 5));
                         else if (roll < 1 / 12.0) p.set(x, h + 1, z, ModBlocks.GHOST_ORCHID.get());
                         else if (roll < 1 / 6.0) p.set(x, h + 1, z, Blocks.DEAD_BUSH);
                         else if (roll < 0.2) p.set(x, h + 1, z, Blocks.MOSS_CARPET);
