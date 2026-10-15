@@ -100,7 +100,7 @@ public final class IslandTerrain {
         if (md < 1) h += 64 * Math.pow(1 - md, 1.2) * (0.9 + 0.2 * ridged(dx, dz));
         // ridge to the lookout
         double rd = segDist(dx, dz, PEAK[0], PEAK[1], LOOKOUT[0], LOOKOUT[1]);
-        if (rd < 22) h += 26 * Math.pow(1 - rd / 22, 1.6);
+        if (rd < 22) h += 26 * Math.pow(1 - rd / 22, 1.6) * smooth(clamp01((dist(dx, dz, PEAK) - 20) / 40.0));
         // lookout knoll
         double ld = dist(dx, dz, LOOKOUT);
         if (ld < 16) h += 10 * smooth(1 - ld / 16);

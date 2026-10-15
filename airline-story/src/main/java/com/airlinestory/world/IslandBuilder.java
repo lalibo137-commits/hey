@@ -1047,7 +1047,7 @@ public final class IslandBuilder {
         for (int[] b : new int[][]{{3, 0, 10}, {-3, 0, 11}, {0, -3, 12}, {2, 2, 9}, {-2, -2, 10}}) {
             for (int k = 1; k <= 3; k++) {
                 int x = cx + Integer.signum(b[0]) * (Math.abs(b[0]) - 1 + k), z = cz + Integer.signum(b[1]) * (Math.abs(b[1]) - 1 + k);
-                p.set(x, gy + b[2] + k / 2, z, Blocks.BIRCH_FENCE);
+                p.set(x, gy + b[2] + k / 2, z, Blocks.STRIPPED_BIRCH_WOOD);
             }
         }
         // inside: the photographs, a cold blue light, more polaroids pinned to the inner walls
@@ -1112,7 +1112,7 @@ public final class IslandBuilder {
             Direction d = Direction.from2DDataValue(r.nextInt(4));
             int by = y + height - 2 - r.nextInt(3);
             p.set(x + d.getStepX(), by, z + d.getStepZ(), log.setValue(RotatedPillarBlock.AXIS, d.getAxis()));
-            p.set(x + d.getStepX() * 2, by + 1, z + d.getStepZ() * 2, Blocks.BIRCH_FENCE);
+            if (r.nextBoolean()) p.set(x + d.getStepX() * 2, by + 1, z + d.getStepZ() * 2, log);
         }
     }
 
