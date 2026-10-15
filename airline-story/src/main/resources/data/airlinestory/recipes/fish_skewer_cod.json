@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:stick"
+    },
+    {
+      "item": "minecraft:cooked_cod"
+    },
+    {
+      "item": "airlinestory:roasted_taro"
+    }
+  ],
+  "result": {
+    "item": "airlinestory:fish_skewer",
+    "count": 1
+  }
+}

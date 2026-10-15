@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smoking",
+  "category": "food",
+  "ingredient": {
+    "item": "airlinestory:taro_root"
+  },
+  "result": "airlinestory:roasted_taro",
+  "experience": 0.35,
+  "cookingtime": 100
+}

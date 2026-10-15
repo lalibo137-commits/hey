@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "front": "airlinestory:block/polaroid_wall",
+    "side": "airlinestory:block/dark_planks",
+    "top": "airlinestory:block/dark_planks",
+    "bottom": "airlinestory:block/dark_planks"
+  }
+}

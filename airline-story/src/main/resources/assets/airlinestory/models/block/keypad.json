@@ -1,0 +1,79 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "face": "airlinestory:block/keypad",
+    "metal": "airlinestory:block/metal_dark",
+    "particle": "airlinestory:block/keypad"
+  },
+  "elements": [
+    {
+      "from": [
+        4,
+        3,
+        14
+      ],
+      "to": [
+        12,
+        13,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#face",
+          "uv": [
+            4,
+            3,
+            12,
+            13
+          ]
+        },
+        "south": {
+          "texture": "#metal",
+          "uv": [
+            4,
+            3,
+            12,
+            13
+          ]
+        },
+        "east": {
+          "texture": "#metal",
+          "uv": [
+            0,
+            3,
+            2,
+            13
+          ]
+        },
+        "west": {
+          "texture": "#metal",
+          "uv": [
+            14,
+            3,
+            16,
+            13
+          ]
+        },
+        "up": {
+          "texture": "#metal",
+          "uv": [
+            4,
+            14,
+            12,
+            16
+          ]
+        },
+        "down": {
+          "texture": "#metal",
+          "uv": [
+            4,
+            0,
+            12,
+            2
+          ]
+        }
+      }
+    }
+  ],
+  "render_type": "minecraft:cutout"
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "airlinestory:block/ghost_orchid"
+  },
+  "render_type": "minecraft:cutout"
+}

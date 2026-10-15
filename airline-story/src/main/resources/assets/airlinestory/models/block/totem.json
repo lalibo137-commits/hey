@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "front": "airlinestory:block/totem_front",
+    "side": "airlinestory:block/totem_side",
+    "top": "airlinestory:block/totem_top",
+    "bottom": "airlinestory:block/totem_top"
+  }
+}

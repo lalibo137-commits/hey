@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "airlinestory:item/sea_water_flask"
+  }
+}

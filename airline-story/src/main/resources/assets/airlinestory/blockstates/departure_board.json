@@ -1,0 +1,94 @@
+{
+  "variants": {
+    "facing=north,lit=true,mode=0": {
+      "model": "airlinestory:block/departure_board"
+    },
+    "facing=north,lit=true,mode=1": {
+      "model": "airlinestory:block/departure_board_glitch"
+    },
+    "facing=north,lit=true,mode=2": {
+      "model": "airlinestory:block/departure_board_glitch"
+    },
+    "facing=north,lit=false,mode=0": {
+      "model": "airlinestory:block/departure_board"
+    },
+    "facing=north,lit=false,mode=1": {
+      "model": "airlinestory:block/departure_board_glitch"
+    },
+    "facing=north,lit=false,mode=2": {
+      "model": "airlinestory:block/departure_board_glitch"
+    },
+    "facing=east,lit=true,mode=0": {
+      "model": "airlinestory:block/departure_board",
+      "y": 90
+    },
+    "facing=east,lit=true,mode=1": {
+      "model": "airlinestory:block/departure_board_glitch",
+      "y": 90
+    },
+    "facing=east,lit=true,mode=2": {
+      "model": "airlinestory:block/departure_board_glitch",
+      "y": 90
+    },
+    "facing=east,lit=false,mode=0": {
+      "model": "airlinestory:block/departure_board",
+      "y": 90
+    },
+    "facing=east,lit=false,mode=1": {
+      "model": "airlinestory:block/departure_board_glitch",
+      "y": 90
+    },
+    "facing=east,lit=false,mode=2": {
+      "model": "airlinestory:block/departure_board_glitch",
+      "y": 90
+    },
+    "facing=south,lit=true,mode=0": {
+      "model": "airlinestory:block/departure_board",
+      "y": 180
+    },
+    "facing=south,lit=true,mode=1": {
+      "model": "airlinestory:block/departure_board_glitch",
+      "y": 180
+    },
+    "facing=south,lit=true,mode=2": {
+      "model": "airlinestory:block/departure_board_glitch",
+      "y": 180
+    },
+    "facing=south,lit=false,mode=0": {
+      "model": "airlinestory:block/departure_board",
+      "y": 180
+    },
+    "facing=south,lit=false,mode=1": {
+      "model": "airlinestory:block/departure_board_glitch",
+      "y": 180
+    },
+    "facing=south,lit=false,mode=2": {
+      "model": "airlinestory:block/departure_board_glitch",
+      "y": 180
+    },
+    "facing=west,lit=true,mode=0": {
+      "model": "airlinestory:block/departure_board",
+      "y": 270
+    },
+    "facing=west,lit=true,mode=1": {
+      "model": "airlinestory:block/departure_board_glitch",
+      "y": 270
+    },
+    "facing=west,lit=true,mode=2": {
+      "model": "airlinestory:block/departure_board_glitch",
+      "y": 270
+    },
+    "facing=west,lit=false,mode=0": {
+      "model": "airlinestory:block/departure_board",
+      "y": 270
+    },
+    "facing=west,lit=false,mode=1": {
+      "model": "airlinestory:block/departure_board_glitch",
+      "y": 270
+    },
+    "facing=west,lit=false,mode=2": {
+      "model": "airlinestory:block/departure_board_glitch",
+      "y": 270
+    }
+  }
+}

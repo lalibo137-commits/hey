@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "airlinestory:block/airplane_window"
+  },
+  "render_type": "minecraft:cutout"
+}

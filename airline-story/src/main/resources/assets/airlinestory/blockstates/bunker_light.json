@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=true": {
+      "model": "airlinestory:block/bunker_light"
+    },
+    "lit=false": {
+      "model": "airlinestory:block/bunker_light_off"
+    }
+  }
+}

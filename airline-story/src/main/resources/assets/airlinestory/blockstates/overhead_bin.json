@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "airlinestory:block/overhead_bin"
+    },
+    "facing=east": {
+      "model": "airlinestory:block/overhead_bin",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "airlinestory:block/overhead_bin",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "airlinestory:block/overhead_bin",
+      "y": 270
+    }
+  }
+}

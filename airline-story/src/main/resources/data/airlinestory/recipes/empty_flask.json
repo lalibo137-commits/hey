@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " R ",
+    "P P",
+    " P "
+  ],
+  "key": {
+    "R": {
+      "item": "airlinestory:rope"
+    },
+    "P": {
+      "item": "airlinestory:palm_planks"
+    }
+  },
+  "result": {
+    "item": "airlinestory:empty_flask",
+    "count": 1
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "airlinestory:block/call_button"
+    },
+    "facing=east": {
+      "model": "airlinestory:block/call_button",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "airlinestory:block/call_button",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "airlinestory:block/call_button",
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "front": "airlinestory:block/meridian_logo",
+    "side": "airlinestory:block/terminal_wall",
+    "top": "airlinestory:block/terminal_wall",
+    "bottom": "airlinestory:block/terminal_wall"
+  }
+}

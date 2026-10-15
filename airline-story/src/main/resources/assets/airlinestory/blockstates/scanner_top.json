@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "airlinestory:block/scanner_top"
+    },
+    "facing=east": {
+      "model": "airlinestory:block/scanner_top",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "airlinestory:block/scanner_top",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "airlinestory:block/scanner_top",
+      "y": 270
+    }
+  }
+}

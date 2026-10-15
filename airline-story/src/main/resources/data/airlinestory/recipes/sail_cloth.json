@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BBB",
+    "BRB",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "airlinestory:airline_blanket"
+    },
+    "R": {
+      "item": "airlinestory:rope"
+    }
+  },
+  "result": {
+    "item": "airlinestory:sail_cloth",
+    "count": 1
+  }
+}

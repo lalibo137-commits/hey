@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "airlinestory:block/keypad"
+    },
+    "facing=east": {
+      "model": "airlinestory:block/keypad",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "airlinestory:block/keypad",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "airlinestory:block/keypad",
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "face": "airlinestory:block/call_button",
+    "metal": "airlinestory:block/metal_light",
+    "particle": "airlinestory:block/call_button"
+  },
+  "elements": [
+    {
+      "from": [
+        4,
+        4,
+        14
+      ],
+      "to": [
+        12,
+        12,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#face",
+          "uv": [
+            4,
+            4,
+            12,
+            12
+          ]
+        },
+        "south": {
+          "texture": "#metal",
+          "uv": [
+            4,
+            4,
+            12,
+            12
+          ]
+        },
+        "east": {
+          "texture": "#metal",
+          "uv": [
+            0,
+            4,
+            2,
+            12
+          ]
+        },
+        "west": {
+          "texture": "#metal",
+          "uv": [
+            14,
+            4,
+            16,
+            12
+          ]
+        },
+        "up": {
+          "texture": "#metal",
+          "uv": [
+            4,
+            14,
+            12,
+            16
+          ]
+        },
+        "down": {
+          "texture": "#metal",
+          "uv": [
+            4,
+            0,
+            12,
+            2
+          ]
+        }
+      }
+    }
+  ],
+  "render_type": "minecraft:cutout"
+}

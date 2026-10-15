@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "airlinestory:water_flask"
+    },
+    {
+      "item": "airlinestory:ghost_orchid"
+    },
+    {
+      "item": "airlinestory:bitterleaf"
+    }
+  ],
+  "result": {
+    "item": "airlinestory:ghost_tonic",
+    "count": 1
+  }
+}

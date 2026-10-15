@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=true": {
+      "model": "airlinestory:block/cabin_light"
+    },
+    "lit=false": {
+      "model": "airlinestory:block/cabin_light_off"
+    }
+  }
+}

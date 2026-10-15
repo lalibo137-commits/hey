@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "food",
+  "ingredient": {
+    "item": "airlinestory:sea_water_flask"
+  },
+  "result": "airlinestory:water_flask",
+  "experience": 0.1,
+  "cookingtime": 200
+}

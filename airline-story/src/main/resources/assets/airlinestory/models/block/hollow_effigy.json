@@ -1,0 +1,215 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "cloth": "airlinestory:block/hollow_effigy",
+    "stick": "airlinestory:block/dark_planks",
+    "particle": "airlinestory:block/hollow_effigy"
+  },
+  "elements": [
+    {
+      "from": [
+        7,
+        0,
+        7
+      ],
+      "to": [
+        9,
+        16,
+        9
+      ],
+      "faces": {
+        "north": {
+          "texture": "#stick",
+          "uv": [
+            7,
+            0,
+            9,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#stick",
+          "uv": [
+            7,
+            0,
+            9,
+            16
+          ]
+        },
+        "east": {
+          "texture": "#stick",
+          "uv": [
+            7,
+            0,
+            9,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#stick",
+          "uv": [
+            7,
+            0,
+            9,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#stick",
+          "uv": [
+            7,
+            7,
+            9,
+            9
+          ]
+        },
+        "down": {
+          "texture": "#stick",
+          "uv": [
+            7,
+            7,
+            9,
+            9
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        3,
+        9,
+        6
+      ],
+      "to": [
+        13,
+        11,
+        10
+      ],
+      "faces": {
+        "north": {
+          "texture": "#stick",
+          "uv": [
+            3,
+            5,
+            13,
+            7
+          ]
+        },
+        "south": {
+          "texture": "#stick",
+          "uv": [
+            3,
+            5,
+            13,
+            7
+          ]
+        },
+        "east": {
+          "texture": "#stick",
+          "uv": [
+            6,
+            5,
+            10,
+            7
+          ]
+        },
+        "west": {
+          "texture": "#stick",
+          "uv": [
+            6,
+            5,
+            10,
+            7
+          ]
+        },
+        "up": {
+          "texture": "#stick",
+          "uv": [
+            3,
+            6,
+            13,
+            10
+          ]
+        },
+        "down": {
+          "texture": "#stick",
+          "uv": [
+            3,
+            6,
+            13,
+            10
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        4,
+        4,
+        5
+      ],
+      "to": [
+        12,
+        14,
+        11
+      ],
+      "faces": {
+        "north": {
+          "texture": "#cloth",
+          "uv": [
+            4,
+            2,
+            12,
+            12
+          ]
+        },
+        "south": {
+          "texture": "#cloth",
+          "uv": [
+            4,
+            2,
+            12,
+            12
+          ]
+        },
+        "east": {
+          "texture": "#cloth",
+          "uv": [
+            5,
+            2,
+            11,
+            12
+          ]
+        },
+        "west": {
+          "texture": "#cloth",
+          "uv": [
+            5,
+            2,
+            11,
+            12
+          ]
+        },
+        "up": {
+          "texture": "#cloth",
+          "uv": [
+            4,
+            5,
+            12,
+            11
+          ]
+        },
+        "down": {
+          "texture": "#cloth",
+          "uv": [
+            4,
+            5,
+            12,
+            11
+          ]
+        }
+      }
+    }
+  ],
+  "render_type": "minecraft:cutout"
+}

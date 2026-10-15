@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "airlinestory:block/conveyor_belt"
+    },
+    "facing=east": {
+      "model": "airlinestory:block/conveyor_belt",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "airlinestory:block/conveyor_belt",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "airlinestory:block/conveyor_belt",
+      "y": 270
+    }
+  }
+}

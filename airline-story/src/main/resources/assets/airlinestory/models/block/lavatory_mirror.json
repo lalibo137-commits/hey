@@ -1,0 +1,79 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "glass": "airlinestory:block/mirror",
+    "metal": "airlinestory:block/metal_light",
+    "particle": "airlinestory:block/mirror"
+  },
+  "elements": [
+    {
+      "from": [
+        1,
+        1,
+        14
+      ],
+      "to": [
+        15,
+        15,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#glass",
+          "uv": [
+            1,
+            1,
+            15,
+            15
+          ]
+        },
+        "south": {
+          "texture": "#metal",
+          "uv": [
+            1,
+            1,
+            15,
+            15
+          ]
+        },
+        "east": {
+          "texture": "#metal",
+          "uv": [
+            0,
+            1,
+            2,
+            15
+          ]
+        },
+        "west": {
+          "texture": "#metal",
+          "uv": [
+            14,
+            1,
+            16,
+            15
+          ]
+        },
+        "up": {
+          "texture": "#metal",
+          "uv": [
+            1,
+            14,
+            15,
+            16
+          ]
+        },
+        "down": {
+          "texture": "#metal",
+          "uv": [
+            1,
+            0,
+            15,
+            2
+          ]
+        }
+      }
+    }
+  ],
+  "render_type": "minecraft:cutout"
+}

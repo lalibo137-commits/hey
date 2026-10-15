@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "airlinestory:block/cabin_panel"
+    }
+  }
+}

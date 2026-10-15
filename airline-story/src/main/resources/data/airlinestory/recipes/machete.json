@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " H",
+    "R ",
+    "T "
+  ],
+  "key": {
+    "H": {
+      "item": "airlinestory:hull_panel"
+    },
+    "R": {
+      "item": "airlinestory:rope"
+    },
+    "T": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "airlinestory:machete",
+    "count": 1
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "side": "airlinestory:block/suitcase_side",
+    "top": "airlinestory:block/suitcase_open",
+    "front": "airlinestory:block/suitcase_front",
+    "particle": "airlinestory:block/suitcase_side"
+  },
+  "elements": [
+    {
+      "from": [
+        1,
+        0,
+        4
+      ],
+      "to": [
+        15,
+        12,
+        12
+      ],
+      "faces": {
+        "north": {
+          "texture": "#front",
+          "uv": [
+            1,
+            4,
+            15,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#side",
+          "uv": [
+            1,
+            4,
+            15,
+            16
+          ]
+        },
+        "east": {
+          "texture": "#side",
+          "uv": [
+            4,
+            4,
+            12,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#side",
+          "uv": [
+            4,
+            4,
+            12,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#top",
+          "uv": [
+            1,
+            4,
+            15,
+            12
+          ]
+        },
+        "down": {
+          "texture": "#side",
+          "uv": [
+            1,
+            4,
+            15,
+            12
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        6,
+        12,
+        7
+      ],
+      "to": [
+        10,
+        13.5,
+        9
+      ],
+      "faces": {
+        "north": {
+          "texture": "#side",
+          "uv": [
+            6,
+            2.5,
+            10,
+            4
+          ]
+        },
+        "south": {
+          "texture": "#side",
+          "uv": [
+            6,
+            2.5,
+            10,
+            4
+          ]
+        },
+        "east": {
+          "texture": "#side",
+          "uv": [
+            7,
+            2.5,
+            9,
+            4
+          ]
+        },
+        "west": {
+          "texture": "#side",
+          "uv": [
+            7,
+            2.5,
+            9,
+            4
+          ]
+        },
+        "up": {
+          "texture": "#side",
+          "uv": [
+            6,
+            7,
+            10,
+            9
+          ]
+        },
+        "down": {
+          "texture": "#side",
+          "uv": [
+            6,
+            7,
+            10,
+            9
+          ]
+        }
+      }
+    }
+  ],
+  "render_type": "minecraft:cutout"
+}

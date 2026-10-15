@@ -1,0 +1,94 @@
+{
+  "variants": {
+    "facing=north,lit=true,mode=0": {
+      "model": "airlinestory:block/suitcase"
+    },
+    "facing=north,lit=true,mode=1": {
+      "model": "airlinestory:block/suitcase_open"
+    },
+    "facing=north,lit=true,mode=2": {
+      "model": "airlinestory:block/suitcase_open"
+    },
+    "facing=north,lit=false,mode=0": {
+      "model": "airlinestory:block/suitcase"
+    },
+    "facing=north,lit=false,mode=1": {
+      "model": "airlinestory:block/suitcase_open"
+    },
+    "facing=north,lit=false,mode=2": {
+      "model": "airlinestory:block/suitcase_open"
+    },
+    "facing=east,lit=true,mode=0": {
+      "model": "airlinestory:block/suitcase",
+      "y": 90
+    },
+    "facing=east,lit=true,mode=1": {
+      "model": "airlinestory:block/suitcase_open",
+      "y": 90
+    },
+    "facing=east,lit=true,mode=2": {
+      "model": "airlinestory:block/suitcase_open",
+      "y": 90
+    },
+    "facing=east,lit=false,mode=0": {
+      "model": "airlinestory:block/suitcase",
+      "y": 90
+    },
+    "facing=east,lit=false,mode=1": {
+      "model": "airlinestory:block/suitcase_open",
+      "y": 90
+    },
+    "facing=east,lit=false,mode=2": {
+      "model": "airlinestory:block/suitcase_open",
+      "y": 90
+    },
+    "facing=south,lit=true,mode=0": {
+      "model": "airlinestory:block/suitcase",
+      "y": 180
+    },
+    "facing=south,lit=true,mode=1": {
+      "model": "airlinestory:block/suitcase_open",
+      "y": 180
+    },
+    "facing=south,lit=true,mode=2": {
+      "model": "airlinestory:block/suitcase_open",
+      "y": 180
+    },
+    "facing=south,lit=false,mode=0": {
+      "model": "airlinestory:block/suitcase",
+      "y": 180
+    },
+    "facing=south,lit=false,mode=1": {
+      "model": "airlinestory:block/suitcase_open",
+      "y": 180
+    },
+    "facing=south,lit=false,mode=2": {
+      "model": "airlinestory:block/suitcase_open",
+      "y": 180
+    },
+    "facing=west,lit=true,mode=0": {
+      "model": "airlinestory:block/suitcase",
+      "y": 270
+    },
+    "facing=west,lit=true,mode=1": {
+      "model": "airlinestory:block/suitcase_open",
+      "y": 270
+    },
+    "facing=west,lit=true,mode=2": {
+      "model": "airlinestory:block/suitcase_open",
+      "y": 270
+    },
+    "facing=west,lit=false,mode=0": {
+      "model": "airlinestory:block/suitcase",
+      "y": 270
+    },
+    "facing=west,lit=false,mode=1": {
+      "model": "airlinestory:block/suitcase_open",
+      "y": 270
+    },
+    "facing=west,lit=false,mode=2": {
+      "model": "airlinestory:block/suitcase_open",
+      "y": 270
+    }
+  }
+}

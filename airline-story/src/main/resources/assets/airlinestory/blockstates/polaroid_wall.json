@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "airlinestory:block/polaroid_wall"
+    },
+    "facing=east": {
+      "model": "airlinestory:block/polaroid_wall",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "airlinestory:block/polaroid_wall",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "airlinestory:block/polaroid_wall",
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "airlinestory:block/meridian_logo"
+    },
+    "facing=east": {
+      "model": "airlinestory:block/meridian_logo",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "airlinestory:block/meridian_logo",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "airlinestory:block/meridian_logo",
+      "y": 270
+    }
+  }
+}

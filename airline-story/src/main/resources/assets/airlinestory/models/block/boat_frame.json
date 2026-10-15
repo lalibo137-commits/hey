@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "front": "airlinestory:block/boat_frame_side",
+    "side": "airlinestory:block/boat_frame_side",
+    "top": "airlinestory:block/boat_frame_top",
+    "bottom": "airlinestory:block/palm_planks"
+  }
+}

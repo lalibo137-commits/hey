@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "airlinestory:block/boat_frame"
+    },
+    "facing=east": {
+      "model": "airlinestory:block/boat_frame",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "airlinestory:block/boat_frame",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "airlinestory:block/boat_frame",
+      "y": 270
+    }
+  }
+}

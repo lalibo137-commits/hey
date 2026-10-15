@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "airlinestory:block/boat_helm"
+    },
+    "facing=east": {
+      "model": "airlinestory:block/boat_helm",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "airlinestory:block/boat_helm",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "airlinestory:block/boat_helm",
+      "y": 270
+    }
+  }
+}

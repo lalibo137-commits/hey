@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "front": "airlinestory:block/xray_front",
+    "side": "airlinestory:block/xray_side",
+    "top": "airlinestory:block/xray_top",
+    "bottom": "airlinestory:block/metal_dark"
+  }
+}

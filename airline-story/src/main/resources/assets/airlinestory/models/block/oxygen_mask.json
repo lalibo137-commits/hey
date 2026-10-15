@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "airlinestory:block/oxygen_mask"
+  },
+  "render_type": "minecraft:cutout"
+}

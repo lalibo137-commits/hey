@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "airlinestory:block/bitterleaf"
+  },
+  "render_type": "minecraft:cutout"
+}

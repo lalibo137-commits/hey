@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "airlinestory:block/server_rack"
+    },
+    "facing=east": {
+      "model": "airlinestory:block/server_rack",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "airlinestory:block/server_rack",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "airlinestory:block/server_rack",
+      "y": 270
+    }
+  }
+}

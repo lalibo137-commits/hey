@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "airlinestory:block/oxygen_mask"
+    },
+    "facing=east": {
+      "model": "airlinestory:block/oxygen_mask",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "airlinestory:block/oxygen_mask",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "airlinestory:block/oxygen_mask",
+      "y": 270
+    }
+  }
+}

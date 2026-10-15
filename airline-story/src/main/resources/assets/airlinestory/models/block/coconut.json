@@ -1,0 +1,146 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "nut": "airlinestory:block/coconut",
+    "particle": "airlinestory:block/coconut"
+  },
+  "elements": [
+    {
+      "from": [
+        4,
+        3,
+        4
+      ],
+      "to": [
+        12,
+        11,
+        12
+      ],
+      "faces": {
+        "north": {
+          "texture": "#nut",
+          "uv": [
+            4,
+            5,
+            12,
+            13
+          ]
+        },
+        "south": {
+          "texture": "#nut",
+          "uv": [
+            4,
+            5,
+            12,
+            13
+          ]
+        },
+        "east": {
+          "texture": "#nut",
+          "uv": [
+            4,
+            5,
+            12,
+            13
+          ]
+        },
+        "west": {
+          "texture": "#nut",
+          "uv": [
+            4,
+            5,
+            12,
+            13
+          ]
+        },
+        "up": {
+          "texture": "#nut",
+          "uv": [
+            4,
+            4,
+            12,
+            12
+          ]
+        },
+        "down": {
+          "texture": "#nut",
+          "uv": [
+            4,
+            4,
+            12,
+            12
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        7,
+        11,
+        7
+      ],
+      "to": [
+        9,
+        16,
+        9
+      ],
+      "faces": {
+        "north": {
+          "texture": "#nut",
+          "uv": [
+            7,
+            0,
+            9,
+            5
+          ]
+        },
+        "south": {
+          "texture": "#nut",
+          "uv": [
+            7,
+            0,
+            9,
+            5
+          ]
+        },
+        "east": {
+          "texture": "#nut",
+          "uv": [
+            7,
+            0,
+            9,
+            5
+          ]
+        },
+        "west": {
+          "texture": "#nut",
+          "uv": [
+            7,
+            0,
+            9,
+            5
+          ]
+        },
+        "up": {
+          "texture": "#nut",
+          "uv": [
+            7,
+            7,
+            9,
+            9
+          ]
+        },
+        "down": {
+          "texture": "#nut",
+          "uv": [
+            7,
+            7,
+            9,
+            9
+          ]
+        }
+      }
+    }
+  ],
+  "render_type": "minecraft:cutout"
+}

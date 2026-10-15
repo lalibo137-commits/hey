@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "airlinestory:block/stanchion"
+    },
+    "facing=east": {
+      "model": "airlinestory:block/stanchion",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "airlinestory:block/stanchion",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "airlinestory:block/stanchion",
+      "y": 270
+    }
+  }
+}

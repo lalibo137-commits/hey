@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "LR",
+    "LR",
+    "L "
+  ],
+  "key": {
+    "L": {
+      "item": "airlinestory:palm_log"
+    },
+    "R": {
+      "item": "airlinestory:rope"
+    }
+  },
+  "result": {
+    "item": "airlinestory:mast",
+    "count": 1
+  }
+}

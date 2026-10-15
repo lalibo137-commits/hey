@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "airlinestory:block/palm_log"
+    },
+    "axis=z": {
+      "model": "airlinestory:block/palm_log_horizontal",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "airlinestory:block/palm_log_horizontal",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

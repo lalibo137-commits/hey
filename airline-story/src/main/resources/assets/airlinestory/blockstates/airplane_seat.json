@@ -1,0 +1,49 @@
+{
+  "variants": {
+    "facing=north,screen=0": {
+      "model": "airlinestory:block/airplane_seat"
+    },
+    "facing=north,screen=1": {
+      "model": "airlinestory:block/airplane_seat_screen1"
+    },
+    "facing=north,screen=2": {
+      "model": "airlinestory:block/airplane_seat_screen2"
+    },
+    "facing=east,screen=0": {
+      "model": "airlinestory:block/airplane_seat",
+      "y": 90
+    },
+    "facing=east,screen=1": {
+      "model": "airlinestory:block/airplane_seat_screen1",
+      "y": 90
+    },
+    "facing=east,screen=2": {
+      "model": "airlinestory:block/airplane_seat_screen2",
+      "y": 90
+    },
+    "facing=south,screen=0": {
+      "model": "airlinestory:block/airplane_seat",
+      "y": 180
+    },
+    "facing=south,screen=1": {
+      "model": "airlinestory:block/airplane_seat_screen1",
+      "y": 180
+    },
+    "facing=south,screen=2": {
+      "model": "airlinestory:block/airplane_seat_screen2",
+      "y": 180
+    },
+    "facing=west,screen=0": {
+      "model": "airlinestory:block/airplane_seat",
+      "y": 270
+    },
+    "facing=west,screen=1": {
+      "model": "airlinestory:block/airplane_seat_screen1",
+      "y": 270
+    },
+    "facing=west,screen=2": {
+      "model": "airlinestory:block/airplane_seat_screen2",
+      "y": 270
+    }
+  }
+}

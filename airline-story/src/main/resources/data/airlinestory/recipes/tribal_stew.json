@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:bowl"
+    },
+    {
+      "item": "airlinestory:roasted_taro"
+    },
+    {
+      "item": "airlinestory:bitterleaf"
+    },
+    {
+      "tag": "minecraft:fishes"
+    }
+  ],
+  "result": {
+    "item": "airlinestory:tribal_stew",
+    "count": 1
+  }
+}

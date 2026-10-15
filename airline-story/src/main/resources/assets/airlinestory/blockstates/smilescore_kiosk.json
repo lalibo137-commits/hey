@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "airlinestory:block/smilescore_kiosk"
+    },
+    "facing=east": {
+      "model": "airlinestory:block/smilescore_kiosk",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "airlinestory:block/smilescore_kiosk",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "airlinestory:block/smilescore_kiosk",
+      "y": 270
+    }
+  }
+}
