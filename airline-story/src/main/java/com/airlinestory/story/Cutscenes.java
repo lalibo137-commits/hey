@@ -1,6 +1,7 @@
 package com.airlinestory.story;
 
 import com.airlinestory.world.IslandBuilder;
+import com.airlinestory.world.IslandTerrain;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
 
@@ -58,11 +59,11 @@ public final class Cutscenes {
         Locations.Plane a = Locations.AIR_PLANE;
         switch (id) {
             case "intro" -> {
-                l.add(shot(v(-30, 95, -60), v(60, 85, -50), v(60, 66, 20), v(70, 66, 20), 140)
+                l.add(shot(v(-40, 100, -70), v(70, 92, -60), v(80, 68, 25), v(90, 66, 25), 150)
                         .text("MERIDIAN INTERNATIONAL AIRPORT", "Tuesday. 6:42 AM.").fade(40, 0).sound("wind"));
-                l.add(shot(v(19.5, 66, -24), v(19.5, 65.6, -10), v(19.5, 66, 10), 110)
+                l.add(shot(v(26.5, 66, -26), v(26.5, 65.6, -11), v(26.5, 66, 10), 110)
                         .text("Flight MA417 to Port Ellery", "Departs Gate B7 at 9:10"));
-                l.add(shot(v(30, 70, 8), v(22, 68, 18), v(16.5, 65.5, 32.5), 120)
+                l.add(shot(v(36, 71, 6), v(30, 69, 16), v(26.5, 65.5, 29.5), 120)
                         .text("Everyone is rated.", "Everyone is watching.").fade(0, 30));
             }
             case "takeoff" -> {
@@ -85,7 +86,7 @@ public final class Cutscenes {
             }
             case "shore" -> {
                 int cy = view.counter("y:crash") == 0 ? 64 : view.counter("y:crash");
-                Vec3 s = Vec3.atBottomCenterOf(Locations.island(Locations.CRASH[0], cy, Locations.CRASH[1]));
+                Vec3 s = Vec3.atBottomCenterOf(Locations.island(IslandTerrain.CRASH[0], cy, IslandTerrain.CRASH[1]));
                 l.add(shot(s.add(25, 30, 45), s.add(5, 10, 18), s.add(-5, 0, 0), s.add(6, 0, 6), 200)
                         .text("DAY 1", "Location: unknown").fade(70, 0).sound("waves"));
                 l.add(shot(s.add(6, 3, 12), s.add(6, 1.6, 8), s.add(6, 0.5, 6), 80).fade(0, 25));
@@ -101,7 +102,14 @@ public final class Cutscenes {
                 Vec3 c = new Vec3(Locations.ISLAND_X, 70, Locations.ISLAND_Z);
                 l.add(shot(b.add(-6, 4, -6), b.add(6, 6, -10), b.add(6, 2, 2), 120).text("FIRST LIGHT", "").fade(20, 0).sound("waves"));
                 l.add(shot(b.add(20, 10, 20), b.add(70, 34, 70), b.add(6, 1, 2), c, 220)
-                        .text("The island grows smaller.", "It does not get any less watched.").fade(0, 50));
+                        .text("The island grows smaller.", view.has("ending_free") ? "For the first time, nobody is watching." : "It does not get any less watched.").fade(0, 50));
+            }
+            case "stay" -> {
+                Vec3 b = Vec3.atBottomCenterOf(IslandBuilder.boatOrigin());
+                Vec3 vil = Vec3.atBottomCenterOf(IslandBuilder.village(0, 0));
+                l.add(shot(b.add(-4, 3, -8), b.add(-10, 5, -12), b.add(30, 1, 2), 140).text("FIRST LIGHT", "The boat drifts out on the tide, empty.").fade(20, 0).sound("waves"));
+                l.add(shot(vil.add(14, 12, 18), vil.add(4, 6, 8), vil, 200)
+                        .text("You stay.", "Nobody out there will ever rate you again.").fade(0, 50));
             }
             default -> l.add(shot(v(0, 100, 0), v(0, 100, 0), v(0, 90, 10), 20));
         }

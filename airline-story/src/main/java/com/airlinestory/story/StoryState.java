@@ -27,6 +27,8 @@ public class StoryState extends SavedData implements FlagView {
     public final Map<String, UUID> npcs = new HashMap<>();
     public final Set<String> removedGroups = new HashSet<>();
     public final Set<String> spawnedGroups = new HashSet<>();
+    /** Clue blocks in the world: packed block position to clue id. */
+    public final Map<Long, String> clueAt = new HashMap<>();
 
     public static StoryState get(MinecraftServer server) {
         return server.overworld().getDataStorage().computeIfAbsent(StoryState::load, StoryState::new, NAME);
@@ -58,6 +60,8 @@ public class StoryState extends SavedData implements FlagView {
         for (String k : n.getAllKeys()) s.npcs.put(k, n.getUUID(k));
         for (Tag t : tag.getList("Removed", Tag.TAG_STRING)) s.removedGroups.add(t.getAsString());
         for (Tag t : tag.getList("Spawned", Tag.TAG_STRING)) s.spawnedGroups.add(t.getAsString());
+        CompoundTag cl = tag.getCompound("Clues");
+        for (String k : cl.getAllKeys()) s.clueAt.put(Long.parseLong(k), cl.getString(k));
         return s;
     }
 
@@ -79,6 +83,9 @@ public class StoryState extends SavedData implements FlagView {
         tag.put("Npcs", n);
         tag.put("Removed", strings(removedGroups));
         tag.put("Spawned", strings(spawnedGroups));
+        CompoundTag cl = new CompoundTag();
+        clueAt.forEach((k, v) -> cl.putString(Long.toString(k), v));
+        tag.put("Clues", cl);
         return tag;
     }
 

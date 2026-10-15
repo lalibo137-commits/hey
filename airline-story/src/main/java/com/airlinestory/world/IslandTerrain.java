@@ -212,5 +212,4 @@ public final class IslandTerrain {
     }
 
     @SuppressWarnings("unused")
-    private static int[] unused() { return Locations.PEAK; }
 }

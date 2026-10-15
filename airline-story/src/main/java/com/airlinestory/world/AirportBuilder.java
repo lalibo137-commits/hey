@@ -228,9 +228,6 @@ public final class AirportBuilder {
             boolean gap = (x - x1) % 5 == 4;
             p.set(x, F + 1, 28, gap ? Blocks.LIGHT_GRAY_CONCRETE.defaultBlockState() : facing(ModBlocks.CHECKIN_COUNTER.get(), Direction.NORTH));
             p.set(x, F + 2, 28, slab(Blocks.SMOOTH_QUARTZ_SLAB, false));
-            if (!gap) {
-                p.set(x, F + 2, 29, Blocks.BLACK_STAINED_GLASS_PANE);
-            }
             p.set(x, F + 1, 30, facing(ModBlocks.CONVEYOR_BELT.get(), Direction.EAST));
             p.fill(x, F + 1, 31, x, F + 3, 31, Blocks.WHITE_CONCRETE);
             p.fill(x, F + 4, 31, x, F + 5, 31, brand);
@@ -338,11 +335,11 @@ public final class AirportBuilder {
         for (int x = cx + 1; x <= cx + 11; x++) {
             p.set(x, F + 1, 7, facing(Blocks.OAK_STAIRS, Direction.SOUTH).setValue(net.minecraft.world.level.block.StairBlock.HALF, net.minecraft.world.level.block.state.properties.Half.TOP));
         }
-        p.fill(cx + 1, F + 1, 8, cx + 11, F + 1, 8, Blocks.STRIPPED_OAK_WOOD);
-        p.fill(cx + 1, F + 2, 8, cx + 11, F + 2, 8, slab(Blocks.SMOOTH_QUARTZ_SLAB, false));
-        p.fill(cx, F + 1, 2, cx, F + 1, 8, Blocks.STRIPPED_OAK_WOOD);
-        p.fill(cx + 12, F + 1, 2, cx + 12, F + 1, 8, Blocks.STRIPPED_OAK_WOOD);
-        p.set(cx + 10, F + 2, 8, Blocks.FLOWER_POT);
+        p.fill(cx + 1, F + 2, 7, cx + 11, F + 2, 7, slab(Blocks.SMOOTH_QUARTZ_SLAB, false));
+        p.fill(cx, F + 1, 2, cx, F + 1, 7, Blocks.STRIPPED_OAK_WOOD);
+        p.fill(cx + 12, F + 1, 2, cx + 12, F + 1, 7, Blocks.STRIPPED_OAK_WOOD);
+        p.set(cx + 10, F + 3, 7, Blocks.POTTED_RED_TULIP);
+        p.set(cx + 2, F + 3, 7, Blocks.CANDLE.defaultBlockState().setValue(net.minecraft.world.level.block.CandleBlock.LIT, true));
         p.frame(cx + 3, F + 3, 1, Direction.SOUTH, new ItemStack(ModItems.COFFEE.get()), false);
         p.frame(cx + 6, F + 3, 1, Direction.SOUTH, new ItemStack(Items.CAKE), false);
         p.frame(cx + 9, F + 3, 1, Direction.SOUTH, new ItemStack(Items.COOKIE), false);

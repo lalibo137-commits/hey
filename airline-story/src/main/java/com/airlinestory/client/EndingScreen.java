@@ -19,7 +19,14 @@ public class EndingScreen extends Screen {
 
     public EndingScreen(String kind, boolean pip, float rating) {
         super(Component.literal("Epilogue"));
-        if (kind.equals("free")) {
+        if (kind.equals("stay")) {
+            pages.add(new String[]{"ENDING: TIDEFOLK", "The boat drifts out past the reef on the morning tide, empty, its striped sail bright against the grey."});
+            pages.add(new String[]{"", "Up on the mountain, the screens show a beach where nothing happens. Days of it. Weeks."});
+            pages.add(new String[]{"", "The viewers drift away, the way viewers do. Ratings fall. One night, the hum under the island stops, and nobody notices for a week."});
+            pages.add(new String[]{"", pip ? "Pip teaches you to fish properly. You teach Pip to count, and then, after some thought, you teach Pip not to."
+                    : "Nalu teaches you to fish properly. Mira teaches you which leaves keep the fever away. Ahu teaches you nothing, very patiently."});
+            pages.add(new String[]{"", "You lose track of the days. It's better."});
+        } else if (kind.equals("free")) {
             pages.add(new String[]{"ENDING: UNRATED", "Nine days after you leave the reef behind, a fishing trawler finds a patched little boat with a striped sail."});
             pages.add(new String[]{"", pip
                     ? "The crew wrap you both in blankets. Pip asks the captain how many stars he is. He doesn't understand the question. Pip laughs for an hour."

@@ -1,5 +1,6 @@
 package com.airlinestory.story;
 
+import com.airlinestory.world.IslandTerrain;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
 
@@ -8,9 +9,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Fixed places of the story world. The airport sits at the origin, the airborne copy of the plane far to
- * the north-east above the clouds, and the island to the south-east. Island heights are measured when it
- * is generated and stored in the story counters as "y:&lt;place&gt;".
+ * Fixed places of the story world. The airport sits at the origin (landside hall in the west, gates in the
+ * east, the kerb to the north), the airborne copy of the plane far away above the clouds, and the island
+ * to the south-east. Island heights are measured when it is generated and stored as "y:&lt;place&gt;".
  */
 public final class Locations {
     private Locations() {}
@@ -22,17 +23,27 @@ public final class Locations {
 
     // ----- Airport -----
     public static final int FLOOR = 63;
-    public static final BlockPos SPAWN = new BlockPos(20, 64, -6);
-    public static final BlockPos DANA = new BlockPos(16, 64, 32);
-    public static final BlockPos EDITH_SEAT = new BlockPos(5, 64, 7);
-    public static final BlockPos REYES = new BlockPos(53, 64, 21);
-    public static final BlockPos TOMAS = new BlockPos(63, 64, 4);
-    public static final int GATE_B5 = 88, GATE_B6 = 102, GATE_B7 = 116;
-    public static final BlockPos CORINNE = new BlockPos(GATE_B7 + 2, 64, 44);
-    public static final BlockPos SCANNER_WALK = new BlockPos(50, 64, 21);
+    public static final BlockPos SPAWN = new BlockPos(26, 64, -8);
+    public static final BlockPos DANA = new BlockPos(26, 64, 29);
+    public static final BlockPos EDITH_SEAT = new BlockPos(5, 64, 41);
+    public static final BlockPos PRIYA_SEAT = new BlockPos(9, 64, 41);
+    public static final BlockPos LEO_SEAT = new BlockPos(10, 64, 41);
+    public static final BlockPos GUS = new BlockPos(42, 64, 44);
+    public static final BlockPos REYES = new BlockPos(60, 64, 25);
+    public static final BlockPos REYES_ROOM = new BlockPos(70, 64, 50);
+    public static final BlockPos INTERVIEW_CHAIR = new BlockPos(68, 64, 47);
+    public static final BlockPos SCANNER_WALK = new BlockPos(67, 64, 26);
+    public static final BlockPos TOMAS = new BlockPos(84, 64, 5);
+    public static final BlockPos LOUNGE_TV = new BlockPos(87, 66, 54);
+    public static final BlockPos POSTER = new BlockPos(100, 65, 39);
+    public static final BlockPos STAFF_DOOR = new BlockPos(106, 64, 0);
+    public static final BlockPos STAFF_KEYPAD = new BlockPos(107, 65, 1);
+    public static final int GATE_B5 = 116, GATE_B6 = 132, GATE_B7 = 148;
+    public static final BlockPos CORINNE = new BlockPos(GATE_B7 + 2, 64, 53);
+    public static final BlockPos B7_PODIUM = new BlockPos(GATE_B7, 64, 52);
 
     // ----- Planes -----
-    public static final Plane GATE_PLANE = new Plane(107, 67, 66);
+    public static final Plane GATE_PLANE = new Plane(139, 69, 75);
     public static final Plane AIR_PLANE = new Plane(1007, 210, -1000);
 
     /** Cabin layout shared by both copies of the aircraft. Nose at x, aisle on z, floor block at y. */
@@ -55,6 +66,7 @@ public final class Locations {
         public BlockPos rearGalley() { return local(56, 1, 0); }
         public BlockPos lavatory() { return local(53, 1, -2); }
         public BlockPos cockpitDoor() { return local(4, 1, 0); }
+        public BlockPos hold() { return local(40, -3, 0); }
         public Vec3 at(double dx, double dy, double dz) { return new Vec3(x + dx, y + dy, z + dz); }
     }
 
@@ -65,22 +77,14 @@ public final class Locations {
         return new BlockPos(ISLAND_X + dx, y, ISLAND_Z + dz);
     }
 
-    public static final int[] CRASH = {0, 78};
-    public static final int[] LONE_SEAT = {-20, 89};
-    public static final int[] POOL = {-18, -8};
-    public static final int[] VILLAGE = {62, 5};
-    public static final int[] DOCK = {104, 5};
-    public static final int[] PEAK = {0, -45};
-    public static final int[] GROVE = {-62, 10};
-
+    /** Fresh water is everything above sea level on the island: the river, its pools and the falls. */
     public static boolean isFreshWater(BlockPos p) {
-        int dx = p.getX() - (ISLAND_X + POOL[0]), dz = p.getZ() - (ISLAND_Z + POOL[1]);
-        return dx * dx + dz * dz < 12 * 12;
+        return onIsland(p) && p.getY() > IslandTerrain.SEA;
     }
 
     public static boolean onIsland(BlockPos p) {
         int dx = p.getX() - ISLAND_X, dz = p.getZ() - ISLAND_Z;
-        return dx * dx + dz * dz < 170 * 170;
+        return dx * dx + dz * dz < 200 * 200;
     }
 
     private static final Map<String, Loc> ALL = new LinkedHashMap<>();
@@ -89,32 +93,58 @@ public final class Locations {
         ALL.put(id, new Loc(id, label, x, y, z, r));
     }
 
+    private static void add(String id, String label, BlockPos p, double r) {
+        add(id, label, p.getX(), p.getY(), p.getZ(), r);
+    }
+
     static {
-        add("terminal", "Departures Hall", 20, 64, 8, 5);
-        add("checkin", "Meridian Check-in Desk", 16, 64, 28, 4);
+        // landside
+        add("terminal", "Departures Hall", 26, 64, 8, 6);
+        add("checkin", "Meridian Check-in", 26, 64, 25, 4);
         add("board", "Departures Board", 26, 64, 13, 4);
-        add("benches", "Waiting Benches", 6, 64, 9, 4);
-        add("security", "Security Checkpoint", 44, 64, 23, 5);
-        add("scanner", "Body Scanner", SCANNER_WALK.getX(), 64, SCANNER_WALK.getZ(), 1.3);
-        add("bag_pickup", "Bag Collection", 54, 64, 19, 3);
-        add("cafe", "Cloud Nine Coffee", 63, 64, 9, 4);
-        add("gate_b7", "Gate B7", GATE_B7, 64, 36, 7);
-        add("jet_bridge", "Jet Bridge B7", GATE_B7, 68, 60, 3);
+        add("benches", "West Benches", 7, 64, 43, 5);
+        add("closet", "Janitor's Closet", 47, 64, 51, 3);
+        // security
+        add("security", "Security Checkpoint", 58, 64, 25, 5);
+        add("scanner", "Body Scanner", SCANNER_WALK, 1.3);
+        add("bag_pickup", "Bag Collection", 73, 64, 25, 2.5);
+        add("interview", "Secondary Screening", 68, 64, 46, 3);
+        // airside
+        add("cafe", "Cloud Nine Coffee", 84, 64, 10, 4);
+        add("lounge", "Meridian Prime Lounge", 88, 64, 48, 5);
+        add("poster", "Notice Pillar", 100, 64, 38, 2.5);
+        add("staff_door", "Staff Door", 106, 64, 2, 2.5);
+        add("backstage", "Backstage", 106, 64, -6, 5);
+        add("office", "Production Office", 104, 64, -29, 3);
+        add("control", "Control Room", 130, 64, -27, 5);
+        add("gate_b7", "Gate B7", GATE_B7, 64, 42, 7);
+        add("podium", "B7 Podium", B7_PODIUM, 2.5);
+        add("jet_bridge", "Jet Bridge B7", GATE_B7, 70, 62, 3);
+        // the plane at the gate
         add("plane_door", "Aircraft Door", GATE_PLANE.door().getX(), GATE_PLANE.y() + 1, GATE_PLANE.door().getZ() + 1, 2.5);
-        add("seat_14a", "Seat 14A", GATE_PLANE.seat(14, 'A').getX(), GATE_PLANE.y() + 1, GATE_PLANE.seat(14, 'A').getZ(), 2);
-        add("air_seat_14a", "Seat 14A", AIR_PLANE.seat(14, 'A').getX(), AIR_PLANE.y() + 1, AIR_PLANE.seat(14, 'A').getZ(), 2);
-        add("lavatory", "Rear Lavatory", AIR_PLANE.lavatory().getX(), AIR_PLANE.y() + 1, AIR_PLANE.lavatory().getZ(), 2);
+        add("seat_14a", "Seat 14A", GATE_PLANE.seat(14, 'A'), 2);
+        // in the air
+        add("air_seat_14a", "Seat 14A", AIR_PLANE.seat(14, 'A'), 2);
+        add("lavatory", "Rear Lavatory", AIR_PLANE.lavatory(), 2);
         add("row20", "Row 20", AIR_PLANE.seat(20, 'D').getX(), AIR_PLANE.y() + 1, AIR_PLANE.z(), 3);
         add("cockpit", "Cockpit Door", AIR_PLANE.cockpitDoor().getX() + 1, AIR_PLANE.y() + 1, AIR_PLANE.z(), 2);
         add("galley", "Forward Galley", AIR_PLANE.galley().getX(), AIR_PLANE.y() + 1, AIR_PLANE.z(), 3);
-        addIsland("crash", "Crash Site", CRASH, 14);
-        addIsland("lone_seat", "The Empty Seat", LONE_SEAT, 3);
-        addIsland("pool", "Freshwater Spring", POOL, 8);
-        addIsland("village", "Tidefolk Village", VILLAGE, 16);
-        addIsland("dock", "Teo's Dock", DOCK, 6);
-        addIsland("peak", "The Eye", new int[]{PEAK[0], PEAK[1] + 8}, 5);
-        addIsland("lab", "Experience Lab 4", PEAK, 4);
-        addIsland("grove", "The Hollow Grove", GROVE, 10);
+        add("rear_galley", "Rear Galley", AIR_PLANE.rearGalley(), 2.5);
+        add("hold", "Cargo Hold", AIR_PLANE.hold(), 14);
+        // the island
+        addIsland("crash", "Crash Site", IslandTerrain.CRASH, 16);
+        addIsland("lone_seat", "The Empty Seat", IslandTerrain.LONE_SEAT, 3);
+        addIsland("falls", "The Falls", IslandTerrain.LOWER_POOL, 9);
+        addIsland("lookout", "Radio Tower", IslandTerrain.LOOKOUT, 5);
+        addIsland("village", "Tidefolk Village", IslandTerrain.VILLAGE, 16);
+        addIsland("dock", "Teo's Dock", new int[]{IslandTerrain.VILLAGE[0] + 30, IslandTerrain.VILLAGE[1]}, 7);
+        addIsland("cave", "Captain's Cave", IslandTerrain.CAVE_MOUTH, 6);
+        addIsland("cave_camp", "The Captain's Camp", IslandTerrain.CAVE_CAMP, 7);
+        addIsland("sunken", "Sunken Plane", IslandTerrain.SUNKEN, 14);
+        addIsland("burned", "Burned Village", IslandTerrain.BURNED, 10);
+        addIsland("grove", "The Hollow Grove", IslandTerrain.GROVE, 10);
+        addIsland("peak", "The Eye", new int[]{IslandTerrain.PEAK[0], IslandTerrain.PEAK[1] + 10}, 5);
+        addIsland("lab", "Experience Lab 4", IslandTerrain.PEAK, 5);
     }
 
     private static void addIsland(String id, String label, int[] off, double r) {
@@ -126,11 +156,12 @@ public final class Locations {
         return ALL.get(id);
     }
 
-    /** Resolves an island place's height from the story counters (falls back to sea level). */
+    /** Resolves an island place's height from the story counters (falls back to the terrain). */
     public static int y(Loc loc, FlagView v) {
         if (loc.y() != Integer.MIN_VALUE) return loc.y();
         int y = v.counter("y:" + loc.id());
-        return y == 0 ? 64 : y;
+        if (y != 0) return y;
+        return Math.max(IslandTerrain.SEA, IslandTerrain.height(loc.x() - ISLAND_X, loc.z() - ISLAND_Z)) + 1;
     }
 
     /** The place's block position, with island heights (and the dock's shoreline) filled in. */
@@ -144,6 +175,6 @@ public final class Locations {
         BlockPos at = resolve(loc, v);
         double dx = px - (at.getX() + 0.5), dz = pz - (at.getZ() + 0.5);
         if (dx * dx + dz * dz > loc.radius() * loc.radius()) return false;
-        return Math.abs(py - y(loc, v)) < (loc.y() == Integer.MIN_VALUE ? 16 : 3.5);
+        return Math.abs(py - y(loc, v)) < (loc.y() == Integer.MIN_VALUE ? 16 : loc.id().equals("hold") ? 2.5 : 3.5);
     }
 }

@@ -19,6 +19,12 @@ public final class Quest {
     @Nullable Consumer<StoryContext> onComplete;
     /** Runs every tick with the quest's tick counter (persisted, so scripts resume after a reload). */
     @Nullable BiConsumer<StoryContext, Integer> onTick;
+    /** Side quests run alongside the main story once started ("side:&lt;id&gt;" flag) until finished ("sidedone:&lt;id&gt;"). */
+    public boolean side;
+    /** NPC who offers this side quest (gets a "?" marker while it can be started). */
+    @Nullable public String giver;
+    /** When the side quest can be offered. */
+    java.util.function.Predicate<FlagView> available = v -> true;
 
     Quest(String id, int chapter, String title, String description) {
         this.id = id;
@@ -40,4 +46,8 @@ public final class Quest {
     Quest resume(Consumer<StoryContext> c) { this.onResume = c; return this; }
     Quest done(Consumer<StoryContext> c) { this.onComplete = c; return this; }
     Quest tick(BiConsumer<StoryContext, Integer> c) { this.onTick = c; return this; }
+    Quest giver(String npc, java.util.function.Predicate<FlagView> when) { this.giver = npc; this.available = when; return this; }
+
+    public boolean active(FlagView v) { return side ? v.has("side:" + id) && !v.has("sidedone:" + id) : id.equals(v.quest()); }
+    public boolean offered(FlagView v) { return side && giver != null && !v.has("side:" + id) && available.test(v); }
 }

@@ -322,6 +322,25 @@ public final class ClientFx {
                 yy += 10;
             }
         }
+        // side quests underneath
+        int sy = y + height + 4;
+        for (Quest sq : Quests.sides()) {
+            if (!sq.active(v)) continue;
+            List<FormattedCharSequence> lines = new ArrayList<>();
+            for (int i = 0; i < sq.objectives.size(); i++) {
+                Objective o = sq.objectives.get(i);
+                if (o.isDone(v, sq.id, i) || o.optional) continue;
+                lines.addAll(font.split(Component.literal("□ " + o.display(v)), width - 10));
+                break;
+            }
+            int sh = 13 + lines.size() * 10;
+            g.fill(x - 2, sy - 2, x + width, sy + sh, 0x50000000);
+            g.fill(x - 2, sy - 2, x, sy + sh, 0xC0A0A0FF);
+            g.drawString(font, "◇ " + sq.title, x + 4, sy + 1, 0xFFC8C8FF, true);
+            int ly = sy + 12;
+            for (FormattedCharSequence l : lines) { g.drawString(font, l, x + 6, ly, 0xFFD0D0D0, true); ly += 10; }
+            sy += sh + 4;
+        }
         if (ClientStory.INSTANCE.showsScores()) {
             float r = v.rating();
             StringBuilder stars = new StringBuilder();

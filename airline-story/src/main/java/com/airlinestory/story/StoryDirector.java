@@ -116,6 +116,7 @@ public final class StoryDirector {
             AirportBuilder.build(p);
             PlaneBuilder.build(p, Locations.GATE_PLANE, true);
             PlaneBuilder.build(p, Locations.AIR_PLANE, false);
+            p.clues.forEach((pos, id) -> state.clueAt.put(pos.asLong(), id));
             state.flag("built_air_plane");
             AirlineStory.LOG.info("Airport built ({} blocks)", p.placed);
             level.setDefaultSpawnPos(Locations.SPAWN, 0f);
@@ -135,9 +136,7 @@ public final class StoryDirector {
         }
         if (!state.has("cast_airport")) {
             state.flag("cast_airport");
-            spawnGroup("airport");
-            spawnGroup("edith_airport");
-            spawnGroup("b7");
+            spawnGroup("landside");
             spawnGroup("gate_crew");
         }
         state.setDirty();
@@ -183,7 +182,11 @@ public final class StoryDirector {
         if (!island.done()) {
             boolean urgent = state.has("crashing");
             island.step(level(), System.nanoTime() + (urgent ? 40_000_000L : p == null ? 0 : 6_000_000L));
-            if (island.done()) AirlineStory.LOG.info("Island generated.");
+            if (island.done()) {
+                AirlineStory.LOG.info("Island generated.");
+                island.placedClues.forEach((pos, id) -> state.clueAt.put(pos.asLong(), id));
+                state.setDirty();
+            }
         }
         if (p == null) return;
 
@@ -203,7 +206,10 @@ public final class StoryDirector {
             if (!holdTick) state.questTicks++;
             if (tickCount % 10 == 0) updateObjectives(p, q);
         }
+        if (tickCount % 10 == 5) for (Quest s : Quests.sides()) if (s.active(state)) updateObjectives(p, s);
         if (tickCount % 20 == 0) updateMarkers();
+        if (tickCount % 10 == 0) barks(p);
+        if (caughtCooldown > 0) caughtCooldown--;
         ambient(p);
         if (syncDirty && tickCount % 4 == 0) sync(p);
     }
@@ -226,7 +232,9 @@ public final class StoryDirector {
         }
         for (String k : TRACKED) setCounter("item:" + k, count(p, matcher(k)));
         if (state.quest.equals("shelter") && count(p, s -> s.is(Items.CAMPFIRE)) > 0) state.flag("has_campfire");
-        if (q.complete(state) && state.quest.equals(q.id)) completeQuest(p, q);
+        if (q.side) {
+            if (q.complete(state) && q.active(state)) completeSide(p, q);
+        } else if (q.complete(state) && state.quest.equals(q.id)) completeQuest(p, q);
     }
 
     private void setCounter(String k, int v) {
@@ -263,6 +271,24 @@ public final class StoryDirector {
         if (q.onComplete != null) q.onComplete.accept(ctx(p));
         if (!state.completed.contains(q.id)) state.completed.add(q.id);
         if (state.quest.equals(q.id)) startQuest(p, q.next);
+    }
+
+    public void startSide(ServerPlayer p, String id) {
+        Quest q = Quests.get(id);
+        if (q == null || !q.side || state.has("side:" + id)) return;
+        state.flag("side:" + id);
+        syncDirty = true;
+        if (q.onStart != null) q.onStart.accept(ctx(p));
+        fx(p, "quest", "Side quest: " + q.title, q.chapter, 1);
+    }
+
+    private void completeSide(ServerPlayer p, Quest q) {
+        state.flag("sidedone:" + q.id);
+        if (q.onComplete != null) q.onComplete.accept(ctx(p));
+        if (!state.completed.contains(q.id)) state.completed.add(q.id);
+        syncDirty = true;
+        fx(p, "hint", "Side quest complete: " + q.title, 0, 0);
+        sound(p, SoundEvents.PLAYER_LEVELUP, 0.6f, 1.2f);
     }
 
     /** Debug: finish the current quest's objectives. */
@@ -337,7 +363,16 @@ public final class StoryDirector {
                 if (o.npcId != null && !o.isDone(state, q.id, i)) wanted.add(o.npcId);
             }
         }
-        for (StoryNpc n : level().getEntities(ModEntities.NPC.get(), e -> true)) n.setMarker(wanted.contains(n.npcId()));
+        Set<String> offers = new HashSet<>();
+        for (Quest s : Quests.sides()) {
+            if (s.offered(state)) offers.add(s.giver);
+            if (s.active(state)) for (int i = 0; i < s.objectives.size(); i++) {
+                Objective o = s.objectives.get(i);
+                if (o.npcId != null && !o.isDone(state, s.id, i) && (i == 0 || s.objectives.get(i - 1).isDone(state, s.id, i - 1))) offers.add(o.npcId);
+            }
+        }
+        for (StoryNpc n : level().getEntities(ModEntities.NPC.get(), e -> true))
+            n.setMarker(wanted.contains(n.npcId()) ? 1 : offers.contains(n.npcId()) ? 2 : 0);
     }
 
     public void staring(String group, boolean on) {
@@ -351,9 +386,7 @@ public final class StoryDirector {
 
     public void startBoarding() {
         int i = 0;
-        List<String> ids = new ArrayList<>();
-        for (Cast.Passenger p : Cast.B7) ids.add(p.id());
-        for (int k = 0; k < Cast.B7_CROWD_SEATS.length; k++) ids.add("b7_" + k);
+        List<String> ids = new ArrayList<>(Cast.SEATS.keySet());
         Collections.shuffle(ids, new Random(4));
         for (String id : ids) {
             String seat = Cast.b7Seat(id);
@@ -364,6 +397,81 @@ public final class StoryDirector {
             });
             i++;
         }
+    }
+
+    private void moveNpc(String id, BlockPos pos, boolean sit, float yaw) {
+        StoryNpc n = npc(id);
+        if (n == null) return;
+        n.leaveSeat();
+        level().getChunkAt(pos);
+        n.teleportTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+        if (sit) n.sitAt(pos);
+        else n.stand(pos, yaw);
+    }
+
+    /** Priya, Leo and Mr. Halvorsen make their own way to B7 while you're busy. */
+    public void moveToGate() {
+        int gx = Locations.GATE_B7;
+        moveNpc("priya", new BlockPos(gx + 5, 64, 39), true, 0);
+        moveNpc("leo", new BlockPos(gx + 6, 64, 39), true, 0);
+        moveNpc("halvorsen", new BlockPos(gx - 2, 64, 44), true, 0);
+        moveNpc("edith", Locations.EDITH_SEAT, true, 0);
+    }
+
+    public void reyesToRoom() {
+        StoryNpc r = npc("reyes");
+        if (r != null) r.walkRoute(List.of(new BlockPos(66, 64, 30), new BlockPos(68, 64, 40), Cast.teleportPoint(new BlockPos(68, 64, 43)), Locations.REYES_ROOM), null);
+    }
+
+    public void reyesHome() {
+        StoryNpc r = npc("reyes");
+        if (r != null) schedule(80, () -> moveNpc("reyes", Locations.REYES, false, -90f));
+    }
+
+    public void theoHome() {
+        Plane a = Locations.AIR_PLANE;
+        StoryNpc t = npc("theo");
+        if (t != null) t.walkRoute(List.of(a.aisle(40), a.rearGalley()), null);
+    }
+
+    private int caughtCooldown;
+
+    /** Stagehands spot you if you walk into their line of sight; sneaking and the staff lanyard help. */
+    public void backstageWatch(ServerPlayer p) {
+        if (tickCount % 5 != 0 || caughtCooldown > 0) return;
+        double px = p.getX(), pz = p.getZ();
+        if (px < AirportBuilder.BX0 || px > AirportBuilder.BX1 || pz < AirportBuilder.BZ0 || pz > -1) return;
+        boolean lanyard = count(p, s -> s.is(ModItems.STAFF_LANYARD.get())) > 0;
+        for (String id : List.of("stagehand_1", "stagehand_2", "pa")) {
+            StoryNpc n = npc(id);
+            if (n == null) continue;
+            double dist = n.distanceTo(p);
+            boolean sleeper = id.equals("pa");
+            double range = sleeper ? 2.2 : lanyard ? 3.5 : 7.5;
+            if (p.isCrouching()) range *= sleeper ? 0.5 : 0.6;
+            if (dist > range || !n.hasLineOfSight(p)) continue;
+            if (!sleeper) {
+                Vec3 look = n.getViewVector(1f);
+                Vec3 to = p.position().subtract(n.position()).normalize();
+                if (look.x * to.x + look.z * to.z < 0.45) continue;
+            }
+            caught(p, n);
+            return;
+        }
+    }
+
+    public void caught(ServerPlayer p, @Nullable StoryNpc by) {
+        caughtCooldown = 60;
+        if (by != null) by.say(by.npcId().equals("pa") ? "Wha-? HEY! Security!" : "Hey! You can't be back here!", 60);
+        fx(p, "caught", 1, 30);
+        state.addCounter("caught", 1);
+        rate(p, -0.15f, "Wandered into a staff-only area");
+        schedule(20, () -> {
+            p.teleportTo(level(), 106.5, 64, 3.5, 0f, 0f);
+            int n = state.counter("caught");
+            hint(p, n >= 3 ? "Marched back out again. Sneak (Shift) to shrink how far they notice you, wait behind the scaffolding until their backs are turned, and keep clear of the sleeping assistant."
+                    : "A stagehand marches you back out through the staff door. \"Nothing to see back there. Have a lovely flight.\"");
+        });
     }
 
     public void pipToGrove() {
@@ -390,7 +498,8 @@ public final class StoryDirector {
         if (d.node(start) == null) return;
         if (npc != null) npc.beginTalk(p);
         sync(p);
-        Net.send(p, new Net.OpenDialogue(npc == null ? -1 : npc.getId(), treeId, start));
+        boolean rate = d.rateable && npc != null && !state.has("rated:" + npc.npcId()) && !state.has("on_island");
+        Net.send(p, new Net.OpenDialogue(npc == null ? -1 : npc.getId(), treeId, start, rate));
     }
 
     public void openLater(ServerPlayer p, String treeId, int ticks) {
@@ -408,7 +517,25 @@ public final class StoryDirector {
             syncDirty = true;
         } else if (msg instanceof Net.EndingDone) {
             afterEnding(p);
+        } else if (msg instanceof Net.Rate r) {
+            onRate(p, r);
         }
+    }
+
+    private void onRate(ServerPlayer p, Net.Rate r) {
+        Entity e = level().getEntity(r.npc());
+        if (!(e instanceof StoryNpc n) || state.has("rated:" + n.npcId())) return;
+        int stars = Math.max(1, Math.min(5, r.stars()));
+        state.flag("rated:" + n.npcId());
+        if (n.npcId().equals("dana")) state.flag("rated_dana");
+        n.adjustScore((stars - 3) * 0.04f);
+        // they rate you back: partly what you gave them, partly how you've been behaving
+        double back = 3 + (stars - 3) * 0.6 + (state.rating - 3.5) * 0.8 + (level().random.nextDouble() - 0.5) * 0.6;
+        int theirs = (int) Math.max(1, Math.min(5, Math.round(back)));
+        state.ratingLog.add(String.format(Locale.ROOT, "+0.00|You rated %s %d stars", n.displayName(), stars));
+        rate(p, (theirs - 3) * 0.07f, n.displayName() + " rated you " + theirs + " stars");
+        schedule(25, () -> fx(p, "rated", n.displayName(), theirs, 0));
+        syncDirty = true;
     }
 
     private void onChoice(ServerPlayer p, Net.Choice c) {
@@ -421,6 +548,13 @@ public final class StoryDirector {
         StoryNpc npc = e instanceof StoryNpc n ? n : null;
         String speaker = node.speaker != null ? node.speaker : npc != null ? npc.displayName() : d.speaker;
         choice.apply(new StoryContext(this, p, npc, speaker));
+        if (c.tree().startsWith("clue:") && pendingClue != null && state.has(c.tree())) {
+            level().removeBlock(pendingClue, false);
+            state.clueAt.remove(pendingClue.asLong());
+            sound(p, SoundEvents.BOOK_PAGE_TURN, 1f, 1f);
+            fx(p, "clue", Clues.get(c.tree().substring(5)) != null ? Clues.get(c.tree().substring(5)).title() : "", 0, 0);
+            pendingClue = null;
+        }
         if (choice.next == null && npc != null) npc.endTalk();
         syncDirty = true;
         Quest q = Quests.get(state.quest);
@@ -607,10 +741,7 @@ public final class StoryDirector {
             PlaneBuilder.build(new Placer(level), Locations.AIR_PLANE, false);
             state.flag("built_air_plane");
         }
-        removeGroup("b7");
-        removeGroup("gate_crew");
-        removeGroup("airport");
-        removeGroup("edith_airport");
+        for (String g : List.of("landside", "security", "airside", "backstage", "b7", "gate_crew")) removeGroup(g);
         level.getChunkAt(Locations.AIR_PLANE.seat(14, 'A'));
         spawnGroup("air_plane");
         state.flag("on_air_plane");
@@ -663,9 +794,10 @@ public final class StoryDirector {
         Random r = new Random(99);
         List<EntityType<? extends Mob>> types = List.of(EntityType.PIG, EntityType.PIG, EntityType.CHICKEN, EntityType.CHICKEN, EntityType.RABBIT);
         int spawned = 0;
-        for (int i = 0; i < 200 && spawned < 24; i++) {
-            int dx = r.nextInt(160) - 80, dz = r.nextInt(160) - 80;
-            if (IslandTerrain.radial(dx, dz) > 0.8 || IslandTerrain.height(dx, dz) > 85 || IslandTerrain.isPool(dx, dz)) continue;
+        for (int i = 0; i < 600 && spawned < 40; i++) {
+            int dx = r.nextInt(300) - 150, dz = r.nextInt(300) - 150;
+            if (!IslandTerrain.isLand(dx, dz) || IslandTerrain.radial(dx, dz) > 0.85 || IslandTerrain.height(dx, dz) > 95
+                    || IslandTerrain.riverWater(dx, dz) >= 0 || IslandTerrain.isPool(dx, dz)) continue;
             BlockPos at = new BlockPos(Locations.ISLAND_X + dx, IslandTerrain.height(dx, dz) + 1, Locations.ISLAND_Z + dz);
             level.getChunkAt(at);
             Mob m = types.get(spawned % types.size()).create(level);
@@ -679,16 +811,19 @@ public final class StoryDirector {
     }
 
     public void ending(ServerPlayer p) {
-        String kind = state.has("ending_free") ? "free" : "loop";
+        String kind = state.has("ending_stay") ? "stay" : state.has("ending_free") ? "free" : "loop";
         Net.send(p, new Net.Ending(kind, state.has("pip_comes"), state.rating));
     }
 
     private void afterEnding(ServerPlayer p) {
         if (state.has("ending_seen")) return;
         state.flag("ending_seen");
-        if (!state.has("ending_free")) {
+        if (state.has("ending_stay")) {
+            BlockPos v = IslandBuilder.village(2, 4);
+            p.teleportTo(level(), v.getX() + 0.5, v.getY(), v.getZ() + 0.5, 0f, 0f);
+        } else if (!state.has("ending_free")) {
             spawnGroup("ending_airport");
-            p.teleportTo(level(), 16.5, 64, 27.5, 0f, 0f);
+            p.teleportTo(level(), 26.5, 64, 25.5, 180f, 0f);
             gamemode(p, GameType.ADVENTURE);
             level().setDayTime(level().getDayTime() - level().getDayTime() % 24000 + 25000);
             server.getGameRules().getRule(GameRules.RULE_DAYLIGHT).set(false, server);
@@ -761,17 +896,18 @@ public final class StoryDirector {
     private void ambient(ServerPlayer p) {
         Quest q = Quests.get(state.quest);
         if (q == null) return;
-        if (q.chapter <= 3 && tickCount % 1800 == 900) {
+        if (q.chapter <= 5 && tickCount % 1800 == 900) {
             String[] lines = {
                     "Reminder: Meridian International is a SmileScore partner airport. Frowning in the terminal may affect your rating.",
                     "Would the owner of a blue carry-on bag please return to... never mind. We know where you are.",
                     "Passenger " + p.getGameProfile().getName() + ", please stop looking at the cameras.",
                     "Meridian Flight 417 to Port Ellery is on time. Meridian Flight 417 is always on time.",
                     "Unattended luggage will be rated.",
+                    "The arrivals hall remains closed for refurbishment. Meridian apologises for any arrivals.",
                     "Thank you for flying Meridian. Thank you for flying Meridian. Thank you for f-"};
             pa(p, lines[(int) ((tickCount / 1800) % lines.length)]);
         }
-        if (q.chapter >= 7 && q.chapter <= 12 && state.has("on_island")) {
+        if (q.chapter >= 10 && q.chapter <= 17 && state.has("on_island")) {
             long t = level().getDayTime() % 24000;
             boolean night = t >= 13500 && t <= 22500;
             boolean scripted = state.quest.equals("first_night") || state.quest.equals("night_watch") || state.quest.equals("last_night");
@@ -790,30 +926,81 @@ public final class StoryDirector {
         }
     }
 
+    /** People nearby say things now and then: speech bubbles above their heads. */
+    private void barks(ServerPlayer p) {
+        String phase = state.has("on_island") ? "island" : state.has("on_air_plane") ? (state.quest.equals("lights_out") && state.has("stare_over") ? "stare" : "plane") : "airport";
+        List<StoryNpc> near = level().getEntitiesOfClass(StoryNpc.class, p.getBoundingBox().inflate(7), n -> n.canBark() && !n.talking());
+        if (near.isEmpty() || level().random.nextFloat() > 0.18f) return;
+        StoryNpc n = near.get(level().random.nextInt(near.size()));
+        if (n.marker() == 1 && level().random.nextFloat() < 0.5f) {
+            n.say(phase.equals("island") ? "Sky-fallen. Over here." : "Excuse me! Have you got a minute?", 70);
+        } else {
+            String line = Barks.pick(n.barkPool(), phase, new Random(level().random.nextLong()));
+            if (line == null) return;
+            n.say(line, 70);
+        }
+        n.barkCooldown(300 + level().random.nextInt(400));
+    }
+
     // =========================================================================================
     // world interactions
     // =========================================================================================
+    @Nullable private BlockPos pendingClue;
+
     void onTalk(ServerPlayer p, StoryNpc npc) {
         openDialogue(p, npc.dialogue(), npc);
     }
 
+    void npcHit(ServerPlayer p, StoryNpc npc) {
+        if (state.has("on_island") && npc.group().equals("tribe")) {
+            npc.say("Hey! Hands off, sky-fallen.", 50);
+            return;
+        }
+        npc.say(state.has("stare_over") && state.has("on_air_plane") ? "...four point zero." : "Ow! I'm rating that.", 50);
+        rate(p, -0.1f, "Assaulted " + npc.displayName());
+    }
+
+    void onKill(ServerPlayer p, Entity e) {
+        if (e.getType() == EntityType.PIG && state.has("side:hunt") && !state.has("sidedone:hunt") && Locations.onIsland(e.blockPosition())) {
+            state.addCounter("boars", 1);
+            syncDirty = true;
+        }
+    }
+
     void onSit(ServerPlayer p, BlockPos pos) {
         String q = state.quest;
-        if (q.equals("wait_gate") && pos.getX() >= Locations.GATE_B7 - 6 && pos.getX() <= Locations.GATE_B7 + 6 && pos.getZ() >= 27 && pos.getZ() <= 38) {
+        int gx = Locations.GATE_B7;
+        if (q.equals("wait_gate") && pos.getX() >= gx - 6 && pos.getX() <= gx + 6 && pos.getZ() >= 34 && pos.getZ() <= 48) {
             state.flag("waited_gate");
             hint(p, "You sit and wait. Through the window, Flight 417 waits too.");
         }
         if (q.equals("find_seat")) {
             if (pos.equals(Locations.GATE_PLANE.seat(14, 'A'))) {
                 if (state.has("stowed_bag")) state.flag("seated_14a");
-                else hint(p, "Stow your bag in the overhead bin first.");
+                else hint(p, "Stow your bag in the overhead bin above 14A first.");
             } else if (pos.getY() == Locations.GATE_PLANE.y() + 1) {
                 hint(p, "This isn't your seat. You're in 14A: row 14, window, left side.");
             }
         }
-        if (q.equals("lights_out") && pos.equals(Locations.AIR_PLANE.seat(14, 'A'))) state.flag("seated_air");
+        if (q.equals("lights_out") && pos.equals(Locations.AIR_PLANE.seat(14, 'A'))) {
+            if (state.has("june_stare")) state.flag("seated_air");
+            else hint(p, "You can't sit still. Not until you've talked to June.");
+        }
         if (q.equals("empty_seats") && pos.equals(IslandBuilder.loneSeatPos())) openDialogue(p, "lone_seat", null);
         syncDirty = true;
+    }
+
+    /** The trapdoor to the hold: Theo won't let you near it unless he's been sent away. Returns true to block it. */
+    boolean onHatch(ServerPlayer p) {
+        if (state.has("on_island")) return false;
+        if (!state.quest.equals("the_hold") || state.has("theo_distracted")) return false;
+        StoryNpc theo = npc("theo");
+        if (theo != null && theo.distanceTo(p) < 6) {
+            theo.say("Ah-ah. Crew only.", 50);
+            hint(p, "Theo is standing right beside the hatch. Get rid of him first.");
+            return true;
+        }
+        return false;
     }
 
     void onInteract(ServerPlayer p, String key, BlockPos pos, BlockState bs, Direction face) {
@@ -822,6 +1009,15 @@ public final class StoryDirector {
         switch (key) {
             case "departure_board" -> openDialogue(p, "board", null);
             case "kiosk" -> openDialogue(p, "kiosk", null);
+            case "tv" -> openDialogue(p, "lounge_tv", null);
+            case "poster" -> openDialogue(p, "clue:missing_poster", null);
+            case "clue" -> {
+                String id = state.clueAt.get(pos.asLong());
+                if (id == null) { hint(p, "A scrap of paper, too faded to read."); return; }
+                pendingClue = pos;
+                openDialogue(p, "clue:" + id, null);
+            }
+            case "pickup" -> pickup(p, pos, bs);
             case "conveyor", "xray" -> {
                 if (q.equals("screening") && held.is(ModItems.CARRY_ON_BAG.get())) {
                     held.shrink(1);
@@ -837,7 +1033,7 @@ public final class StoryDirector {
             case "boarding_scanner" -> {
                 if (pos.getX() != Locations.GATE_B7) { hint(p, "This podium is for a different flight."); return; }
                 if (!q.equals("boarding_call")) { hint(p, "PLEASE WAIT. YOUR GROUP HAS NOT BEEN CALLED."); return; }
-                if (!held.is(ModItems.BOARDING_PASS.get())) { hint(p, "Hold your boarding pass to scan it."); return; }
+                if (!held.is(ModItems.BOARDING_PASS.get())) { hint(p, "Hold your boarding pass in your hand to scan it."); return; }
                 if (state.rating < 3.0f) {
                     sound(p, Snd.of(SoundEvents.NOTE_BLOCK_BASS), 1f, 0.5f);
                     openDialogue(p, "corinne_low", npc("corinne"));
@@ -872,6 +1068,8 @@ public final class StoryDirector {
                     }
                 } else if (q.equals("find_seat") && held.is(ModItems.CARRY_ON_BAG.get())) {
                     hint(p, "This bin is full. Your row is 14: count the row signs from the front.");
+                } else if (q.equals("find_seat")) {
+                    hint(p, "Hold your carry-on bag in your hand to stow it.");
                 } else {
                     hint(p, "The bin is latched shut.");
                 }
@@ -899,8 +1097,9 @@ public final class StoryDirector {
             case "monitor" -> hint(p, bs.getValue(StateInteractBlock.MODE) == 2 ? "Dark." : "Static. Then, for a moment, you, from above. Then static.");
             case "polaroid_wall" -> openDialogue(p, "polaroid_wall", null);
             case "keypad" -> {
-                if (q.equals("the_eye") || state.has("door_open")) openDialogue(p, "keypad", null);
-                else hint(p, "A keypad. Locked.");
+                if (!Locations.onIsland(pos)) { openDialogue(p, "staff_keypad", null); return; }
+                if (state.completed.contains("what_we_were") || state.has("door_open")) openDialogue(p, "keypad", null);
+                else hint(p, "A keypad. Four digits. You have no idea what they are. Yet.");
             }
             case "halo_terminal" -> {
                 if (state.has("ending_free")) hint(p, "The screen is dark except for one line: GOODBYE, " + p.getGameProfile().getName().toUpperCase(Locale.ROOT) + ".");
@@ -918,6 +1117,27 @@ public final class StoryDirector {
             default -> {}
         }
         syncDirty = true;
+    }
+
+    private void pickup(ServerPlayer p, BlockPos pos, BlockState bs) {
+        if (bs.is(ModBlocks.LOST_PLUSH.get())) {
+            if (!state.has("side:floppy")) startSide(p, "floppy");
+            give(p, new ItemStack(ModItems.PLUSH_RABBIT.get()));
+            state.flag("has_plush");
+            hint(p, "A grey rabbit with one ear. Its fur is damp, and it smells of the sea.");
+        } else if (bs.is(ModBlocks.WET_FLOOR_SIGN.get())) {
+            if (!state.has("side:wet_floor")) { hint(p, "A yellow WET FLOOR sign. Somebody will be looking for this."); return; }
+            give(p, new ItemStack(ModItems.WET_FLOOR_SIGN.get()));
+            state.flag("got_sign");
+        } else if (bs.is(ModBlocks.ENGINE_PART.get())) {
+            give(p, new ItemStack(ModItems.ENGINE_COIL.get()));
+            state.flag("got_coil");
+            hint(p, "The coil is still faintly warm, even underwater. Stamped on the casing: PROPERTY OF MERIDIAN EXPERIENCES. SET PIECE 2.");
+        } else {
+            return;
+        }
+        level().removeBlock(pos, false);
+        sound(p, SoundEvents.ITEM_PICKUP, 1f, 1f);
     }
 
     void onCockpitDoor(ServerPlayer p) {
@@ -949,6 +1169,7 @@ public final class StoryDirector {
         if (loot.isEmpty()) hint(p, "Clothes, soaked through. A paperback swollen with seawater. Nothing useful.");
         for (ItemStack s : loot) give(p, s);
         if (n == 3) hint(p, "Every suitcase has a luggage tag. Every tag says the same name. Yours.");
+        if (n == 5 && state.has("floppy_returned")) hint(p, "Tucked into a side pocket: a grey rabbit with one ear. Captain Floppy. Leo was holding him when you boarded.");
     }
 
     private record Need(String key, int amount, Predicate<ItemStack> match) {}
@@ -959,7 +1180,7 @@ public final class StoryDirector {
             case 2 -> List.of(new Need("hull_panel", 8, s -> s.is(ModItems.HULL_PANEL.get())), new Need("palm_planks", 24, s -> s.is(ModBlocks.PALM_PLANKS.get().asItem())));
             case 3 -> List.of(new Need("mast", 1, s -> s.is(ModItems.MAST.get())), new Need("rope", 8, s -> s.is(ModItems.ROPE.get())));
             case 4 -> List.of(new Need("sail_cloth", 1, s -> s.is(ModItems.SAIL_CLOTH.get())));
-            case 5 -> List.of(new Need("water_flask", 4, s -> s.is(ModItems.WATER_FLASK.get())),
+            case 5 -> List.of(new Need("engine_coil", 1, s -> s.is(ModItems.ENGINE_COIL.get())), new Need("water_flask", 4, s -> s.is(ModItems.WATER_FLASK.get())),
                     new Need("food", 8, s -> s.isEdible() && !s.is(ModItems.WATER_FLASK.get()) && !s.is(ModItems.SEA_WATER_FLASK.get())
                             && !s.is(ModItems.GHOST_TONIC.get()) && !s.is(ModItems.COFFEE.get())));
             default -> List.of();
@@ -1015,6 +1236,16 @@ public final class StoryDirector {
     public void event(ServerPlayer p, String name) {
         switch (name) {
             case "open_bridge" -> openBarrier("jet_bridge");
+            case "staff_door" -> {
+                AirportBuilder.staffDoor(new Placer(level()), true);
+                sound(p, SoundEvents.IRON_DOOR_OPEN, 1f, 0.9f);
+            }
+            case "caught" -> caught(p, null);
+            case "theo_away" -> {
+                StoryNpc theo = npc("theo");
+                Plane a = Locations.AIR_PLANE;
+                if (theo != null) theo.walkRoute(List.of(a.aisle(40), a.aisle(18)), null);
+            }
             case "screens_on" -> {
                 PlaneBuilder.screens(new Placer(level()), Locations.AIR_PLANE, 1);
                 schedule(600, () -> PlaneBuilder.screens(new Placer(level()), Locations.AIR_PLANE, 2));

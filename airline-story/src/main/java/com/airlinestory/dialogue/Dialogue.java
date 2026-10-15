@@ -17,6 +17,8 @@ import java.util.function.Predicate;
 public final class Dialogue {
     public final String id;
     public final String speaker;
+    /** Conversations with this person end with you rating them (and them rating you). */
+    public boolean rateable;
     final Function<FlagView, String> start;
     final Map<String, Node> nodes = new LinkedHashMap<>();
 
@@ -83,6 +85,7 @@ public final class Dialogue {
         private final String id;
         private final String speaker;
         private Function<FlagView, String> start = v -> "start";
+        private boolean rateable;
         private final Map<String, Node> nodes = new LinkedHashMap<>();
         private Node node;
         private Choice choice;
@@ -93,6 +96,8 @@ public final class Dialogue {
         }
 
         public Builder start(Function<FlagView, String> s) { this.start = s; return this; }
+
+        public Builder rateable() { this.rateable = true; return this; }
 
         /** A line spoken by the tree's speaker. */
         public Builder node(String nid, String text) {
@@ -142,6 +147,7 @@ public final class Dialogue {
 
         public Dialogue build() {
             Dialogue d = new Dialogue(id, speaker, start);
+            d.rateable = rateable;
             d.nodes.putAll(nodes);
             return d;
         }

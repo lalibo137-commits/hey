@@ -72,6 +72,15 @@ public final class StoryEvents {
                 event.setCanceled(true);
             }
         }
+        if (s.is(Blocks.SPRUCE_TRAPDOOR) && event.getPos().equals(com.airlinestory.world.PlaneBuilder.hatch(Locations.AIR_PLANE)) && d.onHatch(sp)) {
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onDeath(net.minecraftforge.event.entity.living.LivingDeathEvent event) {
+        StoryDirector d = StoryDirector.get();
+        if (d != null && event.getSource().getEntity() instanceof ServerPlayer sp) d.onKill(sp, event.getEntity());
     }
 
     @SubscribeEvent
@@ -151,6 +160,11 @@ public final class StoryEvents {
     public static void onSit(ServerPlayer player, BlockPos pos) {
         StoryDirector d = StoryDirector.get();
         if (d != null) d.onSit(player, pos);
+    }
+
+    public static void npcHit(ServerPlayer player, StoryNpc npc) {
+        StoryDirector d = StoryDirector.get();
+        if (d != null) d.npcHit(player, npc);
     }
 
     public static void validateNpc(StoryNpc npc) {

@@ -66,6 +66,16 @@ public final class Guidance {
                 if (t != null) return t;
             }
         }
+        for (Quest sq : Quests.sides()) {
+            if (!sq.active(v)) continue;
+            for (int i = 0; i < sq.objectives.size(); i++) {
+                Objective o = sq.objectives.get(i);
+                if (o.optional || o.isDone(v, sq.id, i)) continue;
+                Target t = targetFor(mc, o);
+                if (t != null) return t;
+                break;
+            }
+        }
         return null;
     }
 

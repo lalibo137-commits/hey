@@ -32,12 +32,21 @@ public final class DevHooks {
                 p.teleportTo(d.level(), Double.parseDouble(c[0]), Double.parseDouble(c[1]), Double.parseDouble(c[2]),
                         Float.parseFloat(c[3]), Float.parseFloat(c[4]));
             }
+            case "tpi" -> {
+                String[] c = arg.split(",");
+                int dx = Integer.parseInt(c[0]), dz = Integer.parseInt(c[1]);
+                double dy = c.length > 4 ? Double.parseDouble(c[4]) : 0;
+                int y = Math.max(com.airlinestory.world.IslandTerrain.SEA, com.airlinestory.world.IslandTerrain.height(dx, dz)) + 1;
+                if (p.getVehicle() != null) p.stopRiding();
+                p.teleportTo(d.level(), Locations.ISLAND_X + dx + 0.5, y + dy, Locations.ISLAND_Z + dz + 0.5, Float.parseFloat(c[2]), Float.parseFloat(c[3]));
+            }
             case "time" -> d.level().setDayTime(Long.parseLong(arg));
             case "spawn" -> d.spawnGroup(arg);
             case "island" -> {
                 long until = System.nanoTime() + 240_000_000_000L;
                 IslandBuilder b = new IslandBuilder(d.state());
                 while (!b.done() && System.nanoTime() < until) b.step(d.level(), System.nanoTime() + 1_000_000_000L);
+                b.placedClues.forEach((pos, id) -> d.state().clueAt.put(pos.asLong(), id));
                 AirlineStory.LOG.info("[autotest] island done={} {}%", b.done(), b.percent());
             }
             case "land" -> { d.state().flag("crashing"); d.tryLand(p); }
@@ -56,6 +65,15 @@ public final class DevHooks {
                 var seat = Locations.GATE_PLANE.seat(14, 'A');
                 p.teleportTo(d.level(), seat.getX() + 0.5, seat.getY(), seat.getZ() + 0.5, 90f, 0f);
                 d.schedule(3, () -> com.airlinestory.entity.SeatEntity.sit(p, seat, net.minecraft.core.Direction.WEST));
+            }
+            case "sitair" -> {
+                if (p.getVehicle() != null) p.stopRiding();
+                var seat = Locations.AIR_PLANE.seat(14, 'A');
+                p.teleportTo(d.level(), seat.getX() + 0.5, seat.getY(), seat.getZ() + 0.5, 90f, 0f);
+                d.schedule(3, () -> {
+                    com.airlinestory.entity.SeatEntity.sit(p, seat, net.minecraft.core.Direction.WEST);
+                    d.state().flag("seated_air");
+                });
             }
             default -> AirlineStory.LOG.warn("[autotest] unknown action {}", action);
         }

@@ -18,7 +18,7 @@ import java.util.Locale;
 /** The Travel Journal: what to do next, who to talk to, where to go, plus the story so far. */
 public class JournalScreen extends Screen {
     private static int tab;
-    private static final String[] TABS = {"Objectives", "Story", "People", "SmileScore"};
+    private static final String[] TABS = {"Tasks", "Story", "Clues", "People", "Score"};
     private static final int W = 256, H = 210;
     private int left, top;
     private int scroll;
@@ -33,7 +33,7 @@ public class JournalScreen extends Screen {
         left = (width - W) / 2;
         top = (height - H) / 2;
         tabButtons.clear();
-        int bw = (W - 16) / 4;
+        int bw = (W - 16) / TABS.length;
         for (int i = 0; i < TABS.length; i++) {
             final int t = i;
             Button b = Button.builder(Component.literal(TABS[i]), btn -> { tab = t; scroll = 0; refresh(); })
@@ -80,8 +80,9 @@ public class JournalScreen extends Screen {
         g.enableScissor(ix + 1, iy + 1, ix + iw - 1, iy + ih - 1);
         List<Line> lines = switch (tab) {
             case 1 -> storyLines();
-            case 2 -> peopleLines();
-            case 3 -> ratingLines();
+            case 2 -> clueLines();
+            case 3 -> peopleLines();
+            case 4 -> ratingLines();
             default -> objectiveLines();
         };
         int maxScroll = Math.max(0, lines.size() * 10 - (ih - 8));
@@ -157,6 +158,18 @@ public class JournalScreen extends Screen {
             text(out, "What am I supposed to do?", 0xFF1F3F8F, 0);
             text(out, todo, VanillaGui.TEXT, 6);
         }
+        for (Quest sq : Quests.sides()) {
+            if (!sq.active(v)) continue;
+            text(out, "Side quest: " + sq.title, 0xFF4A3F9F, 0);
+            text(out, sq.description, VanillaGui.TEXT, 4);
+            for (int i = 0; i < sq.objectives.size(); i++) {
+                Objective o = sq.objectives.get(i);
+                boolean done = o.isDone(v, sq.id, i);
+                text(out, (done ? "✔ " : o.optional ? "○ " : "☐ ") + o.display(v), done ? 0xFF2E7D32 : VanillaGui.TEXT, 8);
+                if (!done && !o.optional) text(out, o.hint, 0xFF707070, 12);
+            }
+            blank(out);
+        }
         blank(out);
         text(out, "Tips: right-click people to talk, seats to sit (sneak to stand), and story objects to use them. Press 1-4 to answer in conversations.", 0xFF707070, 0);
         return out;
@@ -176,6 +189,27 @@ public class JournalScreen extends Screen {
             text(out, "✔ " + q.title, VanillaGui.TEXT, 4);
         }
         if (out.isEmpty()) text(out, "Nothing yet. Your trip is only just beginning.", VanillaGui.TEXT, 0);
+        return out;
+    }
+
+    private List<Line> clueLines() {
+        List<Line> out = new ArrayList<>();
+        int found = 0;
+        String act = "";
+        for (com.airlinestory.story.Clues.Clue c : com.airlinestory.story.Clues.all()) {
+            if (!ClientStory.INSTANCE.has("clue:" + c.id())) continue;
+            if (!c.act().equals(act)) {
+                if (found > 0) blank(out);
+                act = c.act();
+                text(out, act.toUpperCase(Locale.ROOT), 0xFF1F3F8F, 0);
+            }
+            found++;
+            text(out, c.title(), 0xFF000000, 2);
+            text(out, c.text(), VanillaGui.TEXT, 6);
+            blank(out);
+        }
+        out.add(0, new Line(VanillaGui.wrap(font, "Evidence found: " + found + " / " + com.airlinestory.story.Clues.count(), W - 26).get(0), 0xFF7A5A00, 0, false));
+        if (found == 0) text(out, "Notes, tapes and photographs are hidden all over. Look for scraps of paper on desks, shelves and floors.", VanillaGui.TEXT, 0);
         return out;
     }
 
