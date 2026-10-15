@@ -51,6 +51,12 @@ public final class DevHooks {
             }
             case "talk" -> d.openDialogue(p, arg.split(",")[0], arg.contains(",") ? d.npc(arg.split(",")[1]) : null);
             case "skip" -> d.skip(p);
+            case "sitgate" -> {
+                if (p.getVehicle() != null) p.stopRiding();
+                var seat = Locations.GATE_PLANE.seat(14, 'A');
+                p.teleportTo(d.level(), seat.getX() + 0.5, seat.getY(), seat.getZ() + 0.5, 90f, 0f);
+                d.schedule(3, () -> com.airlinestory.entity.SeatEntity.sit(p, seat, net.minecraft.core.Direction.WEST));
+            }
             default -> AirlineStory.LOG.warn("[autotest] unknown action {}", action);
         }
     }

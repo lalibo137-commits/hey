@@ -42,8 +42,8 @@ public final class DevAutotest {
 
     private static void build() {
         Locations.Plane g = Locations.GATE_PLANE;
-        add(200, () -> shot("02_intro_cutscene"));
-        add(320, () -> shot("03_arrival"));
+        add(160, () -> shot("02_intro_cutscene"));
+        add(420, () -> shot("03_arrival"));
         add(20, () -> Minecraft.getInstance().setScreen(new JournalScreen()));
         add(30, () -> shot("04_journal"));
         add(10, () -> Minecraft.getInstance().setScreen(null));
@@ -65,7 +65,8 @@ public final class DevAutotest {
         add(10, () -> server("quest:find_seat"));
         add(10, () -> server("tp:" + (g.x() + 10.5) + "," + (g.y() + 1) + "," + (g.z() + 0.5) + ",-90,5"));
         add(80, () -> shot("11_cabin_gate"));
-        add(10, () -> server("quest:takeoff"));
+        add(10, () -> server("sitgate"));
+        add(20, () -> server("quest:takeoff"));
         add(10, () -> server("ticks:495"));
         add(140, () -> shot("12_takeoff_cutscene"));
         add(300, () -> shot("13_cruising"));

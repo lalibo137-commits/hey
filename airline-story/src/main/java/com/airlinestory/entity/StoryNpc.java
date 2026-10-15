@@ -237,6 +237,12 @@ public class StoryNpc extends PathfinderMob {
     private void tickStand() {
         if (home == null) return;
         if (isPassenger()) return;
+        if (tickCount % 20 == 0 && (level().getBlockState(blockPosition()).getBlock() instanceof com.airlinestory.block.SeatBlock
+                || level().getBlockState(blockPosition().below()).getBlock() instanceof com.airlinestory.block.SeatBlock)) {
+            BlockPos free = freeSpotNear(home);
+            teleportTo(free.getX() + 0.5, free.getY(), free.getZ() + 0.5);
+            home = free;
+        }
         if (blockPosition().distSqr(home) > 2.5) {
             walkTowards(home, 0.9);
         } else if (getNavigation().isDone() && !Float.isNaN(homeYaw) && tickCount % 40 == 0 && getTarget() == null) {
@@ -263,14 +269,15 @@ public class StoryNpc extends PathfinderMob {
         if (seat == null) { mode = Mode.STAND; return; }
         if (isPassenger()) return;
         double d = position().distanceToSqr(Vec3.atBottomCenterOf(seat));
-        if (d < 16 || stuckTicks > 120) {
+        if (d < 30 || stuckTicks > 120) {
             teleportTo(seat.getX() + 0.5, seat.getY(), seat.getZ() + 0.5);
             BlockState st = level().getBlockState(seat);
             Direction f = st.hasProperty(HorizontalDirectionalBlock.FACING) ? st.getValue(HorizontalDirectionalBlock.FACING) : Direction.NORTH;
             if (!SeatEntity.sit(this, seat, f)) {
-                // taken: stand next to it rather than stacking
+                // taken: stand beside it rather than on top of it
                 mode = Mode.STAND;
-                home = seat;
+                home = freeSpotNear(seat);
+                teleportTo(home.getX() + 0.5, home.getY(), home.getZ() + 0.5);
             }
             stuckTicks = 0;
         } else {
@@ -328,6 +335,18 @@ public class StoryNpc extends PathfinderMob {
         if (p != null) {
             getLookControl().setLookAt(p.getX(), p.getEyeY(), p.getZ(), 180f, 180f);
         }
+    }
+
+    /** The nearest spot with two blocks of air above a solid floor (not a seat). */
+    private BlockPos freeSpotNear(BlockPos p) {
+        for (int r = 0; r <= 3; r++)
+            for (int dx = -r; dx <= r; dx++)
+                for (int dz = -r; dz <= r; dz++) {
+                    BlockPos c = p.offset(dx, 0, dz);
+                    if (level().getBlockState(c).isAir() && level().getBlockState(c.above()).isAir()
+                            && level().getBlockState(c.below()).isSolidRender(level(), c.below())) return c;
+                }
+        return p;
     }
 
     private void walkTowards(BlockPos t, double speed) {

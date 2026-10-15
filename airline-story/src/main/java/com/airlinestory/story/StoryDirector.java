@@ -115,8 +115,10 @@ public final class StoryDirector {
             Placer p = new Placer(level);
             AirportBuilder.build(p);
             PlaneBuilder.build(p, Locations.GATE_PLANE, true);
+            PlaneBuilder.build(p, Locations.AIR_PLANE, false);
+            state.flag("built_air_plane");
             AirlineStory.LOG.info("Airport built ({} blocks)", p.placed);
-            level.setDefaultSpawnPos(Locations.SPAWN, 180f);
+            level.setDefaultSpawnPos(Locations.SPAWN, 0f);
             GameRules rules = server.getGameRules();
             rules.getRule(GameRules.RULE_DAYLIGHT).set(false, server);
             rules.getRule(GameRules.RULE_WEATHER_CYCLE).set(false, server);
@@ -143,7 +145,7 @@ public final class StoryDirector {
 
     void onLogin(ServerPlayer player) {
         if (state.quest.isEmpty()) {
-            player.teleportTo(level(), Locations.SPAWN.getX() + 0.5, Locations.SPAWN.getY(), Locations.SPAWN.getZ() + 0.5, 180f, 0f);
+            player.teleportTo(level(), Locations.SPAWN.getX() + 0.5, Locations.SPAWN.getY(), Locations.SPAWN.getZ() + 0.5, 0f, 0f);
             startQuest(player, Quests.FIRST);
         } else {
             Quest q = Quests.get(state.quest);

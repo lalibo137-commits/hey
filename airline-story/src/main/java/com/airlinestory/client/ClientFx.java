@@ -186,7 +186,14 @@ public final class ClientFx {
             return;
         }
         Font font = mc.font;
-        if (!hudHidden && mc.screen == null) tracker(g, font, w);
+        int paBottom = 0;
+        for (Msg m : messages) {
+            if (m.type.equals("pa") || m.type.equals("halo")) {
+                paBottom = 22 + 18 + VanillaGui.wrap(font, m.text, Math.min(300, w - 40)).size() * 10 + 4;
+            }
+        }
+        boolean dialogue = mc.screen instanceof DialogueScreen;
+        if (!hudHidden && mc.screen == null) tracker(g, font, w, paBottom);
         int toastY = 4;
         int remY = hudHidden ? 6 : 58;
         for (Msg m : messages) {
@@ -197,7 +204,7 @@ public final class ClientFx {
                     boolean halo = m.type.equals("halo");
                     List<FormattedCharSequence> lines = VanillaGui.wrap(font, m.text, Math.min(300, w - 40));
                     int bw = Math.min(320, w - 20), bh = 18 + lines.size() * 10;
-                    int bx = (w - bw) / 2, by = 22;
+                    int bx = (w - bw) / 2, by = dialogue ? h / 8 + 4 : 22;
                     VanillaGui.hudBox(g, bx, by, bw, bh, halo ? 0xFFB040FF : 0xFF4FA8E0);
                     String head = halo ? "◉ HALO" : "✈ MERIDIAN CABIN ANNOUNCEMENT";
                     g.drawString(font, head, bx + 6, by + 4, (halo ? 0xD080FF : 0x7FC8FF) | alpha, false);
@@ -205,6 +212,7 @@ public final class ClientFx {
                     for (FormattedCharSequence l : lines) { g.drawString(font, l, bx + 6, ly, 0xFFFFFF | alpha, false); ly += 10; }
                 }
                 case "hint" -> {
+                    if (dialogue) continue;
                     List<FormattedCharSequence> lines = VanillaGui.wrap(font, m.text, Math.min(280, w - 40));
                     int y = h - 70 - lines.size() * 10;
                     for (FormattedCharSequence l : lines) {
@@ -241,14 +249,15 @@ public final class ClientFx {
                     remY += 11;
                 }
                 case "quest" -> {
+                    if (dialogue) continue;
                     String ch = "Chapter " + (int) m.value + ": " + Quests.CHAPTERS[Math.min(Quests.CHAPTERS.length - 1, (int) m.value)];
                     g.pose().pushPose();
-                    g.pose().translate(w / 2f, h / 4f, 0);
+                    g.pose().translate(w / 2f, h / 3f, 0);
                     g.pose().scale(1.6f, 1.6f, 1);
                     g.drawCenteredString(font, m.text, 0, 0, 0xFFFF55 | alpha);
                     g.pose().popPose();
-                    g.drawCenteredString(font, ch, w / 2, h / 4 + 18, 0xBBBBBB | alpha);
-                    g.drawCenteredString(font, "Press [" + ClientModEvents.JOURNAL.getTranslatedKeyMessage().getString() + "] for your journal", w / 2, h / 4 + 30, 0x888888 | alpha);
+                    g.drawCenteredString(font, ch, w / 2, h / 3 + 18, 0xBBBBBB | alpha);
+                    g.drawCenteredString(font, "Press [" + ClientModEvents.JOURNAL.getTranslatedKeyMessage().getString() + "] for your journal", w / 2, h / 3 + 30, 0x888888 | alpha);
                 }
                 default -> {}
             }
@@ -256,11 +265,11 @@ public final class ClientFx {
         renderTop(g, w, h);
     }
 
-    private static void tracker(GuiGraphics g, Font font, int w) {
+    private static void tracker(GuiGraphics g, Font font, int w, int below) {
         FlagView v = ClientStory.INSTANCE;
         Quest q = Quests.get(v.quest());
         if (q == null) return;
-        int x = 6, y = 6;
+        int x = 6, y = Math.max(6, below);
         g.drawString(font, q.title, x, y, 0xFFFF55, true);
         y += 11;
         int shown = 0;

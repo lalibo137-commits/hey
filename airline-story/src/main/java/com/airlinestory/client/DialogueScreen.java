@@ -177,16 +177,19 @@ public class DialogueScreen extends Screen {
         g.fill(0, h - (int) (panelH * open), w, h, 0xE6000000);
         int top = h - panelH;
 
-        if (npc instanceof LivingEntity le && npc.isAlive() && w > 360) {
-            int px = w / 2 - Math.min(250, w / 2 - 50), py = top - 6;
-            g.fill(px - 34, py - 92, px + 34, py + 2, 0x90000000);
-            net.minecraft.client.gui.screens.inventory.InventoryScreen.renderEntityInInventoryFollowsMouse(g, px, py - 4, 38,
-                    (float) (px - mouseX), (float) (py - 60 - mouseY), le);
+        int textX = Math.max(20, w / 2 - 200);
+        int textW = Math.min(400, w - 40);
+        if (npc instanceof LivingEntity le && npc.isAlive() && w > 300) {
+            int size = Math.min(30, (panelH - 12) / 2);
+            int px = 14 + size / 2 + 8, py = h - 6;
+            g.fill(px - size / 2 - 8, top + 4, px + size / 2 + 8, h - 4, 0x60303040);
+            net.minecraft.client.gui.screens.inventory.InventoryScreen.renderEntityInInventoryFollowsMouse(g, px, py, size,
+                    (float) (px - mouseX), (float) (py - size * 1.6f - mouseY), le);
+            int minX = px + size / 2 + 16;
+            if (textX < minX) { textW -= minX - textX; textX = minX; }
         }
 
         String speaker = speaker();
-        int textX = Math.max(20, w / 2 - 200);
-        int textW = Math.min(400, w - 40);
         g.drawString(font, speaker.toUpperCase(Locale.ROOT), textX, top + 8, speakerColor(speaker), true);
         String text = fill(node.text);
         String shown = text.substring(0, Math.min(text.length(), typed));

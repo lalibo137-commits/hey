@@ -514,7 +514,8 @@ public final class IslandBuilder {
     }
 
     public static BlockPos dockStart() {
-        return new BlockPos(wx(shoreX() - 2), SEA + 2, wz(Locations.DOCK[1]));
+        int dx = shoreX() - 2;
+        return new BlockPos(wx(dx), Math.max(SEA + 2, height(dx, Locations.DOCK[1]) + 1), wz(Locations.DOCK[1]));
     }
 
     private void dock(Placer p) {
