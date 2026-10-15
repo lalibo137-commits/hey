@@ -202,7 +202,7 @@ public final class IslandBuilder {
                         if (roll < 1 / 34.0) deadTree(p, x, h + 1, z, hash(x, z, 5));
                         else if (roll < 1 / 12.0) p.set(x, h + 1, z, ModBlocks.GHOST_ORCHID.get());
                         else if (roll < 1 / 6.0) p.set(x, h + 1, z, Blocks.DEAD_BUSH);
-                        else if (roll < 0.2) p.set(x, h + 1, z, Blocks.COBWEB);
+                        else if (roll < 0.2) p.set(x, h + 1, z, Blocks.MOSS_CARPET);
                     }
                     case "mangrove" -> {
                         if (roll < 1 / 26.0) feature(level, hash(x, z, 6) < 0.3 ? TreeFeatures.TALL_MANGROVE : TreeFeatures.MANGROVE, above, seed);
@@ -286,7 +286,7 @@ public final class IslandBuilder {
     private static void deadTree(Placer p, int x, int y, int z, double seed) {
         Random r = new Random((long) (seed * 1e9));
         int height = 5 + r.nextInt(5);
-        BlockState log = Blocks.STRIPPED_DARK_OAK_LOG.defaultBlockState();
+        BlockState log = (r.nextBoolean() ? Blocks.STRIPPED_BIRCH_LOG : Blocks.STRIPPED_DARK_OAK_LOG).defaultBlockState();
         for (int i = 0; i < height; i++) p.set(x, y + i, z, log);
         for (int i = 0; i < 3; i++) {
             Direction d = Direction.from2DDataValue(r.nextInt(4));
@@ -294,7 +294,6 @@ public final class IslandBuilder {
             BlockState branch = log.setValue(RotatedPillarBlock.AXIS, d.getAxis());
             p.set(x + d.getStepX(), by, z + d.getStepZ(), branch);
             p.set(x + d.getStepX() * 2, by + 1, z + d.getStepZ() * 2, branch);
-            if (r.nextBoolean()) p.set(x + d.getStepX() * 2, by + 2, z + d.getStepZ() * 2, Blocks.COBWEB);
         }
     }
 
@@ -750,32 +749,76 @@ public final class IslandBuilder {
 
     private void station(Placer p) {
         int sx = wx(PEAK[0]), sz = wz(PEAK[1]), sy = summit();
-        BlockState panel = ModBlocks.BUNKER_PANEL.get().defaultBlockState();
         BlockState air = Blocks.AIR.defaultBlockState();
-        p.fill(sx - 13, sy, sz - 10, sx + 13, sy, sz + 13, Blocks.GRAVEL);
-        p.clear(sx - 13, sy + 1, sz - 10, sx + 13, sy + 14, sz + 13);
-        p.fill(sx - 10, sy, sz - 7, sx + 10, sy, sz + 7, Blocks.POLISHED_ANDESITE);
+        BlockState wall = Blocks.LIGHT_GRAY_CONCRETE.defaultBlockState();
+        BlockState rib = Blocks.POLISHED_ANDESITE.defaultBlockState();
+        BlockState plinth = Blocks.POLISHED_DEEPSLATE.defaultBlockState();
+        BlockState glass = Blocks.TINTED_GLASS.defaultBlockState();
+        BlockState panel = ModBlocks.BUNKER_PANEL.get().defaultBlockState();
+        Random r = new Random(17);
+
+        // the summit yard: gravel and worn concrete, with the slope cut back behind the building
+        p.fill(sx - 15, sy, sz - 12, sx + 15, sy, sz + 15, Blocks.GRAVEL);
+        p.clear(sx - 15, sy + 1, sz - 12, sx + 15, sy + 30, sz + 15);
+        for (int x = sx - 12; x <= sx + 12; x++)
+            for (int z = sz - 9; z <= sz + 12; z++)
+                if (r.nextFloat() < 0.55f) p.set(x, sy, z, r.nextFloat() < 0.7f ? Blocks.STONE.defaultBlockState() : Blocks.ANDESITE.defaultBlockState());
+        p.fill(sx - 11, sy, sz - 8, sx + 11, sy, sz + 8, Blocks.POLISHED_ANDESITE);
+
+        // ---- main block: plinth, ribbed concrete walls, window strips, flat roof with parapet
         for (int y = sy + 1; y <= sy + 5; y++)
             for (int x = sx - 10; x <= sx + 10; x++)
                 for (int z = sz - 7; z <= sz + 7; z++) {
                     boolean edge = x == sx - 10 || x == sx + 10 || z == sz - 7 || z == sz + 7;
-                    p.set(x, y, z, edge ? panel : air);
+                    if (!edge) { p.set(x, y, z, air); continue; }
+                    boolean corner = (x == sx - 10 || x == sx + 10) && (z == sz - 7 || z == sz + 7);
+                    boolean ribPos = corner || ((z == sz - 7 || z == sz + 7) && (x - sx) % 4 == 0) || ((x == sx - 10 || x == sx + 10) && (z - sz) % 4 == 0);
+                    BlockState s = y == sy + 1 ? plinth : ribPos ? rib : wall;
+                    boolean windowRow = y == sy + 3 || y == sy + 4;
+                    boolean south = z == sz + 7 && (Math.abs(x - sx) >= 5 && Math.abs(x - sx) <= 9);
+                    boolean side = (x == sx - 10 || x == sx + 10) && Math.abs(z - sz) <= 5 && z != sz;
+                    if (windowRow && !ribPos && (south || side)) s = glass;
+                    p.set(x, y, z, s);
                 }
-        p.fill(sx - 10, sy + 6, sz - 7, sx + 10, sy + 6, sz + 7, panel);
-        for (int x = sx - 8; x <= sx + 8; x += 4) for (int z = sz - 5; z <= sz + 5; z += 5) p.set(x, sy + 6, z, ModBlocks.BUNKER_LIGHT.get().defaultBlockState());
+        p.fill(sx - 11, sy + 6, sz - 8, sx + 11, sy + 6, sz + 8, Blocks.SMOOTH_STONE);
+        for (int x = sx - 11; x <= sx + 11; x++) {
+            p.set(x, sy + 7, sz - 8, Blocks.ANDESITE_WALL);
+            p.set(x, sy + 7, sz + 8, Blocks.ANDESITE_WALL);
+        }
+        for (int z = sz - 8; z <= sz + 8; z++) {
+            p.set(sx - 11, sy + 7, z, Blocks.ANDESITE_WALL);
+            p.set(sx + 11, sy + 7, z, Blocks.ANDESITE_WALL);
+        }
+        // interior ceiling with strip lights
+        p.fill(sx - 9, sy + 5, sz - 6, sx + 9, sy + 5, sz + 6, panel);
+        for (int x = sx - 8; x <= sx + 8; x += 4) for (int z = sz - 5; z <= sz + 5; z += 5) p.set(x, sy + 5, z, ModBlocks.BUNKER_LIGHT.get().defaultBlockState());
+        p.fill(sx - 9, sy, sz - 6, sx + 9, sy, sz + 6, Blocks.POLISHED_DEEPSLATE);
         // inner walls: server room (east) and bunk room (south-east)
-        for (int y = sy + 1; y <= sy + 5; y++) {
+        for (int y = sy + 1; y <= sy + 4; y++) {
             for (int z = sz - 6; z <= sz + 6; z++) p.set(sx + 4, y, z, panel);
             for (int x = sx + 5; x <= sx + 9; x++) p.set(x, y, sz + 2, panel);
         }
         p.door(sx + 4, sy + 1, sz - 2, Blocks.IRON_DOOR, Direction.WEST, true);
         p.door(sx + 4, sy + 1, sz + 4, Blocks.IRON_DOOR, Direction.WEST, true);
-        // front door and keypad
+
+        // ---- entrance: recessed door under a cantilevered canopy, steps, keypad and signs
         p.door(sx, sy + 1, sz + 7, Blocks.IRON_DOOR, Direction.NORTH, false);
+        p.set(sx - 1, sy + 1, sz + 7, rib);
+        p.set(sx + 1, sy + 1, sz + 7, rib);
         p.set(sx + 1, sy + 2, sz + 8, facing(ModBlocks.KEYPAD.get(), Direction.SOUTH));
         p.sign(sx - 1, sy + 3, sz + 8, Direction.SOUTH, DyeColor.RED, "MERIDIAN", "EXPERIENCES", "LAB 4", "KEEP SMILING");
         p.sign(sx - 3, sy + 2, sz + 8, Direction.SOUTH, DyeColor.WHITE, "AUTHORISED", "PERSONNEL", "ONLY", "");
-        // monitor wall and HALO terminal
+        for (int x = sx - 3; x <= sx + 3; x++)
+            for (int z = sz + 8; z <= sz + 10; z++) p.set(x, sy + 4, z, slab(Blocks.SMOOTH_STONE_SLAB, true));
+        for (int x : new int[]{sx - 3, sx + 3}) p.set(x, sy + 3, sz + 10, Blocks.CHAIN);
+        p.set(sx, sy + 3, sz + 9, Blocks.LANTERN.defaultBlockState().setValue(LanternBlock.HANGING, true));
+        for (int x = sx - 2; x <= sx + 2; x++) {
+            p.set(x, sy, sz + 8, Blocks.POLISHED_ANDESITE);
+            p.set(x, sy, sz + 9, Blocks.POLISHED_ANDESITE);
+        }
+        for (int k = 10; k <= 15; k++) p.set(sx, sy, sz + k, Blocks.DIRT_PATH);
+
+        // ---- interior: monitor wall, desks, HALO terminal, server room, bunk room
         for (int x = sx - 9; x <= sx + 3; x++)
             for (int y = sy + 2; y <= sy + 4; y++)
                 p.set(x, y, sz - 6, facing(ModBlocks.MONITOR.get(), Direction.SOUTH).setValue(StateInteractBlock.MODE, (x * 3 + y) % 4 == 0 ? 1 : 0));
@@ -786,33 +829,151 @@ public final class IslandBuilder {
         }
         p.set(sx - 3, sy + 1, sz + 1, facing(ModBlocks.HALO_TERMINAL.get(), Direction.SOUTH));
         p.fill(sx - 4, sy, sz, sx - 2, sy, sz + 2, Blocks.BLACK_CONCRETE);
-        // server room with the transmitter
+        p.set(sx - 3, sy, sz + 1, Blocks.RED_CONCRETE);
         for (int z = sz - 6; z <= sz + 1; z++) {
             p.set(sx + 9, sy + 1, z, facing(ModBlocks.SERVER_RACK.get(), Direction.WEST));
             p.set(sx + 9, sy + 2, z, facing(ModBlocks.SERVER_RACK.get(), Direction.WEST));
+            p.set(sx + 9, sy + 3, z, facing(ModBlocks.SERVER_RACK.get(), Direction.WEST));
         }
         p.set(sx + 6, sy + 1, sz - 3, facing(ModBlocks.TRANSMITTER.get(), Direction.WEST));
         p.set(sx + 6, sy + 2, sz - 3, facing(ModBlocks.TRANSMITTER.get(), Direction.WEST));
-        for (int y = sy + 3; y <= sy + 5; y++) p.set(sx + 6, y, sz - 3, Blocks.CHAIN);
-        // bunk room
+        for (int y = sy + 3; y <= sy + 4; y++) p.set(sx + 6, y, sz - 3, Blocks.CHAIN);
         p.set(sx + 6, sy + 1, sz + 5, Blocks.WHITE_BED.defaultBlockState().setValue(BedBlock.FACING, Direction.EAST).setValue(BedBlock.PART, net.minecraft.world.level.block.state.properties.BedPart.FOOT));
         p.set(sx + 7, sy + 1, sz + 5, Blocks.WHITE_BED.defaultBlockState().setValue(BedBlock.FACING, Direction.EAST).setValue(BedBlock.PART, net.minecraft.world.level.block.state.properties.BedPart.HEAD));
         p.set(sx + 8, sy + 1, sz + 3, Blocks.BARREL);
+        p.set(sx + 9, sy + 1, sz + 6, Blocks.BOOKSHELF);
         p.clue(sx + 6, sy + 1, sz + 3, ModBlocks.CLUE_NOTE.get(), "lab_contract");
         p.clue(sx - 7, sy + 3, sz - 4, ModBlocks.CLUE_NOTE.get(), "viewer_mail");
-        // antenna
-        for (int y = sy + 7; y <= sy + 22; y++) p.set(sx + 6, y, sz - 3, Blocks.IRON_BARS);
-        p.set(sx + 6, sy + 23, sz - 3, Blocks.LIGHTNING_ROD);
+        for (int x : new int[]{sx - 8, sx - 6}) p.set(x, sy + 1, sz + 5, Blocks.CAULDRON);
+        p.set(sx - 7, sy + 1, sz + 6, Blocks.WATER_CAULDRON);
+
+        // ---- the Eye: an octagonal observation tower on the roof, its south face one enormous eye
+        int ex = sx - 4, ez = sz - 1, ey0 = sy + 6, ey1 = sy + 15;
+        for (int y = ey0; y <= ey1; y++)
+            for (int dx = -6; dx <= 6; dx++)
+                for (int dz = -6; dz <= 6; dz++) {
+                    int m = Math.abs(dx) + Math.abs(dz);
+                    if (Math.max(Math.abs(dx), Math.abs(dz)) > 6 || m > 9) continue;
+                    boolean shell = Math.abs(dx) == 6 || Math.abs(dz) == 6 || m >= 8;
+                    if (y == ey0) { p.set(ex + dx, y, ez + dz, Blocks.SMOOTH_STONE); continue; }
+                    if (y == ey1) { p.set(ex + dx, y, ez + dz, Blocks.POLISHED_ANDESITE); continue; }
+                    p.set(ex + dx, y, ez + dz, shell ? (m >= 8 && (y - ey0) % 3 == 0 ? rib : wall) : air);
+                }
+        for (int dx = -5; dx <= 5; dx++)
+            for (int dz = -5; dz <= 5; dz++)
+                if (Math.abs(dx) + Math.abs(dz) <= 7) p.set(ex + dx, ey1 + 1, ez + dz, slab(Blocks.SMOOTH_STONE_SLAB, false));
+        p.set(ex, ey1 + 1, ez, Blocks.LIGHTNING_ROD);
+        // the eye itself, in the flat south face
+        int faceZ = ez + 6, eyeY = ey0 + 5;
+        for (int dx = -4; dx <= 4; dx++)
+            for (int dy = -3; dy <= 3; dy++) {
+                double d = Math.sqrt(dx * dx + dy * dy * 1.6);
+                BlockState s;
+                if (d > 4.3) continue;
+                else if (d > 3.4) s = Blocks.BLACK_CONCRETE.defaultBlockState();
+                else if (d > 2.3) s = Blocks.WHITE_STAINED_GLASS.defaultBlockState();
+                else if (d > 1.2) s = Blocks.RED_STAINED_GLASS.defaultBlockState();
+                else s = Blocks.BLACK_STAINED_GLASS.defaultBlockState();
+                p.set(ex + dx, eyeY + dy, faceZ, s);
+            }
+        p.set(ex, eyeY + 4, faceZ, Blocks.BLACK_CONCRETE);
+        p.set(ex, eyeY - 4, faceZ, Blocks.BLACK_CONCRETE);
+        // the viewing room inside, reached by a ladder from the hall
+        for (int y = sy + 1; y <= sy + 5; y++) p.set(sx - 9, y, sz + 1, rib);
+        for (int y = sy + 1; y <= ey0; y++) p.set(sx - 8, y, sz + 1, Blocks.LADDER.defaultBlockState().setValue(LadderBlock.FACING, Direction.EAST));
+        p.set(ex, ey0 + 1, ez + 3, facing(ModBlocks.AIRPLANE_SEAT.get(), Direction.SOUTH));
+        p.set(ex - 2, ey0 + 1, ez + 4, Blocks.POLISHED_BLACKSTONE);
+        p.frame(ex - 2, ey0 + 2, ez + 4, Direction.UP, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.SPYGLASS), false);
+        p.set(ex + 3, ey0 + 1, ez - 3, Blocks.LECTERN);
+        p.set(ex, ey1 - 1, ez, Blocks.LANTERN.defaultBlockState().setValue(LanternBlock.HANGING, true));
+        p.sign(ex + 2, ey0 + 2, ez - 5, Direction.SOUTH, DyeColor.WHITE, "OBSERVATION", "Subject visible", "from all", "angles");
+
+        // ---- broadcast mast: a lattice truss with dishes and a blinking beacon
+        int mx = sx + 6, mz = sz - 3;
+        for (int y = sy + 7; y <= sy + 28; y++) {
+            for (int[] c : new int[][]{{-1, -1}, {1, -1}, {-1, 1}, {1, 1}}) p.set(mx + c[0], y, mz + c[1], Blocks.IRON_BARS);
+            if (y % 4 == 0)
+                for (int k = -1; k <= 1; k++) {
+                    p.set(mx + k, y, mz - 1, Blocks.IRON_BARS); p.set(mx + k, y, mz + 1, Blocks.IRON_BARS);
+                    p.set(mx - 1, y, mz + k, Blocks.IRON_BARS); p.set(mx + 1, y, mz + k, Blocks.IRON_BARS);
+                }
+        }
+        for (int y = sy + 29; y <= sy + 33; y++) p.set(mx, y, mz, Blocks.IRON_BARS);
+        p.set(mx, sy + 34, mz, Blocks.LIGHTNING_ROD);
+        p.set(mx, sy + 29, mz, Blocks.REDSTONE_BLOCK);
+        p.set(mx, sy + 30, mz, Blocks.REDSTONE_LAMP.defaultBlockState().setValue(RedstoneLampBlock.LIT, true));
         p.set(sx + 5, sy + 16, sz - 3, Blocks.REDSTONE_LAMP.defaultBlockState().setValue(RedstoneLampBlock.LIT, true));
         p.set(sx + 7, sy + 16, sz - 3, Blocks.REDSTONE_BLOCK);
-        p.fill(sx - 6, sy + 7, sz - 4, sx - 3, sy + 7, sz - 1, Blocks.LIGHT_GRAY_CONCRETE);
-        p.set(sx - 5, sy + 8, sz - 3, Blocks.IRON_BARS);
-        p.set(sx - 5, sy + 9, sz - 3, Blocks.DAYLIGHT_DETECTOR);
-        // generator hut
-        p.fill(sx - 12, sy + 1, sz + 8, sx - 9, sy + 3, sz + 11, Blocks.IRON_BLOCK);
-        p.set(sx - 10, sy + 2, sz + 7, facing(Blocks.BLAST_FURNACE, Direction.NORTH));
-        // the path up
-        for (int k = 8; k <= 13; k++) p.set(sx, sy, sz + k, Blocks.DIRT_PATH);
+        dish(p, mx, sy + 22, mz + 2, Direction.SOUTH);
+        dish(p, mx - 2, sy + 13, mz, Direction.WEST);
+        dish(p, mx + 2, sy + 18, mz, Direction.EAST);
+
+        // ---- roof plant: vents, solar panels, an AC unit
+        for (int x = sx + 1; x <= sx + 9; x += 2) {
+            p.set(x, sy + 7, sz + 4, Blocks.DAYLIGHT_DETECTOR);
+            p.set(x, sy + 7, sz + 6, Blocks.DAYLIGHT_DETECTOR);
+        }
+        p.set(sx + 9, sy + 7, sz - 6, facing(Blocks.BLAST_FURNACE, Direction.SOUTH));
+        p.set(sx + 8, sy + 7, sz - 6, facing(Blocks.SMOKER, Direction.SOUTH));
+        p.set(sx + 3, sy + 7, sz + 1, Blocks.CAULDRON);
+        p.set(sx + 3, sy + 8, sz + 1, trapdoor(Blocks.IRON_TRAPDOOR, Direction.NORTH, true, false));
+
+        // ---- generator annex to the west, with fuel tanks and pipes
+        int gx = sx - 13, gz = sz + 4;
+        p.fill(gx - 1, sy + 1, gz - 3, gx + 2, sy + 3, gz + 3, Blocks.IRON_BLOCK);
+        p.fill(gx - 1, sy + 4, gz - 3, gx + 2, sy + 4, gz + 3, slab(Blocks.SMOOTH_STONE_SLAB, false));
+        p.set(gx + 2, sy + 2, gz, facing(Blocks.BLAST_FURNACE, Direction.EAST));
+        p.set(gx + 2, sy + 2, gz - 2, Blocks.LEVER.defaultBlockState().setValue(LeverBlock.FACING, Direction.EAST));
+        for (int[] t : new int[][]{{-14, -4}, {-12, -4}}) {
+            p.set(sx + t[0], sy + 1, sz + t[1], Blocks.EXPOSED_COPPER);
+            p.set(sx + t[0], sy + 2, sz + t[1], Blocks.EXPOSED_COPPER);
+            p.set(sx + t[0], sy + 3, sz + t[1], Blocks.CUT_COPPER_SLAB);
+        }
+
+        // ---- perimeter fence with floodlights and a gate on the path
+        for (int x = sx - 15; x <= sx + 15; x++)
+            for (int z : new int[]{sz - 12, sz + 15}) {
+                if (z == sz + 15 && Math.abs(x - sx) <= 1) continue;
+                fencePost(p, x, sy + 1, z, (x - sx) % 6 == 0);
+            }
+        for (int z = sz - 12; z <= sz + 15; z++)
+            for (int x : new int[]{sx - 15, sx + 15}) fencePost(p, x, sy + 1, z, (z - sz) % 6 == 0);
+        p.sign(sx + 2, sy + 2, sz + 15, Direction.SOUTH, DyeColor.RED, "DANGER", "BROADCAST IN", "PROGRESS", "Smile.");
+
+        // ---- years of weather: moss, vines and rust
+        for (int i = 0; i < 70; i++) {
+            int x = sx - 11 + r.nextInt(23), z = sz - 9 + r.nextInt(19);
+            if (p.get(x, sy + 1, z).isAir() && (Math.abs(x - sx) > 10 || Math.abs(z - sz) > 7)) p.set(x, sy + 1, z, r.nextBoolean() ? Blocks.MOSS_CARPET : Blocks.FERN);
+        }
+        for (int x = sx - 10; x <= sx + 10; x++)
+            if (r.nextFloat() < 0.45f)
+                for (int y = sy + 5 - r.nextInt(3); y <= sy + 5; y++)
+                    p.set(x, y, sz - 8, Blocks.VINE.defaultBlockState().setValue(VineBlock.SOUTH, true));
+        for (int z = sz - 6; z <= sz + 6; z++)
+            if (r.nextFloat() < 0.35f)
+                for (int y = sy + 4 - r.nextInt(3); y <= sy + 5; y++)
+                    p.set(sx - 11, y, z, Blocks.VINE.defaultBlockState().setValue(VineBlock.EAST, true));
+    }
+
+    private static void fencePost(Placer p, int x, int y, int z, boolean light) {
+        p.set(x, y, z, Blocks.IRON_BARS);
+        p.set(x, y + 1, z, Blocks.IRON_BARS);
+        if (light) {
+            p.set(x, y + 2, z, Blocks.IRON_BARS);
+            p.set(x, y + 3, z, Blocks.LANTERN);
+        }
+    }
+
+    /** A small satellite dish facing {@code d}: a disc of slabs on a short arm. */
+    private static void dish(Placer p, int x, int y, int z, Direction d) {
+        Direction side = d.getClockWise();
+        for (int a = -1; a <= 1; a++)
+            for (int b = -1; b <= 1; b++) {
+                if (Math.abs(a) + Math.abs(b) == 2) continue;
+                p.set(x + side.getStepX() * a + d.getStepX(), y + b, z + side.getStepZ() * a + d.getStepZ(), Blocks.SMOOTH_QUARTZ);
+            }
+        p.set(x + d.getStepX() * 2, y, z + d.getStepZ() * 2, Blocks.IRON_BARS);
+        p.set(x, y, z, Blocks.IRON_BLOCK);
     }
 
     public static void openStationDoor(Placer p, boolean open) {
@@ -845,22 +1006,114 @@ public final class IslandBuilder {
 
     private void grove(Placer p) {
         int gx = wx(GROVE[0]), gz = wz(GROVE[1]), gy = groveY();
-        p.fill(gx - 9, gy, gz - 10, gx + 9, gy, gz + 7, Blocks.PODZOL);
-        p.clear(gx - 9, gy + 1, gz - 10, gx + 9, gy + 7, gz + 7);
-        for (int x = gx - 3; x <= gx + 3; x++)
-            for (int y = gy + 1; y <= gy + 4; y++) p.set(x, y, gz - 8, facing(ModBlocks.POLAROID_WALL.get(), Direction.SOUTH));
-        for (int z : new int[]{gz - 5, gz - 3, gz - 1, gz + 1, gz + 3})
-            for (int x : new int[]{gx - 3, gx - 2, gx - 1, gx + 1, gx + 2, gx + 3})
-                p.set(x, gy + 1, z, facing(ModBlocks.AIRPLANE_SEAT.get(), Direction.NORTH));
-        for (int[] e : new int[][]{{5, -7}, {-5, -7}, {5, 4}, {-5, 4}, {7, -2}, {-7, -2}}) {
-            p.set(gx + e[0], gy + 1, gz + e[1], facing(ModBlocks.HOLLOW_EFFIGY.get(), Direction.SOUTH));
-            p.set(gx + e[0], gy + 2, gz + e[1], facing(ModBlocks.HOLLOW_EFFIGY.get(), Direction.SOUTH));
+        Random r = new Random(41);
+        // an uneven clearing of dark, rooty soil with bones working their way up
+        for (int x = -12; x <= 12; x++)
+            for (int z = -14; z <= 10; z++) {
+                double d = Math.sqrt(x * x + (z + 2) * (z + 2)) + (hash(gx + x, gz + z, 31) - 0.5) * 3;
+                if (d > 12) continue;
+                double n = hash(gx + x, gz + z, 32);
+                BlockState g = n < 0.35 ? Blocks.PODZOL.defaultBlockState() : n < 0.6 ? Blocks.COARSE_DIRT.defaultBlockState()
+                        : n < 0.8 ? Blocks.ROOTED_DIRT.defaultBlockState() : n < 0.95 ? Blocks.MOSS_BLOCK.defaultBlockState() : Blocks.BONE_BLOCK.defaultBlockState();
+                p.set(gx + x, gy, gz + z, g);
+                if (d < 10) p.clear(gx + x, gy + 1, gz + z, gx + x, gy + 16, gz + z);
+                if (d >= 4 && d < 10 && n > 0.86) p.set(gx + x, gy + 1, gz + z, n > 0.93 ? Blocks.MOSS_CARPET : Blocks.DEAD_BUSH);
+            }
+
+        // the great hollow tree: bleached, split, its insides papered with photographs
+        int cx = gx - 1, cz = gz - 10;
+        BlockState bark = Blocks.STRIPPED_BIRCH_WOOD.defaultBlockState();
+        BlockState bark2 = Blocks.MUSHROOM_STEM.defaultBlockState();
+        for (int y = gy - 1; y <= gy + 13; y++)
+            for (int dx = -2; dx <= 2; dx++)
+                for (int dz = -2; dz <= 2; dz++) {
+                    if (Math.abs(dx) == 2 && Math.abs(dz) == 2) continue;
+                    int top = gy + 13 - (Math.abs(dx + dz * 3 + 7) % 4);
+                    if (y > top) continue;
+                    boolean inside = Math.abs(dx) <= 1 && Math.abs(dz) <= 1 && y >= gy + 1 && y <= gy + 6;
+                    boolean door = dx == 0 && dz == 2 && y >= gy + 1 && y <= gy + 3;
+                    p.set(cx + dx, y, cz + dz, inside || door ? Blocks.AIR.defaultBlockState() : (hash(cx + dx, y, cz + dz) < 0.3 ? bark2 : bark));
+                }
+        // roots spreading out over the ground
+        for (Direction d : new Direction[]{Direction.EAST, Direction.WEST, Direction.SOUTH, Direction.NORTH}) {
+            for (int k = 3; k <= 5; k++) {
+                int x = cx + d.getStepX() * k + (d.getAxis() == Direction.Axis.Z ? (k % 2) - 1 : 0);
+                int z = cz + d.getStepZ() * k + (d.getAxis() == Direction.Axis.X ? (k % 2) : 0);
+                if (d == Direction.SOUTH && Math.abs(x - cx) <= 1) continue;
+                p.set(x, gy + (k == 5 ? 0 : 1), z, axis(Blocks.STRIPPED_BIRCH_LOG, d.getAxis()));
+            }
         }
-        for (int k = 0; k < 10; k++) {
-            double a = k * Math.PI / 5;
-            p.set(gx + (int) Math.round(Math.cos(a) * 8), gy + 1, gz - 1 + (int) Math.round(Math.sin(a) * 7), ModBlocks.GHOST_ORCHID.get());
+        // bare branches at the crown
+        for (int[] b : new int[][]{{3, 0, 10}, {-3, 0, 11}, {0, -3, 12}, {2, 2, 9}, {-2, -2, 10}}) {
+            for (int k = 1; k <= 3; k++) {
+                int x = cx + Integer.signum(b[0]) * (Math.abs(b[0]) - 1 + k), z = cz + Integer.signum(b[1]) * (Math.abs(b[1]) - 1 + k);
+                p.set(x, gy + b[2] + k / 2, z, Blocks.BIRCH_FENCE);
+            }
         }
+        // inside: the photographs, a cold blue light, more polaroids pinned to the inner walls
+        for (int x = cx - 1; x <= cx + 1; x++)
+            for (int y = gy + 2; y <= gy + 3; y++) p.set(x, y, cz - 1, facing(ModBlocks.POLAROID_WALL.get(), Direction.SOUTH));
+        p.set(cx, gy + 6, cz, Blocks.SOUL_LANTERN.defaultBlockState().setValue(LanternBlock.HANGING, true));
+        net.minecraft.world.item.Item[] photos = {com.airlinestory.registry.ModItems.POLAROID_SEAT.get(), com.airlinestory.registry.ModItems.POLAROID_BEACH.get(),
+                com.airlinestory.registry.ModItems.POLAROID_GROVE.get()};
+        p.frame(cx - 1, gy + 4, cz, Direction.EAST, new net.minecraft.world.item.ItemStack(photos[0]), true);
+        p.frame(cx + 1, gy + 4, cz, Direction.WEST, new net.minecraft.world.item.ItemStack(photos[1]), true);
+        p.frame(cx - 1, gy + 2, cz + 1, Direction.EAST, new net.minecraft.world.item.ItemStack(photos[2]), true);
+        p.frame(cx + 1, gy + 2, cz + 1, Direction.WEST, new net.minecraft.world.item.ItemStack(photos[0]), true);
+
+        // the lone seat facing the tree, inside a ring of stones and burnt-down candles
+        int sx = gx - 1, sz = gz - 4;
+        p.set(sx, gy + 1, sz, facing(ModBlocks.AIRPLANE_SEAT.get(), Direction.NORTH));
+        for (int k = 0; k < 9; k++) {
+            double a = k * Math.PI * 2 / 9 + 0.3;
+            int x = sx + (int) Math.round(Math.cos(a) * 4), z = sz + (int) Math.round(Math.sin(a) * 4);
+            if (z < sz - 3 && Math.abs(x - sx) <= 1) continue;
+            p.set(x, gy + 1, z, k % 3 == 0 ? Blocks.MOSSY_COBBLESTONE.defaultBlockState() : Blocks.COBBLESTONE.defaultBlockState());
+            if (k % 2 == 0) p.set(x, gy + 2, z, Blocks.WHITE_CANDLE.defaultBlockState().setValue(CandleBlock.LIT, k % 4 == 0));
+        }
+        p.set(gx + 1, gy + 1, gz - 3, Blocks.STRIPPED_BIRCH_LOG);
         p.clue(gx + 1, gy + 2, gz - 3, ModBlocks.CLUE_NOTE.get(), "hollow_note");
+
+        // bleached trees all around, each with a photograph nailed at eye height, facing the seat
+        for (int k = 0; k < 11; k++) {
+            double a = k * Math.PI * 2 / 11 + r.nextDouble() * 0.3;
+            double rad = 7.5 + r.nextDouble() * 3;
+            int tx = sx + (int) Math.round(Math.cos(a) * rad), tz = sz + (int) Math.round(Math.sin(a) * rad);
+            if (Math.abs(tx - cx) <= 3 && Math.abs(tz - cz) <= 3) continue;
+            int h = groundAt(tx, tz);
+            bleachedTree(p, tx, h + 1, tz, r);
+            Direction face = Math.abs(sx - tx) > Math.abs(sz - tz) ? (sx > tx ? Direction.EAST : Direction.WEST) : (sz > tz ? Direction.SOUTH : Direction.NORTH);
+            if (r.nextFloat() < 0.8f)
+                p.frame(tx + face.getStepX(), h + 2, tz + face.getStepZ(), face, new net.minecraft.world.item.ItemStack(photos[k % 3]), false);
+        }
+        // the watchers: three effigies half-hidden at the treeline
+        for (int[] e : new int[][]{{9, -6}, {-10, 1}, {6, 7}}) {
+            int x = gx + e[0], z = gz + e[1], h = groundAt(x, z);
+            p.set(x, h + 1, z, facing(ModBlocks.HOLLOW_EFFIGY.get(), Direction.SOUTH));
+        }
+        // ghost orchids glowing among the roots
+        for (int k = 0; k < 14; k++) {
+            double a = r.nextDouble() * Math.PI * 2, rad = 5 + r.nextDouble() * 5;
+            int x = sx + (int) Math.round(Math.cos(a) * rad), z = sz + (int) Math.round(Math.sin(a) * rad);
+            int h = groundAt(x, z);
+            if (p.get(x, h + 1, z).isAir()) p.set(x, h + 1, z, ModBlocks.GHOST_ORCHID.get());
+        }
+    }
+
+    private static int groundAt(int x, int z) {
+        return Math.max(SEA, ground(x - Locations.ISLAND_X, z - Locations.ISLAND_Z));
+    }
+
+    private static void bleachedTree(Placer p, int x, int y, int z, Random r) {
+        int height = 6 + r.nextInt(6);
+        BlockState log = (r.nextBoolean() ? Blocks.STRIPPED_BIRCH_LOG : Blocks.STRIPPED_DARK_OAK_LOG).defaultBlockState();
+        for (int i = 0; i < height; i++) p.set(x, y + i, z, log);
+        for (int i = 0; i < 2 + r.nextInt(2); i++) {
+            Direction d = Direction.from2DDataValue(r.nextInt(4));
+            int by = y + height - 2 - r.nextInt(3);
+            p.set(x + d.getStepX(), by, z + d.getStepZ(), log.setValue(RotatedPillarBlock.AXIS, d.getAxis()));
+            p.set(x + d.getStepX() * 2, by + 1, z + d.getStepZ() * 2, Blocks.BIRCH_FENCE);
+        }
     }
 
     // ---------------------------------------------------------------- lookout and radio tower
