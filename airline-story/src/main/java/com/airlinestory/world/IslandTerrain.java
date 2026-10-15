@@ -95,8 +95,9 @@ public final class IslandTerrain {
         double n = fbm(dx, dz);
         double h = 62.6 + Math.pow(Math.max(0, 1 - r), 0.75) * 11 + (n - 0.5) * 14 * Math.min(1, (1 - r) * 2.5);
         // volcano
-        double md = dist(dx, dz, PEAK) / 78.0;
-        if (md < 1) h += 78 * Math.pow(1 - md, 1.55) * (0.85 + 0.3 * ridged(dx, dz));
+        // a broad cone with gullies, gentle enough to climb (about one block up per block across near the top)
+        double md = dist(dx, dz, PEAK) / 100.0;
+        if (md < 1) h += 64 * Math.pow(1 - md, 1.2) * (0.9 + 0.2 * ridged(dx, dz));
         // ridge to the lookout
         double rd = segDist(dx, dz, PEAK[0], PEAK[1], LOOKOUT[0], LOOKOUT[1]);
         if (rd < 22) h += 26 * Math.pow(1 - rd / 22, 1.6);
@@ -153,7 +154,7 @@ public final class IslandTerrain {
         } else {
             h = land(dx, dz, r);
         }
-        h = flatten(h, dist(dx, dz, PEAK), 10, 16, SUMMIT);
+        h = flatten(h, dist(dx, dz, PEAK), 13, 22, SUMMIT);
         h = flatten(h, dist(dx, dz, VILLAGE), 20, 32, 64.4);
         h = flatten(h, dist(dx, dz, CRASH), 16, 30, 63.4);
         h = flatten(h, dist(dx, dz, GROVE), 14, 24, 66.2);

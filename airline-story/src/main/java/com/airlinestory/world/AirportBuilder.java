@@ -397,7 +397,8 @@ public final class AirportBuilder {
             p.set(x + 1, F + 1, 50, facing(ModBlocks.AIRPORT_SEAT.get(), Direction.NORTH));
         }
         // the TV (news report) and the bar
-        p.fill(lx + 6, F + 2, Z1 - 1, lx + 12, F + 4, Z1 - 1, Blocks.BLACK_CONCRETE);
+        p.fill(lx + 7, F + 2, Z1 - 1, lx + 11, F + 4, Z1 - 1, Blocks.POLISHED_BLACKSTONE);
+        for (int x = lx + 8; x <= lx + 10; x++) if (x != lx + 9) p.set(x, F + 3, Z1 - 2, facing(ModBlocks.MONITOR.get(), Direction.NORTH).setValue(StateInteractBlock.MODE, 0));
         p.set(lx + 9, F + 3, Z1 - 2, facing(ModBlocks.LOUNGE_TV.get(), Direction.NORTH));
         p.fill(lx + 16, F + 1, 52, lx + 19, F + 1, 52, Blocks.DARK_OAK_PLANKS);
         p.fill(lx + 16, F + 2, 52, lx + 19, F + 2, 52, slab(Blocks.POLISHED_BLACKSTONE_SLAB, false));

@@ -321,8 +321,8 @@ BLOCK_ITEMS['engine_part'] = f'item_tex:{NS}:item/engine_coil'
 
 for n, tex in [('lounge_tv', 'lounge_tv'), ('lounge_tv_off', 'monitor_off')]:
     elements_model(n, {'screen': t(tex), 'frame': 'minecraft:block/black_concrete'}, [
-        el([-7, -3, 14.5], [23, 13, 16], {'north': ('screen', [0, 0, 16, 16]), 'south': ('frame', [0, 0, 16, 16]), 'up': ('frame', [0, 0, 16, 1.5]),
-                                         'down': ('frame', [0, 0, 16, 1.5]), 'east': ('frame', [0, 0, 1.5, 16]), 'west': ('frame', [0, 0, 1.5, 16])})],
+        el([0, 0, 14.5], [16, 16, 16], {'north': ('screen', [0, 0, 16, 16]), 'south': ('frame', [0, 0, 16, 16]), 'up': ('frame', [0, 0, 16, 1.5]),
+                                       'down': ('frame', [0, 0, 16, 1.5]), 'east': ('frame', [0, 0, 1.5, 16]), 'west': ('frame', [0, 0, 1.5, 16])})],
         render='minecraft:solid')
 bs('lounge_tv', facing_variants(lambda p: 'lounge_tv' if p['mode'] != '2' else 'lounge_tv_off', SI2))
 BLOCK_ITEMS['lounge_tv'] = f'{NS}:block/lounge_tv'
