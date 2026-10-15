@@ -1,9 +1,9 @@
 {
   "parent": "minecraft:block/block",
   "textures": {
-    "post": "airlinestory:block/stanchion_post",
+    "post": "minecraft:block/iron_block",
     "belt": "airlinestory:block/stanchion_belt",
-    "particle": "airlinestory:block/stanchion_post"
+    "particle": "minecraft:block/iron_block"
   },
   "elements": [
     {

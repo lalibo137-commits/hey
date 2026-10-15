@@ -2,7 +2,7 @@
   "parent": "minecraft:block/block",
   "textures": {
     "cloth": "airlinestory:block/hollow_effigy",
-    "stick": "airlinestory:block/dark_planks",
+    "stick": "minecraft:block/dark_oak_planks",
     "particle": "airlinestory:block/hollow_effigy"
   },
   "elements": [

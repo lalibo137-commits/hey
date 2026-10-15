@@ -3,7 +3,7 @@
   "textures": {
     "front": "airlinestory:block/scanner_top",
     "side": "airlinestory:block/scanner_top",
-    "top": "airlinestory:block/metal_light",
-    "bottom": "airlinestory:block/metal_light"
+    "top": "minecraft:block/iron_block",
+    "bottom": "minecraft:block/iron_block"
   }
 }

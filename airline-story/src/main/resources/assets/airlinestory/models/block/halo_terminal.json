@@ -2,8 +2,8 @@
   "parent": "minecraft:block/orientable_with_bottom",
   "textures": {
     "front": "airlinestory:block/halo_terminal_front",
-    "side": "airlinestory:block/metal_dark",
+    "side": "minecraft:block/gray_concrete",
     "top": "airlinestory:block/halo_terminal_top",
-    "bottom": "airlinestory:block/metal_dark"
+    "bottom": "minecraft:block/gray_concrete"
   }
 }

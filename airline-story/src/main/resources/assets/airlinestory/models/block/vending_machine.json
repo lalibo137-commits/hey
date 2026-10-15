@@ -4,6 +4,6 @@
     "front": "airlinestory:block/vending_front",
     "side": "airlinestory:block/vending_side",
     "top": "airlinestory:block/vending_side",
-    "bottom": "airlinestory:block/metal_dark"
+    "bottom": "minecraft:block/gray_concrete"
   }
 }

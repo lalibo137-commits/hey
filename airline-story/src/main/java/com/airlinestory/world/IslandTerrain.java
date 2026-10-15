@@ -211,5 +211,4 @@ public final class IslandTerrain {
         return "jungle";
     }
 
-    @SuppressWarnings("unused")
 }

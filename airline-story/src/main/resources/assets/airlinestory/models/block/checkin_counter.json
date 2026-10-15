@@ -4,6 +4,6 @@
     "front": "airlinestory:block/checkin_counter_front",
     "side": "airlinestory:block/checkin_counter_side",
     "top": "airlinestory:block/checkin_counter_top",
-    "bottom": "airlinestory:block/metal_dark"
+    "bottom": "minecraft:block/gray_concrete"
   }
 }

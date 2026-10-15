@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "airlinestory:block/cabin_floor"
+    "all": "minecraft:block/gray_wool"
   }
 }

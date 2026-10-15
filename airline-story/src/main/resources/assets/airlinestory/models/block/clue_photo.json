@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "t": "airlinestory:item/polaroid_seat",
+    "particle": "airlinestory:item/polaroid_seat"
+  },
+  "elements": [
+    {
+      "from": [
+        4,
+        0,
+        4
+      ],
+      "to": [
+        12,
+        0.2,
+        12
+      ],
+      "faces": {
+        "up": {
+          "texture": "#t",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        }
+      }
+    }
+  ],
+  "render_type": "minecraft:cutout"
+}

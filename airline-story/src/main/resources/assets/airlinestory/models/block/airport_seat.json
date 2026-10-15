@@ -1,9 +1,9 @@
 {
   "parent": "minecraft:block/block",
   "textures": {
-    "cushion": "airlinestory:block/airport_seat",
-    "metal": "airlinestory:block/metal_light",
-    "particle": "airlinestory:block/airport_seat"
+    "cushion": "minecraft:block/light_blue_wool",
+    "metal": "minecraft:block/iron_block",
+    "particle": "minecraft:block/light_blue_wool"
   },
   "elements": [
     {

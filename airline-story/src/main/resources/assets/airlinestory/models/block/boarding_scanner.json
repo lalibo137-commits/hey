@@ -2,7 +2,7 @@
   "parent": "minecraft:block/block",
   "textures": {
     "front": "airlinestory:block/boarding_scanner_front",
-    "side": "airlinestory:block/metal_light",
+    "side": "minecraft:block/iron_block",
     "top": "airlinestory:block/boarding_scanner_top",
     "particle": "airlinestory:block/boarding_scanner_front"
   },

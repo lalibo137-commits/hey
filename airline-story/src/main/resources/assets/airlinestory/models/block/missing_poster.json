@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "poster": "airlinestory:block/missing_poster",
+    "particle": "airlinestory:block/missing_poster"
+  },
+  "elements": [
+    {
+      "from": [
+        2,
+        -1,
+        15.6
+      ],
+      "to": [
+        14,
+        15,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#poster",
+          "uv": [
+            2,
+            0,
+            14,
+            16
+          ]
+        }
+      }
+    }
+  ],
+  "render_type": "minecraft:cutout"
+}

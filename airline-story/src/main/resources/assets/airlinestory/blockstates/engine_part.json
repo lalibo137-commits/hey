@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "airlinestory:block/engine_part"
+    },
+    "facing=east": {
+      "model": "airlinestory:block/engine_part",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "airlinestory:block/engine_part",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "airlinestory:block/engine_part",
+      "y": 270
+    }
+  }
+}

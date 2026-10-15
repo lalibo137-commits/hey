@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "airlinestory:block/missing_poster"
+    },
+    "facing=east": {
+      "model": "airlinestory:block/missing_poster",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "airlinestory:block/missing_poster",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "airlinestory:block/missing_poster",
+      "y": 270
+    }
+  }
+}

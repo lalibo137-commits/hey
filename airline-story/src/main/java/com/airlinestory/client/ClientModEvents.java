@@ -27,6 +27,19 @@ public final class ClientModEvents {
     }
 
     @SubscribeEvent
+    public static void onBlockColors(net.minecraftforge.client.event.RegisterColorHandlersEvent.Block event) {
+        event.register((state, level, pos, tint) -> level != null && pos != null
+                        ? net.minecraft.client.renderer.BiomeColors.getAverageFoliageColor(level, pos)
+                        : net.minecraft.world.level.FoliageColor.getDefaultColor(),
+                com.airlinestory.registry.ModBlocks.PALM_LEAVES.get());
+    }
+
+    @SubscribeEvent
+    public static void onItemColors(net.minecraftforge.client.event.RegisterColorHandlersEvent.Item event) {
+        event.register((stack, tint) -> net.minecraft.world.level.FoliageColor.getDefaultColor(), com.airlinestory.registry.ModBlocks.PALM_LEAVES.get());
+    }
+
+    @SubscribeEvent
     public static void onKeys(RegisterKeyMappingsEvent event) {
         event.register(JOURNAL);
         event.register(TRACKER);

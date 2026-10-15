@@ -3,7 +3,7 @@
   "textures": {
     "top": "airlinestory:block/conveyor_belt_top",
     "side": "airlinestory:block/conveyor_belt_side",
-    "metal": "airlinestory:block/metal_dark",
+    "metal": "minecraft:block/gray_concrete",
     "particle": "airlinestory:block/conveyor_belt_top"
   },
   "elements": [

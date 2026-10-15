@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "airlinestory:block/terminal_wall"
+    "all": "minecraft:block/white_concrete"
   }
 }

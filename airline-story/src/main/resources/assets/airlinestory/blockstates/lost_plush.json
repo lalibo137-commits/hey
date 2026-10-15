@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "airlinestory:block/lost_plush"
+    },
+    "facing=east": {
+      "model": "airlinestory:block/lost_plush",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "airlinestory:block/lost_plush",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "airlinestory:block/lost_plush",
+      "y": 270
+    }
+  }
+}

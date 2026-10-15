@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "airlinestory:block/clue_note"
+    },
+    "facing=east": {
+      "model": "airlinestory:block/clue_note",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "airlinestory:block/clue_note",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "airlinestory:block/clue_note",
+      "y": 270
+    }
+  }
+}

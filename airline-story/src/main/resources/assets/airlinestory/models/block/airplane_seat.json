@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:block/block",
   "textures": {
-    "fabric": "airlinestory:block/airplane_seat",
-    "metal": "airlinestory:block/metal_dark",
+    "fabric": "minecraft:block/blue_wool",
+    "metal": "minecraft:block/gray_concrete",
     "back": "airlinestory:block/seat_back_logo",
-    "head": "airlinestory:block/seat_headrest",
-    "particle": "airlinestory:block/airplane_seat"
+    "head": "minecraft:block/white_wool",
+    "particle": "minecraft:block/blue_wool"
   },
   "elements": [
     {

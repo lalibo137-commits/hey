@@ -1,0 +1,79 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "screen": "airlinestory:block/lounge_tv",
+    "frame": "minecraft:block/black_concrete",
+    "particle": "airlinestory:block/lounge_tv"
+  },
+  "elements": [
+    {
+      "from": [
+        -7,
+        -3,
+        14.5
+      ],
+      "to": [
+        23,
+        13,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#screen",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#frame",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#frame",
+          "uv": [
+            0,
+            0,
+            16,
+            1.5
+          ]
+        },
+        "down": {
+          "texture": "#frame",
+          "uv": [
+            0,
+            0,
+            16,
+            1.5
+          ]
+        },
+        "east": {
+          "texture": "#frame",
+          "uv": [
+            0,
+            0,
+            1.5,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#frame",
+          "uv": [
+            0,
+            0,
+            1.5,
+            16
+          ]
+        }
+      }
+    }
+  ],
+  "render_type": "minecraft:solid"
+}

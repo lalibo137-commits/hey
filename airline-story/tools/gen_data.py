@@ -24,8 +24,28 @@ def item_model(name, obj):
 
 ROT = {'north': 0, 'east': 90, 'south': 180, 'west': 270}
 
+# Where vanilla already has the right texture, use it: it is the vanilla art style by definition.
+VANILLA = {
+    'metal_light': 'minecraft:block/iron_block',
+    'metal_dark': 'minecraft:block/gray_concrete',
+    'dark_planks': 'minecraft:block/dark_oak_planks',
+    'airplane_seat': 'minecraft:block/blue_wool',
+    'seat_headrest': 'minecraft:block/white_wool',
+    'airport_seat': 'minecraft:block/light_blue_wool',
+    'cabin_floor': 'minecraft:block/gray_wool',
+    'cabin_panel': 'minecraft:block/quartz_block_bottom',
+    'ceiling_panel': 'minecraft:block/quartz_block_bottom',
+    'fuselage': 'minecraft:block/quartz_block_bottom',
+    'terminal_tile': 'minecraft:block/calcite',
+    'terminal_carpet': 'minecraft:block/blue_wool',
+    'terminal_wall': 'minecraft:block/white_concrete',
+    'story_barrier': 'minecraft:block/glass',
+    'boat_frame_top': 'minecraft:block/stripped_jungle_log_top',
+    'stanchion_post': 'minecraft:block/iron_block',
+}
+
 def t(n):
-    return f'{NS}:block/{n}'
+    return VANILLA.get(n, f'{NS}:block/{n}')
 
 def facing_variants(model_for, extra_props=None):
     """extra_props: list of (name, values). model_for(dict props) -> model name."""
@@ -108,8 +128,12 @@ def box(frm, to, tex, **over):
 
 # ---------------------------------------------------------------------------------------- blocks
 for n in ['terminal_tile', 'terminal_carpet', 'terminal_wall', 'ceiling_panel', 'ceiling_light', 'fuselage', 'fuselage_stripe',
-          'cabin_floor', 'cabin_panel', 'palm_planks', 'thatch', 'wreckage', 'bunker_panel']:
+          'cabin_floor', 'cabin_panel', 'palm_planks', 'wreckage', 'bunker_panel']:
     cube(n)
+model('thatch', {'parent': 'minecraft:block/cube_column', 'textures': {'end': 'minecraft:block/hay_block_top', 'side': 'minecraft:block/hay_block_side'}})
+bs('thatch', {'': {'model': f'{NS}:block/thatch'}})
+BLOCK_ITEMS['thatch'] = f'{NS}:block/thatch'
+
 cube('story_barrier', render='minecraft:translucent')
 cube('airplane_window', render='minecraft:cutout')
 
@@ -251,7 +275,7 @@ model('palm_log_horizontal', {'parent': 'minecraft:block/cube_column_horizontal'
 bs('palm_log', {'axis=y': {'model': f'{NS}:block/palm_log'}, 'axis=z': {'model': f'{NS}:block/palm_log_horizontal', 'x': 90},
                 'axis=x': {'model': f'{NS}:block/palm_log_horizontal', 'x': 90, 'y': 90}})
 BLOCK_ITEMS['palm_log'] = f'{NS}:block/palm_log'
-model('palm_leaves', {'parent': 'minecraft:block/leaves', 'textures': {'all': t('palm_leaves')}, 'render_type': 'minecraft:cutout_mipped'})
+model('palm_leaves', {'parent': 'minecraft:block/leaves', 'textures': {'all': 'minecraft:block/jungle_leaves'}, 'render_type': 'minecraft:cutout_mipped'})
 bs('palm_leaves', {'': {'model': f'{NS}:block/palm_leaves'}})
 BLOCK_ITEMS['palm_leaves'] = f'{NS}:block/palm_leaves'
 for n in ['bitterleaf', 'taro_plant', 'ghost_orchid']:
@@ -259,17 +283,69 @@ for n in ['bitterleaf', 'taro_plant', 'ghost_orchid']:
     bs(n, {'': {'model': f'{NS}:block/{n}'}})
     BLOCK_ITEMS[n] = 'item'
 
+# ---------------------------------------------------------------------------------------- v2 story props
+SI2 = [('lit', ['true', 'false']), ('mode', ['0', '1', '2'])]
+def flat(name, tex, x1, z1, x2, z2):
+    elements_model(name, {'t': tex}, [el([x1, 0, z1], [x2, 0.2, z2], {'up': ('t', [0, 0, 16, 16])})])
+    bs(name, facing_variants(lambda p: name))
+flat('clue_note', 'minecraft:item/paper', 3, 3, 13, 13)
+BLOCK_ITEMS['clue_note'] = 'item_tex:minecraft:item/paper'
+flat('clue_photo', f'{NS}:item/polaroid_seat', 4, 4, 12, 12)
+BLOCK_ITEMS['clue_photo'] = f'item_tex:{NS}:item/polaroid_seat'
+
+elements_model('clue_tape', {'case': t('clue_tape'), 'side': 'minecraft:block/black_concrete'}, [
+    el([4, 0, 5], [12, 1.5, 11], {'up': ('case', [0, 0, 16, 12]), 'north': ('side', [4, 14, 12, 16]), 'south': ('side', [4, 14, 12, 16]),
+                                  'east': ('side', [5, 14, 11, 16]), 'west': ('side', [5, 14, 11, 16])})])
+bs('clue_tape', facing_variants(lambda p: 'clue_tape'))
+BLOCK_ITEMS['clue_tape'] = f'item_tex:{NS}:item/flight_tape'
+
+elements_model('wet_floor_sign_block', {'sign': t('wet_floor_sign')}, [
+    el([3, 0, 7.5], [13, 15, 8.5], {'north': ('sign', [0, 0, 16, 16]), 'south': ('sign', [0, 0, 16, 16])}, {'origin': [8, 0, 8], 'axis': 'x', 'angle': 22.5}),
+    el([3, 0, 7.5], [13, 15, 8.5], {'north': ('sign', [0, 0, 16, 16]), 'south': ('sign', [0, 0, 16, 16])}, {'origin': [8, 0, 8], 'axis': 'x', 'angle': -22.5}),
+])
+bs('wet_floor_sign_block', facing_variants(lambda p: 'wet_floor_sign_block'))
+BLOCK_ITEMS['wet_floor_sign_block'] = f'item_tex:{NS}:item/wet_floor_sign'
+
+elements_model('lost_plush', {'fur': 'minecraft:block/light_gray_wool', 'pale': 'minecraft:block/white_wool', 'eye': 'minecraft:block/black_wool'}, [
+    box([5, 0, 6], [11, 5, 11], 'fur'), box([5.5, 5, 6.5], [10.5, 9, 10.5], 'fur'),
+    box([6.5, 9, 8], [8, 13, 9], 'fur'), box([7, 6.5, 6.3], [9, 7.5, 6.5], 'pale'),
+    box([6.2, 7.5, 6.3], [7, 8.3, 6.5], 'eye'), box([9, 7.5, 6.3], [9.8, 8.3, 6.5], 'eye')])
+bs('lost_plush', facing_variants(lambda p: 'lost_plush'))
+BLOCK_ITEMS['lost_plush'] = f'item_tex:{NS}:item/plush_rabbit'
+
+elements_model('engine_part', {'copper': 'minecraft:block/exposed_copper', 'iron': 'minecraft:block/iron_block', 'core': 'minecraft:block/sea_lantern'}, [
+    box([3, 0, 3], [13, 2, 13], 'iron'), box([4, 2, 4], [12, 10, 12], 'copper'), box([6, 10, 6], [10, 12, 10], 'core'),
+    box([3, 4, 3], [13, 5, 13], 'iron'), box([3, 7, 3], [13, 8, 13], 'iron')], render='minecraft:solid')
+bs('engine_part', facing_variants(lambda p: 'engine_part'))
+BLOCK_ITEMS['engine_part'] = f'item_tex:{NS}:item/engine_coil'
+
+for n, tex in [('lounge_tv', 'lounge_tv'), ('lounge_tv_off', 'monitor_off')]:
+    elements_model(n, {'screen': t(tex), 'frame': 'minecraft:block/black_concrete'}, [
+        el([-7, -3, 14.5], [23, 13, 16], {'north': ('screen', [0, 0, 16, 16]), 'south': ('frame', [0, 0, 16, 16]), 'up': ('frame', [0, 0, 16, 1.5]),
+                                         'down': ('frame', [0, 0, 16, 1.5]), 'east': ('frame', [0, 0, 1.5, 16]), 'west': ('frame', [0, 0, 1.5, 16])})],
+        render='minecraft:solid')
+bs('lounge_tv', facing_variants(lambda p: 'lounge_tv' if p['mode'] != '2' else 'lounge_tv_off', SI2))
+BLOCK_ITEMS['lounge_tv'] = f'{NS}:block/lounge_tv'
+
+elements_model('missing_poster', {'poster': t('missing_poster')}, [
+    el([2, -1, 15.6], [14, 15, 16], {'north': ('poster', [2, 0, 14, 16])})])
+bs('missing_poster', facing_variants(lambda p: 'missing_poster'))
+BLOCK_ITEMS['missing_poster'] = f'{NS}:block/missing_poster'
+
 # item models for blocks
 for n, m in BLOCK_ITEMS.items():
     if m == 'item':
         item_model(n, {'parent': 'minecraft:item/generated', 'textures': {'layer0': t(n)}})
+    elif m.startswith('item_tex:'):
+        item_model(n, {'parent': 'minecraft:item/generated', 'textures': {'layer0': m[9:]}})
     else:
         item_model(n, {'parent': m})
 
 ITEMS = ['travel_journal', 'passport', 'boarding_pass', 'carry_on_bag', 'polaroid_seat', 'polaroid_beach', 'polaroid_grove', 'crumpled_note',
          'coffee', 'airline_peanuts', 'airline_meal', 'plant_fiber', 'palm_frond', 'rope', 'airline_blanket', 'sail_cloth', 'hull_panel',
          'mast', 'empty_flask', 'water_flask', 'sea_water_flask', 'ghost_tonic', 'coconut_half', 'taro_root', 'roasted_taro', 'fish_skewer',
-         'tribal_stew', 'flare', 'tidefolk_charm', 'boat_blueprint', 'navigation_chart', 'station_keycard']
+         'tribal_stew', 'flare', 'tidefolk_charm', 'boat_blueprint', 'navigation_chart', 'station_keycard',
+         'smartphone', 'plush_rabbit', 'wet_floor_sign', 'lost_wallet', 'staff_lanyard', 'flight_tape', 'engine_coil', 'island_map', 'boar_tusk']
 TOOLS = ['stone_knife', 'machete']
 for n in ITEMS:
     item_model(n, {'parent': 'minecraft:item/generated', 'textures': {'layer0': f'{NS}:item/{n}'}})
@@ -302,7 +378,8 @@ for n in ALL_BLOCKS:
               {'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': f'{NS}:plant_fiber'}]}]}
     elif n == 'thatch':
         lt = loot_self(n)
-    elif n in ('story_barrier', 'boat_frame', 'boat_helm', 'oxygen_mask'):
+    elif n in ('story_barrier', 'boat_frame', 'boat_helm', 'oxygen_mask', 'clue_note', 'clue_photo', 'clue_tape', 'wet_floor_sign_block',
+               'lost_plush', 'engine_part', 'lounge_tv', 'missing_poster'):
         lt = {'type': 'minecraft:block', 'pools': []}
     w(f'{D}/loot_tables/blocks/{n}.json', lt)
 

@@ -2,7 +2,7 @@
   "parent": "minecraft:block/block",
   "textures": {
     "face": "airlinestory:block/keypad",
-    "metal": "airlinestory:block/metal_dark",
+    "metal": "minecraft:block/gray_concrete",
     "particle": "airlinestory:block/keypad"
   },
   "elements": [

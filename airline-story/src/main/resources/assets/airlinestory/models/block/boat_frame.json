@@ -3,7 +3,7 @@
   "textures": {
     "front": "airlinestory:block/boat_frame_side",
     "side": "airlinestory:block/boat_frame_side",
-    "top": "airlinestory:block/boat_frame_top",
+    "top": "minecraft:block/stripped_jungle_log_top",
     "bottom": "airlinestory:block/palm_planks"
   }
 }

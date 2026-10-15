@@ -2,8 +2,8 @@
   "parent": "minecraft:block/orientable_with_bottom",
   "textures": {
     "front": "airlinestory:block/overhead_bin_front",
-    "side": "airlinestory:block/cabin_panel",
-    "top": "airlinestory:block/cabin_panel",
-    "bottom": "airlinestory:block/cabin_panel"
+    "side": "minecraft:block/quartz_block_bottom",
+    "top": "minecraft:block/quartz_block_bottom",
+    "bottom": "minecraft:block/quartz_block_bottom"
   }
 }

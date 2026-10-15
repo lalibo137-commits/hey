@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/leaves",
   "textures": {
-    "all": "airlinestory:block/palm_leaves"
+    "all": "minecraft:block/jungle_leaves"
   },
   "render_type": "minecraft:cutout_mipped"
 }

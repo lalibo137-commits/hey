@@ -2,7 +2,7 @@
   "parent": "minecraft:block/block",
   "textures": {
     "face": "airlinestory:block/seatbelt_sign_on",
-    "metal": "airlinestory:block/metal_light",
+    "metal": "minecraft:block/iron_block",
     "particle": "airlinestory:block/seatbelt_sign_on"
   },
   "elements": [
